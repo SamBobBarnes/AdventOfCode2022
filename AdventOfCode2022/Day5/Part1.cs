@@ -10,47 +10,73 @@ public class Part1 : BasePart
 
         var cratesInput = new List<string>();
         var moveInput = new List<string>();
-        var crates = true;
+        var isCrates = true;
         input.ForEach(x =>
         {
-            if (string.IsNullOrEmpty(x)) crates = false;
-            if(crates) cratesInput.Add(x);
-            else moveInput.Add(x);
+            if (string.IsNullOrEmpty(x))
+            {
+                isCrates = false;
+            }
+            else
+            {
+                if(isCrates) cratesInput.Add(x);
+                else moveInput.Add(x);
+            }
+            
+        });
+
+        var crates = DecompileStack(cratesInput);
+        var moves = moveInput.Select(m => new Move(m)).ToList();
+        
+        Console.WriteLine(crates.ToString());
+        moves.ForEach(m =>
+        {
+            Console.WriteLine();
+            Console.WriteLine(m.ToString());
+            crates.ExecuteMove(m);
+            Console.WriteLine(crates.ToString());
         });
         
+        return crates.StackTop();
+    }
+
+    private static StackSet DecompileStack(List<string> stack)
+    {
+        var stackRows = new List<List<char>>();
+        stack.ForEach(pile =>
+        {
+            var row = pile.ToCharArray().ToList();
+            row.Add(' ');
+            stackRows.Add(row);
+        });
+
+        var stackCount = (stackRows[0].Count + 1) / 4;
+
+        var singleStackRows = new List<List<char>>();
         
-        return CompileStackTop(stackTops);
-    }
-
-    private static string CompileStackTop(List<char> stackTops)
-    {
-        var result = "";
-        stackTops.ForEach(x =>
+        for (int i = stackRows.Count-2; i >= 0; i--)
         {
-            result += x.ToString();
-        });
-        return result;
-    }
-}
+            var row = stack[i];
+            var rowArray = new List<char>();
+            for (int j = 0; j < row.Length; j += 4)
+            {
+                rowArray.Add(row[j+1]);
+            }
+            singleStackRows.Add(rowArray);
+        }
 
-class CrateStack
-{
-    public CrateStack(List<char> stack)
-    {
-        Stack = stack;
-    }
-    public List<char> Stack { get; set; }
-}
-
-class StackSet
-{
-    public StackSet(List<List<char>> stacks)
-    {
-        Stacks = new List<CrateStack>();
-        stacks.ForEach(s =>
+        var stacks = new List<List<char>>();
+        for (int i = 0; i < singleStackRows[0].Count; i++)
         {
-            Stacks.Add(new CrateStack(s));
-        });
+            var singleStack = new List<char>();
+            for (int j = 0; j < singleStackRows.Count; j++)
+            {
+                if(singleStackRows[j][i] != ' ')
+                    singleStack.Add(singleStackRows[j][i]);
+            }
+            stacks.Add(singleStack);
+        }
+
+        return new StackSet(stacks);
     }
-    public List<CrateStack> Stacks { get; set; }
 }
