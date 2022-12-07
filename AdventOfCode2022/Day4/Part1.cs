@@ -53,10 +53,22 @@ class Assignment
         if (IsBetween(start) && IsBetween(end)) return true;
         return false;
     }
+    
+    private bool NumsOverlap(int start, int end)
+    {
+        if (IsBetween(start) || IsBetween(end)) return true;
+        return false;
+    }
 
     public bool HasWithin(Assignment otherElf)
     {
         if (NumsWithin(otherElf.Start, otherElf.End)) return true;
+        return false;
+    }
+    
+    public bool HasOverlap(Assignment otherElf)
+    {
+        if (NumsOverlap(otherElf.Start, otherElf.End)) return true;
         return false;
     }
 
@@ -81,6 +93,12 @@ class AssignmentPair
     public bool CompleteOverlap()
     {
         if (Elf1.HasWithin(Elf2) || Elf2.HasWithin(Elf1)) return true;
+        return false;
+    }
+
+    public bool Overlap()
+    {
+        if (Elf1.HasOverlap(Elf2) || Elf2.HasOverlap(Elf1)) return true;
         return false;
     }
 
