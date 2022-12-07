@@ -1,10 +1,10 @@
 ﻿namespace AdventOfCode2022.Day1;
 
-public static class Part2
+public class Part2 : BasePart
 {
     public static int Run()
     {
-        Base.Start(1,2);
+        Start(1,2);
         
         string text = System.IO.File.ReadAllText(@"C:\Users\sb17057\Repos\AdventOfCode\2022\AdventOfCode2022\AdventOfCode2022\Day1\Input.txt");
         var textArray = text.Split("\r\n").ToList();

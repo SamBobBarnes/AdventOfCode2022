@@ -1,6 +1,6 @@
 ﻿namespace AdventOfCode2022;
 
-public static class Base
+public class BasePart
 {
     public static void Start(int day, int part)
     {

@@ -1,10 +1,10 @@
 ﻿namespace AdventOfCode2022.Day2;
 
-public static class Part1
+public class Part1 : BasePart
 {
     public static int Run()
     {
-        Base.Start(2,1);
+        Start(2,1);
         var input = System.IO.File.ReadAllText(@"C:\Users\sb17057\Repos\AdventOfCode\2022\AdventOfCode2022\AdventOfCode2022\Day2\Input.txt").Split("\r\n").ToList();
 
         var score = 0;
