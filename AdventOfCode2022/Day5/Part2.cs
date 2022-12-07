@@ -1,10 +1,10 @@
 ﻿namespace AdventOfCode2022.Day5;
 
-public class Part1 : BasePart
+public class Part2 : BasePart
 {
     public static string Run()
     {
-        Start(5,1);
+        Start(5,2);
         var input = LoadInput(5);
         var stackTops = new List<char>();
 
@@ -33,7 +33,7 @@ public class Part1 : BasePart
         {
             // Console.WriteLine();
             // Console.WriteLine(m.ToString());
-            crates.ExecuteMove(m);
+            crates.ExecuteMoveMany(m);
             // Console.WriteLine(crates.ToString());
         });
         

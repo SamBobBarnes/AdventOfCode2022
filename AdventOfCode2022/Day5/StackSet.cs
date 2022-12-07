@@ -1,6 +1,4 @@
-﻿using System.Net.Sockets;
-
-namespace AdventOfCode2022.Day5;
+﻿namespace AdventOfCode2022.Day5;
 
 class StackSet
 {
@@ -78,5 +76,11 @@ class StackSet
             var crate = Stacks[move.Start].Pop();
             Stacks[move.End].Push(crate);
         }
+    }
+    
+    public void ExecuteMoveMany(Move move)
+    {
+        var crates = Stacks[move.Start].Pop(move.Amount);
+        Stacks[move.End].Push(crates);
     }
 }

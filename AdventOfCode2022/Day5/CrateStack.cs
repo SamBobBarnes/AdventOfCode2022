@@ -30,9 +30,28 @@ class CrateStack
         return last;
     }
 
+    public List<char> Pop(int amount)
+    {
+        var popped = new List<char>();
+        for (int i = 0; i < amount; i++)
+        {
+            popped.Add(Pop());
+        }
+
+        return popped;
+    }
+
     public void Push(char crate)
     {
         Stack.Add(crate);
         LastIndex++;
+    }
+
+    public void Push(List<char> crates)
+    {
+        for (int i = crates.Count - 1; i >= 0; i--)
+        {
+            Push(crates[i]);
+        }
     }
 }
