@@ -4,7 +4,7 @@ public class Part2 : BasePart
 {
     public static int Run()
     {
-        Start(6,1);
+        Start(6,2);
         var input = LoadInputChars(6);
         var marker = -1;
         
