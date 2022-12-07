@@ -13,4 +13,10 @@ public class BasePart
             .Split("\r\n")
             .ToList();
     }
+    public static List<char> LoadInputChars(int day)
+    {
+        return System.IO.File.ReadAllText($@"C:\Users\sb17057\Repos\AdventOfCode\2022\AdventOfCode2022\AdventOfCode2022\Day{day}\Input.txt")
+            .ToCharArray()
+            .ToList();
+    }
 }
