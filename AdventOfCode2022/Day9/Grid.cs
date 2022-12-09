@@ -4,26 +4,26 @@ class Grid
 {
     public Grid(Tuple<int, int, int, int> gridSize)
     {
-        _width = gridSize.Item1;
-        _height = gridSize.Item2;
+        Width = gridSize.Item1;
+        Height = gridSize.Item2;
         GridCells = CreateGrid();
         Head = new Position(gridSize.Item3, gridSize.Item4);
         Tail = new Position(gridSize.Item3, gridSize.Item4);
     }
 
-    private readonly int _width;
-    private readonly int _height;
-    private List<List<Cell>> GridCells { get; }
-    private Position Head { get; }
+    protected readonly int Width;
+    protected readonly int Height;
+    protected List<List<Cell>> GridCells { get; }
+    protected Position Head { get; }
     private Position Tail { get; }
 
     private List<List<Cell>> CreateGrid()
     {
         var grid = new List<List<Cell>>();
-        for (int i = 0; i < _height; i++)
+        for (int i = 0; i < Height; i++)
         {
             var row = new List<Cell>();
-            for (int j = 0; j < _width; j++)
+            for (int j = 0; j < Width; j++)
             {
                 row.Add(new Cell());
             }
@@ -36,10 +36,10 @@ class Grid
     public new string ToString()
     {
         var grid = "";
-        for (int i = 0; i < _height; i++)
+        for (int i = 0; i < Height; i++)
         {
             var row = "";
-            for (int j = 0; j < _width; j++)
+            for (int j = 0; j < Width; j++)
             {
                 if (Head.Locate(j, i)) row += "H";
                 else if (Tail.Locate(j, i)) row += "T";
@@ -126,9 +126,9 @@ class Grid
     public int VisitedPositions()
     {
         var visited = 0;
-        for (int i = 0; i < _height; i++)
+        for (int i = 0; i < Height; i++)
         {
-            for (int j = 0; j < _width; j++)
+            for (int j = 0; j < Width; j++)
             {
                 if (GridCells[i][j].Used) visited++;
             }
