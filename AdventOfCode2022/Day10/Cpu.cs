@@ -16,8 +16,8 @@ class Cpu
         SignalStrength = new Dictionary<int, int>();
     }
 
-	private int X;
-	private int Cycle;
+	protected int X;
+    protected int Cycle;
 	private Dictionary<int, int> SignalStrength;
 
 	public void Execute(string operation, int value = 0)
