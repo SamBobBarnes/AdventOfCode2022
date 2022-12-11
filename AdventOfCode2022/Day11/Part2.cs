@@ -16,11 +16,11 @@ public class Part2 : BasePart
         
         //return bunch.GetMonkeyBusiness();
 
-        var hex1 = new Hexadecimal(2000);
+        var hex1 = new Hexadecimal(8526);
         Console.WriteLine(hex1.ToString());
-        var hex2 = new Hexadecimal(2000);
+        var hex2 = new Hexadecimal(5288);
         Console.WriteLine(hex2.ToString());
-        var hex3 = Hexadecimal.Multiply(hex1, hex2);
+        var hex3 = Hexadecimal.Subtract(hex1, hex2);
         Console.WriteLine(hex3.ToString());
         return 0;
     }

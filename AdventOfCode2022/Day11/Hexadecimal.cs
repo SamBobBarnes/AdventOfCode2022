@@ -93,6 +93,47 @@ class Hexadecimal
         return a;
     }
 
+    public static Hexadecimal Subtract(Hexadecimal a, Hexadecimal b)
+    {
+        for (int i = b.Number.Count-1; i >= 0; i--)
+        {
+            var sum = a.Number[i] - b.Number[i];
+            if (sum < 0)
+            {
+                a = CarryReverse(a, 1, i + 1);
+                sum = sum + 16;
+            }
+            a.Number[i] = sum;
+        }
+
+        return RemoveLeadingZeros(a);
+    }
+
+    private static Hexadecimal CarryReverse(Hexadecimal a, int b, int indexA = 0)
+    {
+        var sum = a.Number[indexA] - b;
+        if (sum < 0)
+        {
+            a = CarryReverse(a, 1, indexA + 1);
+            sum = sum + 16;
+        }
+
+        a.Number[indexA - 1] = 15;
+        a.Number[indexA] = sum;
+        return a;
+    }
+
+    private static Hexadecimal RemoveLeadingZeros(Hexadecimal x)
+    {
+        for (int i = x.Number.Count - 1; i >= 0; i--)
+        {
+            if (x.Number[i] > 0) break;
+            x.Number.RemoveAt(i);
+        }
+
+        return x;
+    }
+
     public static Hexadecimal Multiply(Hexadecimal a, Hexadecimal b)
     {
         var x = a.Number.Count >= b.Number.Count ? a.Number : b.Number;
