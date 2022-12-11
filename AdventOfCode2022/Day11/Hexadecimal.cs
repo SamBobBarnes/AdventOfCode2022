@@ -168,6 +168,28 @@ class Hexadecimal
         return result;
     }
 
+    public static Hexadecimal Modulus(Hexadecimal a, Hexadecimal b)
+    {
+        long m = Convert.ToInt64(b.ToString(), 16);
+        long Base = 1;
+        long ans = 0;
+        
+        for(int i = 0; i < a.Number.Count; i++)
+        {
+         
+            // Stores i-th digit of N
+            long n = a.Number[i] % m;
+ 
+            // Update ans
+            ans = (ans + (Base % m * n % m) % m) % m;
+ 
+            // Update base
+            Base = (Base % m * 16 % m) % m;
+        }
+
+        return new Hexadecimal(ans);
+    }
+
     public new string ToString()
     {
         var result = "";
