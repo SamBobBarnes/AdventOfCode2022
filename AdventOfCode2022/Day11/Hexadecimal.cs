@@ -168,7 +168,7 @@ class Hexadecimal
         return result;
     }
 
-    public static Hexadecimal Modulus(Hexadecimal a, Hexadecimal b)
+    public static Hexadecimal Modulo(Hexadecimal a, Hexadecimal b)
     {
         long m = Convert.ToInt64(b.ToString(), 16);
         long Base = 1;

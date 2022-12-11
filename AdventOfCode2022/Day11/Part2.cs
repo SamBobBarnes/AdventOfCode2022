@@ -20,7 +20,7 @@ public class Part2 : BasePart
         Console.WriteLine(hex1.ToString());
         var hex2 = new Hexadecimal(26);
         Console.WriteLine(hex2.ToString());
-        var hex3 = Hexadecimal.Modulus(hex1, hex2);
+        var hex3 = Hexadecimal.Modulo(hex1, hex2);
         Console.WriteLine(hex3.ToString());
         return 0;
     }
