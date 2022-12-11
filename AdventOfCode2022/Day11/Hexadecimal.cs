@@ -63,6 +63,10 @@ class Hexadecimal
     {
         for (int i = 0; i < b.Number.Count; i++)
         {
+            if (i == a.Number.Count)
+            {
+                a.Number.Add(0);
+            }
             var sum = a.Number[i] + b.Number[i];
             if (sum > 15)
             {
@@ -91,7 +95,26 @@ class Hexadecimal
 
     public static Hexadecimal Multiply(Hexadecimal a, Hexadecimal b)
     {
+        var x = a.Number.Count >= b.Number.Count ? a.Number : b.Number;
+        var y = a.Number.Count >= b.Number.Count ? b.Number : a.Number;
+
+        var numbersToAdd = new List<Hexadecimal>();
+        var sum = new Hexadecimal(0);
         
+        for (int i = 0; i < y.Count; i++) //index y
+        {
+            for (int j = 0; j < x.Count; j++)//index x
+            {
+                numbersToAdd.Add(MultiplyHexDigits(x[j],y[i],j + i));
+            }        
+        }
+
+        foreach (var number in numbersToAdd)
+        {
+            sum = Add(sum, number);
+        }
+
+        return sum;
     }
 
     private static Hexadecimal MultiplyHexDigits(int a, int b, int index)
