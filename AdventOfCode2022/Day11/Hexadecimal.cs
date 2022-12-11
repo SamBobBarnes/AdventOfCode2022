@@ -12,6 +12,11 @@ class Hexadecimal
         Number = CharListToHex(x);
     }
 
+    public Hexadecimal(string x)
+    {
+        Number = IntToHex(int.Parse(x));
+    }
+
     public List<int> Number;
 
     private List<int> IntToHex(long x)
@@ -168,9 +173,8 @@ class Hexadecimal
         return result;
     }
 
-    public static Hexadecimal Modulo(Hexadecimal a, Hexadecimal b)
+    public static long Modulo(Hexadecimal a, long m)
     {
-        long m = Convert.ToInt64(b.ToString(), 16);
         long Base = 1;
         long ans = 0;
         
@@ -187,7 +191,7 @@ class Hexadecimal
             Base = (Base % m * 16 % m) % m;
         }
 
-        return new Hexadecimal(ans);
+        return ans;
     }
 
     public new string ToString()

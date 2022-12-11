@@ -36,19 +36,19 @@ class Monkey2
     private readonly Operation2 _operation;
     public int ItemsInspected = 0;
 
-    public Dictionary<int, List<Int64>> Inspect(List<int> monkeys)
+    public Dictionary<int, List<Hexadecimal>> Inspect(List<int> monkeys)
     {
-        var inspectedItems = new Dictionary<int, List<Int64>>();
+        var inspectedItems = new Dictionary<int, List<Hexadecimal>>();
         foreach (var monkey in monkeys)
         {
-            inspectedItems.Add(monkey, new List<Int64>());
+            inspectedItems.Add(monkey, new List<Hexadecimal>());
         }
 
         foreach (var item in Items)
         {
             var worry = item;
             worry = _operation.Act(worry);
-            var test = worry % _test == 0;
+            var test = Hexadecimal.Modulo(worry, _test) == 0;
             inspectedItems[test? _testPass : _testFail].Add(worry);
             ItemsInspected++;
         }
@@ -94,22 +94,22 @@ class Operation2
             
             if (_operand == "+")
             {
-                return old.Add(actWith);
+                return Hexadecimal.Add(old,actWith);
             }
             else
             {
-                return old.Multiply(actWith);
+                return Hexadecimal.Multiply(old,actWith);
             }
         }
         else
         {
             if (_operand == "+")
             {
-                return old.Add(_actWith);
+                return Hexadecimal.Add(old,new Hexadecimal(_actWith));
             }
             else
             {
-                return old.Multiply(_actWith);
+                return Hexadecimal.Multiply(old,new Hexadecimal(_actWith));
             }
         }
     }

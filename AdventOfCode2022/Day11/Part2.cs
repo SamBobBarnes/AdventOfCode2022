@@ -7,7 +7,7 @@ public class Part2 : BasePart
         Start(11,1);
         var input = LoadInput(11);
         var bunch = new MonkeyBunch2(input);
-        for (int i = 0; i < 20; i++)
+        for (int i = 0; i < 100; i++)
         { 
             bunch.ExecuteRound();
         }
