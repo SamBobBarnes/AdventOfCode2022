@@ -29,10 +29,10 @@ public class Part1 : BasePart
 
         steps = PathFind(Next, Map, current, new List<Position>());
         
-        return 0;
+        return steps;
     }
 
-    private static int PathFind(Dictionary<char,char> Next, List<List<char>>map, Position current, List<Position> visited, int previousSteps = 0)
+    private static int PathFind(Dictionary<char,char> Next, List<List<char>>map, Position current, List<Position> visited, int previousSteps = -1)
     {
         var steps = previousSteps + 1;
         var visitedSteps = visited.Select(x => new Position(x)).ToList();
