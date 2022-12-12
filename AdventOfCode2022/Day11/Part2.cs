@@ -4,7 +4,7 @@ public class Part2 : BasePart
 {
     public static UInt64 Run()
     {
-        Start(11,1);
+        Start(11,2);
         var input = LoadInput(11);
         var bunch = new MonkeyBunch2(input);
         for (int i = 0; i < 10000; i++)
