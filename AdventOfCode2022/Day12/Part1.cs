@@ -41,7 +41,7 @@ public class Part1 : BasePart
         var NewPathSteps = new List<int>(){0,0,0,0};
         var currentStep = map[current.Y][current.X];
         if (currentStep == 'E') return steps;
-        
+        //TODO: Track Path
         if(current.Y != 0) directions[0] = map[current.Y - 1][current.X];
         if(current.Y != map.Count - 1) directions[1] = map[current.Y + 1][current.X];
         if(current.X != 0) directions[2] = map[current.Y][current.X - 1];
