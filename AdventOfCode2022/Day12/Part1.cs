@@ -13,8 +13,8 @@ public class Part1 : BasePart
             Next.Add(alphabet[i], alphabet[i+1]);
         }
         Next.Add('z','E');
+        Next.Add('S','a');
         Position current = null;
-        Position goal = null;
         var steps = 0;
         var Map = input.Select(x => x.ToCharArray().ToList()).ToList();
         for (int i = 0; i < Map.Count; i++)
@@ -22,67 +22,68 @@ public class Part1 : BasePart
             for (int j = 0; j < Map[0].Count; j++)
             {
                 if (Map[i][j] == 'S') current = new Position(j, i);
-                if (Map[i][j] == 'E') goal = new Position(j, i);
             }
         }
         
         Console.WriteLine(current!.ToString());
-        Console.WriteLine(goal!.ToString());
 
-        steps = PathFind(Next, Map, current);
+        steps = PathFind(Next, Map, current, new List<Position>());
         
         return 0;
     }
 
-    private static int PathFind(Dictionary<char,char> Next, List<List<char>>map, Position current, Position previous = null, int initialSteps = 0)
+    private static int PathFind(Dictionary<char,char> Next, List<List<char>>map, Position current, List<Position> visited, int previousSteps = 0)
     {
-        var steps = initialSteps;
-        var directions = new List<char>(){'\0','\0','\0','\0'}; // up down left right
-        var NewPathSteps = new List<int>(){0,0,0,0};
+        var steps = previousSteps + 1;
+        var visitedSteps = visited.Select(x => new Position(x)).ToList();
+        visitedSteps.Add(current);
         var currentStep = map[current.Y][current.X];
+        var paths = new List<int>(){0,0,0,0};
         if (currentStep == 'E') return steps;
-        //TODO: Track Path
-        if(current.Y != 0) directions[0] = map[current.Y - 1][current.X];
-        if(current.Y != map.Count - 1) directions[1] = map[current.Y + 1][current.X];
-        if(current.X != 0) directions[2] = map[current.Y][current.X - 1];
-        if(current.X != map[0].Count - 1) directions[3] = map[current.Y][current.X + 1];
 
         for (int i = 0; i < 4; i++)
         {
-            if (directions[i] == '\0') continue;
-
-            if ((currentStep == 'S' && directions[i] == 'a') ||
-                (directions[i] == Next[currentStep] || directions[i] == currentStep))
+            char direction = '\0';
+            Position nextStep = null;
+            switch (i)
             {
-                var nextStep = new Position(current);
-                switch (i)
-                {
-                    case 0:
-                        nextStep.Y -= 1;
-                        break;
-                    case 1:
-                        nextStep.Y += 1;
-                        break;
-                    case 2:
-                        nextStep.X -= 1;
-                        break;
-                    case 3:
-                        nextStep.X += 1;
-                        break;
-                }
+                case 0:
+                    if (current.Y == 0) continue;
+                    if (visitedSteps.FirstOrDefault(x => x.Y == current.Y - 1 && x.X == current.X) != null) continue;
+                    direction = map[current.Y - 1][current.X];
+                    nextStep = new Position(current.X, current.Y - 1);
+                    break;
+                case 1:
+                    if (current.X == map[0].Count - 1) continue; 
+                    if (visitedSteps.FirstOrDefault(x => x.Y == current.Y && x.X == current.X + 1) != null) continue;
+                    direction = map[current.Y][current.X + 1];
+                    nextStep = new Position(current.X + 1, current.Y);
+                    break;
+                case 2:
+                    if(current.Y == map.Count - 1) continue;
+                    if (visitedSteps.FirstOrDefault(x => x.Y == current.Y + 1 && x.X == current.X) != null) continue;
+                    direction = map[current.Y + 1][current.X];
+                    nextStep = new Position(current.X, current.Y + 1);
+                    break;
+                case 3:
+                    if (current.X == 0) continue;
+                    if (visitedSteps.FirstOrDefault(x => x.Y == current.Y && x.X == current.X - 1) != null) continue;
+                    direction = map[current.Y][current.X - 1];
+                    nextStep = new Position(current.X - 1, current.Y);
+                    break;
+            }
 
-                if (nextStep.Equals(previous)) continue;
-                NewPathSteps[i] = PathFind(Next, map, nextStep, current, steps + 1);
+            if (direction == '\0') continue;
+            if (Next[currentStep] == direction || currentStep == direction)
+            {
+                paths[i] = PathFind(Next, map, nextStep!, visitedSteps, steps);
             }
         }
 
-        if (NewPathSteps[0] <= 0 && NewPathSteps[1] <= 0 && NewPathSteps[2] <= 0 && NewPathSteps[3] <= 0) return 0;
-        else
-        {
-            steps = NewPathSteps.Where(x => x > 0).Min(x => x);
-        }
-        
-        return steps;
+        var possiblePaths = paths.Where(x => x > 0).ToList();
+        if (possiblePaths.Count == 0) return -1;
+        return possiblePaths.Min();
+
     }
 }
 
