@@ -12,6 +12,7 @@ public class Part1 : BasePart
         {
             Next.Add(alphabet[i], alphabet[i+1]);
         }
+        Next.Add('z','E');
         Position current = null;
         Position goal = null;
         var steps = 0;
@@ -33,65 +34,70 @@ public class Part1 : BasePart
         return 0;
     }
 
-    private static int PathFind(Dictionary<char,char> Next, List<List<char>>map, Position current, int initialSteps = 0)
+    private static int PathFind(Dictionary<char,char> Next, List<List<char>>map, Position current, Position previous = null, int initialSteps = 0)
     {
         var steps = initialSteps;
-        var Directions = new Dictionary<char,char>(){{'U','\0'},{'D','\0'},{'L','\0'},{'R','\0'}}; // up down left right
-        var NewPathSteps = new Dictionary<char, int>(){{'U',0},{'D',0},{'L',0},{'R',0}};
+        var directions = new List<char>(){'\0','\0','\0','\0'}; // up down left right
+        var NewPathSteps = new List<int>(){0,0,0,0};
         var currentStep = map[current.Y][current.X];
         if (currentStep == 'E') return steps;
         
-        if(current.Y != 0) Directions['U'] = map[current.Y - 1][current.X];
-        if(current.Y != map.Count - 1) Directions['D'] = map[current.Y + 1][current.X];
-        if(current.X != 0) Directions['L'] = map[current.Y][current.X - 1];
-        if(current.X != map[0].Count - 1) Directions['R'] = map[current.Y][current.X + 1];
+        if(current.Y != 0) directions[0] = map[current.Y - 1][current.X];
+        if(current.Y != map.Count - 1) directions[1] = map[current.Y + 1][current.X];
+        if(current.X != 0) directions[2] = map[current.Y][current.X - 1];
+        if(current.X != map[0].Count - 1) directions[3] = map[current.Y][current.X + 1];
 
-        foreach (var direction in Directions)
+        for (int i = 0; i < 4; i++)
         {
-            if (direction.Value == '\0') continue;
+            if (directions[i] == '\0') continue;
 
-            if ((currentStep == 'S' && direction.Value == 'a') ||
-                (direction.Value == Next[currentStep] || direction.Value == currentStep))
+            if ((currentStep == 'S' && directions[i] == 'a') ||
+                (directions[i] == Next[currentStep] || directions[i] == currentStep))
             {
-                var nextStep = current;
-                switch (direction.Key)
+                var nextStep = new Position(current);
+                switch (i)
                 {
-                    case 'U':
+                    case 0:
                         nextStep.Y -= 1;
                         break;
-                    case 'D':
+                    case 1:
                         nextStep.Y += 1;
                         break;
-                    case 'L':
+                    case 2:
                         nextStep.X -= 1;
                         break;
-                    case 'R':
+                    case 3:
                         nextStep.X += 1;
                         break;
                 }
-                NewPathSteps[direction.Key] = PathFind(Next, map, nextStep, steps + 1);
+
+                if (nextStep.Equals(previous)) continue;
+                NewPathSteps[i] = PathFind(Next, map, nextStep, current, steps + 1);
             }
         }
 
-        try
+        if (NewPathSteps[0] <= 0 && NewPathSteps[1] <= 0 && NewPathSteps[2] <= 0 && NewPathSteps[3] <= 0) return 0;
+        else
         {
-            steps = NewPathSteps.Where(x => x.Value > 0).Min(x => x.Value);
-        }
-        catch
-        {
-            return 0;
+            steps = NewPathSteps.Where(x => x > 0).Min(x => x);
         }
         
         return steps;
     }
 }
 
-class Position
+class Position : IEquatable<Position>
 {
     public Position(int x, int y)
     {
         X = x;
         Y = y;
+    }
+
+    public Position(Position a)
+    {
+        X = a.X;
+        Y = a.Y;
     }
 
     public int X { get; set; }
@@ -100,5 +106,18 @@ class Position
     public new string ToString()
     {
         return $"{X},{Y}";
+    }
+    
+    public override bool Equals(object obj)
+    {
+        return Equals(obj as Position);
+    }
+
+    public bool Equals(Position other)
+    {
+        if (other == null)
+            return false;
+
+        return X.Equals(other.X) && Y.Equals(other.Y);
     }
 }
