@@ -19,25 +19,49 @@ class MonkeyBunch2
             }
         }
         MonkeyList.Add(new Monkey2(singleMonkey));
+
+        _superModulus = 1;
+        foreach (var monkey in MonkeyList)
+        {
+            _superModulus *= monkey.Test;
+        }
     }
 
     private List<Monkey2> MonkeyList;
+    private readonly UInt64 _superModulus;
     
-    public void ExecuteRound()
+    public void ExecuteRound(int round)
     {
-        var monkeyList = new List<int>();
-        for (int i = 0; i < MonkeyList.Count; i++)
-        {
-            monkeyList.Add(i);
-        }
-        
-        foreach (var monkey in MonkeyList)
-        {
-            var itemsToPass = monkey.Inspect(monkeyList);
-            foreach (var item in itemsToPass)
+        foreach (var monkey in MonkeyList){
+            for (int i = 0; i < monkey.Items.Count; i++)
             {
-                MonkeyList[item.Key].TakeItems(item.Value);
+                monkey.ItemsInspected++;
+                var tempActWith = monkey._actWith;
+                
+                if (tempActWith == (UInt64)0) tempActWith = monkey.Items[i];
+
+                switch (monkey._operation) 
+                {
+                    case "+":
+                        monkey.Items[i] += tempActWith;
+                        break;
+                    case "*":
+                        monkey.Items[i] *= tempActWith;
+                        break;
+                }
+            
+                monkey.Items[i] %= _superModulus;
+                if (monkey.Items[i] % monkey.Test == 0)
+                {
+                    MonkeyList[monkey._testPass].Items.Add(monkey.Items[i]);
+                }
+                else
+                {
+                    MonkeyList[monkey._testFail].Items.Add(monkey.Items[i]);
+                }
             }
+
+            monkey.Items.Clear();
         }
     }
     
@@ -53,21 +77,11 @@ class MonkeyBunch2
         return monkeyString;
     }
     
-    public int GetMonkeyBusiness()
+    public UInt64 GetMonkeyBusiness()
     {
-        var topMonkey = 0;
-        var secondMonkey = 0;
+        var monkeys = MonkeyList.OrderByDescending(m => m.ItemsInspected).ToList();
 
-        foreach (var monkey in MonkeyList)
-        {
-            if (monkey.ItemsInspected > topMonkey) topMonkey = monkey.ItemsInspected;
-        }
-        
-        foreach (var monkey in MonkeyList)
-        {
-            if (monkey.ItemsInspected > secondMonkey && monkey.ItemsInspected != topMonkey) secondMonkey = monkey.ItemsInspected;
-        }
 
-        return topMonkey * secondMonkey;
+        return monkeys[0].ItemsInspected * monkeys[1].ItemsInspected;
     }
 }
