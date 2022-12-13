@@ -11,6 +11,12 @@ public class Part1 : BasePart
         {
             packetPairs.Add(new Tuple<Packet, Packet>(new(input[i]),new(input[i+1])));
         }
+
+        foreach (var pair in packetPairs)
+        {
+            Console.WriteLine(pair.Item1.ToString());
+            Console.WriteLine(pair.Item2.ToString());
+        }
         
         return 0;
     }
