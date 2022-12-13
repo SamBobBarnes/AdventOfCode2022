@@ -72,7 +72,7 @@ class Grid
         var depth = new Dictionary<Cell, int>() { [_start] = 0 };
         var queue = new Queue<Cell>(depth.Keys);
         var largest = 0;
-        _watch.Start();
+        //_watch.Start();
         while (queue.Count > 0)
         {
 
@@ -97,8 +97,8 @@ class Grid
             }
             if (queue.Count > largest) largest = queue.Count;
         }
-        _watch.Stop();
-        Console.WriteLine($"Time taken: {(double)_watch.ElapsedMilliseconds/(double)1000}ms with largest queue of {largest}");
+        //_watch.Stop();
+        //Console.WriteLine($"Time taken: {(double)_watch.ElapsedMilliseconds/(double)1000}ms with largest queue of {largest}");
         try
         {
             return depth[_goal];
