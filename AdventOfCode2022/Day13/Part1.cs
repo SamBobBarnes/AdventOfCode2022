@@ -6,10 +6,10 @@ public class Part1 : BasePart
     {
         Start(13,1);
         var input = LoadInput(13);
-        var packetPairs = new List<Tuple<string,string>>();
+        var packetPairs = new List<Tuple<Packet,Packet>>();
         for (int i = 0; i < input.Count; i += 3)
         {
-            packetPairs.Add(new Tuple<string, string>(input[i],input[i+1]));
+            packetPairs.Add(new Tuple<Packet, Packet>(new(input[i]),new(input[i+1])));
         }
         
         return 0;
