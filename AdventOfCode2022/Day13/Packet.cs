@@ -93,6 +93,40 @@ class Packet
         result += "]";
         return result;
     }
+
+    public static bool CompareOrder(Packet a, Packet b)
+    {
+        if(!a.IsList && !b.IsList)
+        {
+            if (a.Value > b.Value) return false;
+        }
+        else if (a.IsList && b.IsList)
+        {
+            if (a._packets.Count > b._packets.Count) return false;
+            for(int i = 0; i < a._packets.Count; i++)
+            {
+                if (!CompareOrder(a._packets[i], b._packets[i]))
+                {
+                    return false;
+                }
+            }
+        }
+        else
+        {
+            if (a.IsList)
+            {
+                var tempB = new Packet($"[{b.Value}]");
+                if (tempB._packets[0].Value < a._packets[0].Value) return false;
+            }
+            else
+            {
+                var tempA = new Packet($"[{a.Value}]");
+                if (tempA._packets[0].Value > b._packets[0].Value) return false;
+            }
+        }
+
+        return true;
+    }
     
     // public Packet(IEnumerable<Packet> packets) : this()
     // {

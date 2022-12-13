@@ -17,6 +17,8 @@ public class Part1 : BasePart
             Console.WriteLine(pair.Item1.ToString());
             Console.WriteLine(pair.Item2.ToString());
         }
+
+        var packetComparisons = packetPairs.Select(p => Packet.CompareOrder(p.Item1, p.Item2));
         
         return 0;
     }
