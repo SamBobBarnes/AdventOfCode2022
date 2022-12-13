@@ -18,8 +18,13 @@ public class Part1 : BasePart
             Console.WriteLine(pair.Item2.ToString());
         }
 
-        var packetComparisons = packetPairs.Select(p => Packet.CompareOrder(p.Item1, p.Item2));
-        
-        return 0;
+        var packetComparisons = packetPairs.Select(p => Packet.CompareOrder(p.Item1, p.Item2)).ToList();
+        var total = 0;
+        for (int i = 0; i < packetComparisons.Count; i++)
+        {
+            if (packetComparisons[i]) total += i + 1;
+        }
+
+        return total;
     }
 }

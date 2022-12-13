@@ -99,70 +99,23 @@ class Packet
         if(!a.IsList && !b.IsList)
         {
             if (a.Value > b.Value) return false;
+            return true;
         }
-        else if (a.IsList && b.IsList)
+        else if (a.IsList && !b.IsList)
         {
-            if (a._packets.Count > b._packets.Count) return false;
-            for(int i = 0; i < a._packets.Count; i++)
-            {
-                if (!CompareOrder(a._packets[i], b._packets[i]))
-                {
-                    return false;
-                }
-            }
+            if (a._packets.Count == 0) return true;
+            if (a._packets[0].Value > b.Value) return false;
+            return true;
+        }
+        else if (!a.IsList && b.IsList)
+        {
+            if (b._packets.Count == 0) return false;
+            if (a.Value > b._packets[0].Value) return false;
+            return true;
         }
         else
         {
-            if (a.IsList)
-            {
-                var tempB = new Packet($"[{b.Value}]");
-                if (tempB._packets[0].Value < a._packets[0].Value) return false;
-            }
-            else
-            {
-                var tempA = new Packet($"[{a.Value}]");
-                if (tempA._packets[0].Value > b._packets[0].Value) return false;
-            }
+            return true;
         }
-
-        return true;
     }
-    
-    // public Packet(IEnumerable<Packet> packets) : this()
-    // {
-    //     _packets.AddRange(packets);
-    // }
-    //
-    // public Packet(IEnumerable<string> packets) : this()
-    // {
-    //     
-    // }
-    //
-    // public Packet(int x) : this()
-    // {
-    //     _packets = new List<Packet>();
-    //     Value = x;
-    // }
-    
-    // public void AddPacket(int x)
-    // {
-    //     _packets.Add(new Packet(x));
-    // }
-    //
-    // public void AddPacket(string x)
-    // {
-    //     _packets.Add(new Packet(x));
-    // }
-    //
-    // public void AddPacket(IEnumerable<Packet> x)
-    // {
-    //     _packets.Add(new Packet(x));
-    // }
-    //
-    // public void AddPacket(IEnumerable<string> x)
-    // {
-    //     _packets.Add(new Packet(x));
-    // }
-    
-    
 }
