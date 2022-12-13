@@ -1,4 +1,5 @@
 ﻿using AdventOfCode2022.Day9;
+using System.ComponentModel.DataAnnotations;
 
 namespace AdventOfCode2022.Day12;
 
@@ -22,26 +23,27 @@ class Cell : IEquatable<Cell>
     public Cell Left;
     public Cell Right;
     private int _max;
+    public bool Visited;
 
     public IEnumerable<Cell> Adjacent(Cell prev = null)
     {
         var validCells = new List<Cell>();
-        if (Left != null && Left.Height <= _max && Left != prev)
+        if (Left != null && Left.Height <= _max && Left != prev && !Left.Visited)
         {
             validCells.Add(Left);
         }
 
-        if (Up != null && Up.Height <= _max && Up != prev)
+        if (Up != null && Up.Height <= _max && Up != prev && !Up.Visited)
         {
             validCells.Add(Up);
         }
 
-        if (Right != null && Right.Height <= _max && Right != prev)
+        if (Right != null && Right.Height <= _max && Right != prev && !Right.Visited)
         {
             validCells.Add(Right);
         }
 
-        if (Down != null && Down.Height <= _max && Down != prev)
+        if (Down != null && Down.Height <= _max && Down != prev && !Down.Visited)
         {
             validCells.Add(Down);
         }

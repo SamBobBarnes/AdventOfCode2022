@@ -1,4 +1,6 @@
-﻿namespace AdventOfCode2022.Day12;
+﻿using System.Diagnostics;
+
+namespace AdventOfCode2022.Day12;
 
 class Grid
 {
@@ -27,14 +29,21 @@ class Grid
         FindAdjacentCells();
         _start = _grid.First(c => c.Value == 'S');
         _goal = _grid.First(c => c.Value == 'E');
+        _watch = new Stopwatch();
+    }
+
+    public Grid(List<List<char>> map, int startX, int startY) : this(map)
+    {
+        _start = _grid.First(c => c.X == startX && c.Y == startY);
     }
 
     private readonly int _width;
     private readonly int _height;
     private readonly Dictionary<char, char[]> _moves;
     private readonly List<Cell> _grid;
-    private Cell _start;
+    public Cell _start;
     private Cell _goal;
+    private Stopwatch _watch;
 
     private int CharToHeight(char a)
     {
@@ -57,36 +66,13 @@ class Grid
         }
     }
 
-    //private void PrintGrid()
-    //{
-    //    var grid = new List<List<string>>();
-    //    for (int i = 0; i < _height; i++)
-    //    {
-    //        grid.Add(new());
-    //    }
-    //    foreach (var cell in _grid)
-    //    {
-    //        grid[cell.Y].Add(cell.Visited ? cell.Value.ToString().ToUpper() : cell.Value.ToString().ToLower());
-    //    }
-
-    //    var gridString = "";
-    //    for (int i = 0; i < _height; i++)
-    //    {
-    //        for (int j = 0; j < _width; j++)
-    //        {
-    //            gridString += grid[i][j];
-    //        }
-    //        gridString += "\r\n";
-    //    }
-    //    Console.WriteLine(gridString);
-    //}
-
     public int FindPathLength()
     {
 
         var depth = new Dictionary<Cell, int>() { [_start] = 0 };
         var queue = new Queue<Cell>(depth.Keys);
-
+        var largest = 0;
+        _watch.Start();
         while (queue.Count > 0)
         {
 
@@ -104,12 +90,22 @@ class Grid
                 if (!queue.Contains(item))
                 {
                     depth[item] = d + 1;
+                    item.Visited = true;
                     queue.Enqueue(item);
                 }
                 
             }
+            if (queue.Count > largest) largest = queue.Count;
         }
-
-        return depth[_goal];
+        _watch.Stop();
+        Console.WriteLine($"Time taken: {(double)_watch.ElapsedMilliseconds/(double)1000}ms with largest queue of {largest}");
+        try
+        {
+            return depth[_goal];
+        }
+        catch
+        {
+            return -1;
+        }
     }
 }
