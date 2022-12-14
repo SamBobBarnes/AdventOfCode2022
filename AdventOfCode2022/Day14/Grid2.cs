@@ -16,6 +16,17 @@ class Grid2 : Grid
         _height += 2;
         DrawLine(new Coordinate(0, _height - 1), new Coordinate(_width - 1, _height - 1));
     }
+
+    private void AddToRight()
+    {
+        _width++;
+
+        for (int i = 0; i < _height; i++)
+        {
+            _cells.Add(new(_width-1,i));
+        }
+        DrawLine(new Coordinate(_width - 1, _height - 1), new Coordinate(_width - 1, _height - 1));
+    }
     
     public new int SimulateSand()
     {
@@ -30,5 +41,38 @@ class Grid2 : Grid
             if (sand.Position.X == source.Position.X && sand.Position.Y == source.Position.Y) continueDropping = false;
         }
         return count;
+    }
+    
+    private Cell DropSand(Cell source)
+    {
+        var sand = source;
+        var noFloor = false;
+        Cell.CreateSand(sand);
+        while (!noFloor)
+        {
+            if (!CheckForFloorBelow(sand!))
+            {
+                noFloor = true;
+                break;
+            }
+            var nextValid = NextValidCell(sand);
+            if (nextValid == null) break;
+            Cell.MoveSand(sand,nextValid!);
+            sand = nextValid;
+        }
+
+        return sand;
+    }
+    
+    private Cell? NextValidCell(Cell a)
+    {
+        var down = GetCell(a.Position.X, a.Position.Y + 1);
+        if (down != null && !down.isSolid) return down;
+        var left = GetCell(a.Position.X - 1, a.Position.Y + 1);
+        if (left != null && !left.isSolid) return left;
+        if(a.Position.X + 1 == _width) AddToRight();
+        var right = GetCell(a.Position.X + 1, a.Position.Y + 1);
+        if (right != null && !right.isSolid) return right;
+        return null;
     }
 }

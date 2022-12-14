@@ -31,7 +31,7 @@ class Grid
     }
 
     protected readonly List<Cell> _cells;
-    protected readonly int _width;
+    protected int _width;
     protected int _height;
 
     protected Cell? GetCell(int x, int y)
@@ -122,9 +122,10 @@ class Grid
 
     public new string ToString()
     {
+        var tempCells = _cells.OrderBy(c => c.Position.Y).ThenBy(c => c.Position.X);
         var result = "";
         var rowWidth = 0;
-        foreach(var cell in _cells)
+        foreach(var cell in tempCells)
         {
             result += cell.PrintContent();
             rowWidth++;
