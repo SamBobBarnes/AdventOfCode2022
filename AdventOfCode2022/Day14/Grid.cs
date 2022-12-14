@@ -39,6 +39,12 @@ class Grid
         return _cells.FirstOrDefault(c => c.Position.X == x && c.Position.Y == y)!;
     }
 
+    private Cell GetSandSource()
+    {
+        var source = _cells.FirstOrDefault(c => c.PrintContent() == "+")!;
+        return _cells.FirstOrDefault(c => c.Position.X == source.Position.X && c.Position.Y - 1 == source.Position.Y)!;
+    }
+
     private void DrawLine(Coordinate a, Coordinate b)
     {
         var cellsToDraw = _cells.FindAll(c => Coordinate.Between(a, b, c.Position));
@@ -46,6 +52,73 @@ class Grid
         {
             cell.DrawRock();
         }
+    }
+
+    private bool CheckForFloorBelow(Cell a)
+    {
+        var b = GetCell(a.Position.X, _height - 1);
+        if (a.Position.Y == b.Position.Y) return false;
+        var cellsToCheck = _cells.FindAll(c => Coordinate.Between(a.Position, b.Position, c.Position));
+
+        foreach (var cell in cellsToCheck)
+        {
+            if (cell.isSolid) return true;
+        }
+
+        return false;
+    }
+
+    private Cell? NextValidCell(Cell a)
+    {
+        var down = GetCell(a.Position.X, a.Position.Y + 1);
+        if (!down.isSolid) return down;
+        var left = GetCell(a.Position.X - 1, a.Position.Y + 1);
+        if (!left.isSolid) return left;
+        var right = GetCell(a.Position.X + 1, a.Position.Y + 1);
+        if (!right.isSolid) return right;
+        return null;
+    }
+    
+    public int SimulateSand()
+    {
+        var source = GetSandSource();
+        var noFloor = false;
+        var count = 0;
+        Cell.CreateSand(source);
+        while (!noFloor)
+        {
+            count++;
+            var sand = DropSand(source);
+            if (!CheckForFloorBelow(sand!))
+            {
+                Cell.RemoveSand(sand);
+                noFloor = true;
+            }
+        }
+        
+        count--;
+        return count;
+    }
+
+    private Cell DropSand(Cell source)
+    {
+        var sand = source;
+        var noFloor = false;
+        Cell.CreateSand(sand);
+        while (!noFloor)
+        {
+            if (!CheckForFloorBelow(sand!))
+            {
+                noFloor = true;
+                break;
+            }
+            var nextValid = NextValidCell(sand);
+            if (nextValid == null) break;
+            Cell.MoveSand(sand,nextValid!);
+            sand = nextValid;
+        }
+
+        return sand;
     }
 
     public new string ToString()

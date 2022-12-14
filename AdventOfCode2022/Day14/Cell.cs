@@ -48,6 +48,11 @@ public class Cell
         return true;
     }
 
+    public static void RemoveSand(Cell a)
+    {
+        a.SetAir();
+    }
+
     public static void CreateSand(Cell sand)
     {
         sand.Content = CellContent.Sand;

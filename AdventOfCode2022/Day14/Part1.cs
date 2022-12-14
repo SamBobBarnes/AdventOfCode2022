@@ -18,9 +18,10 @@ public class Part1 : BasePart
         }).ToList()).ToList();
 
         var grid = new Grid(map,width,height);
-        Console.WriteLine(grid.ToString(494,0));
+        var count = grid.SimulateSand();
+        Console.WriteLine(grid.ToString(493,0));
 
-        return 0;
+        return count;
     }
 
 }
