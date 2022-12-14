@@ -1,6 +1,4 @@
-﻿using System.Linq;
-
-namespace AdventOfCode2022.Day13;
+﻿namespace AdventOfCode2022.Day13;
 
 class Comparisons
 {
