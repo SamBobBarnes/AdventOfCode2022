@@ -39,6 +39,7 @@ class Grid2 : Grid
             count++;
             var sand = DropSand(source);
             if (sand.Position.X == source.Position.X && sand.Position.Y == source.Position.Y) continueDropping = false;
+            if(count%100 == 0) BasePart.WriteOutput(14,ToString());
         }
         return count;
     }

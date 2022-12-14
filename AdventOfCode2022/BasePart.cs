@@ -20,7 +20,7 @@ public class BasePart
             .ToList();
     }
 
-    protected static void WriteOutput(int day, string output)
+    public static void WriteOutput(int day, string output)
     {
         System.IO.File.WriteAllText($@"../../../Day{day}/Output.txt",output);
     }

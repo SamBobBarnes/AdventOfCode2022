@@ -55,13 +55,9 @@ class Grid
 
     protected bool CheckForFloorBelow(Cell a)
     {
-        var b = GetCell(a.Position.X, _height - 1);
-        if (a.Position.Y == b.Position.Y) return false;
-        var cellsToCheck = _cells.FindAll(c => Coordinate.Between(a.Position, b.Position, c.Position));
-
-        foreach (var cell in cellsToCheck)
+        for (int i = a.Position.Y; i < _height; i++)
         {
-            if (cell.isSolid) return true;
+            if (GetCell(a.Position.X, i)!.isSolid) return true;
         }
 
         return false;
