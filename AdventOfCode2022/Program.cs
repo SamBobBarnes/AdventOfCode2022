@@ -24,5 +24,5 @@
 // Console.WriteLine(AdventOfCode2022.Day12.Part2.Run());
 // Console.WriteLine(AdventOfCode2022.Day13.Part1.Run());
 // Console.WriteLine(AdventOfCode2022.Day13.Part2.Run());
- Console.WriteLine(AdventOfCode2022.Day14.Part1.Run());
-// Console.WriteLine(AdventOfCode2022.Day14.Part2.Run());
+// Console.WriteLine(AdventOfCode2022.Day14.Part1.Run());
+Console.WriteLine(AdventOfCode2022.Day14.Part2.Run());

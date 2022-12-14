@@ -30,21 +30,21 @@ class Grid
         GetCell(500, 0).SetSource();
     }
 
-    private readonly List<Cell> _cells;
-    private readonly int _width;
-    private readonly int _height;
+    protected readonly List<Cell> _cells;
+    protected readonly int _width;
+    protected int _height;
 
-    private Cell GetCell(int x, int y)
+    private Cell? GetCell(int x, int y)
     {
         return _cells.FirstOrDefault(c => c.Position.X == x && c.Position.Y == y)!;
     }
 
-    private Cell GetSandSource()
+    protected Cell GetSandSource()
     {
         return _cells.FirstOrDefault(c => c.PrintContent() == "+")!;
     }
 
-    private void DrawLine(Coordinate a, Coordinate b)
+    protected void DrawLine(Coordinate a, Coordinate b)
     {
         var cellsToDraw = _cells.FindAll(c => Coordinate.Between(a, b, c.Position));
         foreach (var cell in cellsToDraw)
@@ -53,7 +53,7 @@ class Grid
         }
     }
 
-    private bool CheckForFloorBelow(Cell a)
+    protected bool CheckForFloorBelow(Cell a)
     {
         var b = GetCell(a.Position.X, _height - 1);
         if (a.Position.Y == b.Position.Y) return false;
@@ -70,11 +70,11 @@ class Grid
     private Cell? NextValidCell(Cell a)
     {
         var down = GetCell(a.Position.X, a.Position.Y + 1);
-        if (!down.isSolid) return down;
+        if (down != null && !down.isSolid) return down;
         var left = GetCell(a.Position.X - 1, a.Position.Y + 1);
-        if (!left.isSolid) return left;
+        if (left != null && !left.isSolid) return left;
         var right = GetCell(a.Position.X + 1, a.Position.Y + 1);
-        if (!right.isSolid) return right;
+        if (right != null && !right.isSolid) return right;
         return null;
     }
     
@@ -99,7 +99,7 @@ class Grid
         return count;
     }
 
-    private Cell DropSand(Cell source)
+    protected Cell DropSand(Cell source)
     {
         var sand = source;
         var noFloor = false;
