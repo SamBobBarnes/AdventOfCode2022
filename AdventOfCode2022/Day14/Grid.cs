@@ -6,7 +6,7 @@ class Grid
 {
     public Grid(IEnumerable<IEnumerable<Coordinate>> map, int width, int height)
     {
-        cells = new List<Cell>();
+        _cells = new List<Cell>();
         _width = width + 1;
         _height = height + 1;
 
@@ -14,7 +14,7 @@ class Grid
         {
             for (int j = 0; j < _width; j++)
             {
-                cells.Add(new(j,i));
+                _cells.Add(new(j,i));
             }
         }
 
@@ -30,18 +30,18 @@ class Grid
         GetCell(500, 0).SetSource();
     }
 
-    private List<Cell> cells;
+    private readonly List<Cell> _cells;
     private readonly int _width;
     private readonly int _height;
 
     private Cell GetCell(int x, int y)
     {
-        return cells.FirstOrDefault(c => c.Position.X == x && c.Position.Y == y);
+        return _cells.FirstOrDefault(c => c.Position.X == x && c.Position.Y == y)!;
     }
 
     private void DrawLine(Coordinate a, Coordinate b)
     {
-        var cellsToDraw = cells.FindAll(c => Coordinate.Between(a, b, c.Position));
+        var cellsToDraw = _cells.FindAll(c => Coordinate.Between(a, b, c.Position));
         foreach (var cell in cellsToDraw)
         {
             cell.DrawRock();
@@ -52,7 +52,7 @@ class Grid
     {
         var result = "";
         var rowWidth = 0;
-        foreach(var cell in cells)
+        foreach(var cell in _cells)
         {
             result += cell.PrintContent();
             rowWidth++;
@@ -70,7 +70,7 @@ class Grid
         var result = "";
         var rowWidth = 0;
         var row = 0;
-        foreach (var cell in cells)
+        foreach (var cell in _cells)
         {
             if(rowWidth >= x && row >= y) result += cell.PrintContent();
             rowWidth++;

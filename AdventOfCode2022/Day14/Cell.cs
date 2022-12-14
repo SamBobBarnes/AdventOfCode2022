@@ -1,6 +1,6 @@
 ﻿namespace AdventOfCode2022.Day14;
 
-class Cell
+public class Cell
 {
     public Cell(Coordinate position) : this()
     {
@@ -40,12 +40,17 @@ class Cell
         Content = CellContent.Source;
     }
 
-    public static bool moveSand(Cell a, Cell b)
+    public static bool MoveSand(Cell a, Cell b)
     {
         if (b.isSolid) return false;
         a.SetAir();
         b.SetSand();
         return true;
+    }
+
+    public static void CreateSand(Cell sand)
+    {
+        sand.Content = CellContent.Sand;
     }
 
     public string PrintContent()
@@ -59,7 +64,7 @@ class Cell
     }
 }
 
-class CellContent
+public class CellContent
 {
     public static readonly char Air = '.';
     public static readonly char Rock = '#';

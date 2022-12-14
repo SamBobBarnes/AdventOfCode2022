@@ -1,13 +1,13 @@
 using AdventOfCode2022.Day14;
 using FluentAssertions;
-using System.Runtime.CompilerServices;
 
-namespace UnitTests;
+namespace UnitTests.Day14;
 
-public class Day14
+public class CoordinateTests
+
 {
     [Fact]
-    public void CoordinateBetween_ShouldReturnTrueIfCIsBetweenAAndBYAxis()
+    public void Between_ShouldReturnTrueIfCIsBetweenAAndBYAxis()
     {
         var a = new Coordinate(0, 0);
         var b = new Coordinate(0, 2);
@@ -19,7 +19,7 @@ public class Day14
     }
 
     [Fact]
-    public void CoordinateBetween_ShouldReturnTrueIfCIsBetweenAAndBYAxisAHigh()
+    public void Between_ShouldReturnTrueIfCIsBetweenAAndBYAxisAHigh()
     {
         var a = new Coordinate(0, 2);
         var b = new Coordinate(0, 0);
@@ -31,7 +31,7 @@ public class Day14
     }
 
     [Fact]
-    public void CoordinateBetween_ShouldReturnTrueIfCIsAYAxis()
+    public void Between_ShouldReturnTrueIfCIsAYAxis()
     {
         var a = new Coordinate(0, 0);
         var b = new Coordinate(0, 2);
@@ -43,7 +43,7 @@ public class Day14
     }
 
     [Fact]
-    public void CoordinateBetween_ShouldReturnTrueIfCIsBYAxis()
+    public void Between_ShouldReturnTrueIfCIsBYAxis()
     {
         var a = new Coordinate(0, 0);
         var b = new Coordinate(0, 2);
@@ -55,7 +55,7 @@ public class Day14
     }
 
     [Fact]
-    public void CoordinateBetween_ShouldReturnTrueIfCIsBetweenAAndBXAxis()
+    public void Between_ShouldReturnTrueIfCIsBetweenAAndBXAxis()
     {
         var a = new Coordinate(0, 0);
         var b = new Coordinate(2, 0);
@@ -67,7 +67,7 @@ public class Day14
     }
 
     [Fact]
-    public void CoordinateBetween_ShouldReturnTrueIfCIsBetweenAAndBXAxisAHigh()
+    public void Between_ShouldReturnTrueIfCIsBetweenAAndBXAxisAHigh()
     {
         var a = new Coordinate(2, 0);
         var b = new Coordinate(1, 0);
@@ -79,7 +79,7 @@ public class Day14
     }
 
     [Fact]
-    public void CoordinateBetween_ShouldReturnTrueIfCIsAXAxis()
+    public void Between_ShouldReturnTrueIfCIsAXAxis()
     {
         var a = new Coordinate(0, 0);
         var b = new Coordinate(2, 0);
@@ -91,7 +91,7 @@ public class Day14
     }
 
     [Fact]
-    public void CoordinateBetween_ShouldReturnTrueIfCIsBXAxis()
+    public void Between_ShouldReturnTrueIfCIsBXAxis()
     {
         var a = new Coordinate(0, 0);
         var b = new Coordinate(2, 0);
@@ -103,7 +103,7 @@ public class Day14
     }
 
     [Fact]
-    public void CoordinateBetween_ShouldReturnFalseIfCIsNotBetweenAAndBXAxis()
+    public void Between_ShouldReturnFalseIfCIsNotBetweenAAndBXAxis()
     {
         var a = new Coordinate(0, 0);
         var b = new Coordinate(2, 0);
@@ -115,7 +115,7 @@ public class Day14
     }
 
     [Fact]
-    public void CoordinateBetween_ShouldReturnFalseIfCIsNotBetweenAAndBYAxis()
+    public void Between_ShouldReturnFalseIfCIsNotBetweenAAndBYAxis()
     {
         var a = new Coordinate(0, 0);
         var b = new Coordinate(0, 2);
@@ -127,7 +127,7 @@ public class Day14
     }
 
     [Fact]
-    public void CoordinateBetween_ShouldReturnFalseIfCIsNotOnAxisOfAAndB()
+    public void Between_ShouldReturnFalseIfCIsNotOnAxisOfAAndB()
     {
         var a1 = new Coordinate(0, 0);
         var b1 = new Coordinate(0, 2);
@@ -144,7 +144,7 @@ public class Day14
     }
 
     [Fact]
-    public void CoordinateBetwen_ShouldThrowExceptionWhenNoCommonAxis()
+    public void Between_ShouldThrowExceptionWhenNoCommonAxis()
     {
         var a = new Coordinate(0, 0);
         var b = new Coordinate(2, 2);
