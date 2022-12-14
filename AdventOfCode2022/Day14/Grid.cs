@@ -34,7 +34,7 @@ class Grid
     protected readonly int _width;
     protected int _height;
 
-    private Cell? GetCell(int x, int y)
+    protected Cell? GetCell(int x, int y)
     {
         return _cells.FirstOrDefault(c => c.Position.X == x && c.Position.Y == y)!;
     }
@@ -99,7 +99,7 @@ class Grid
         return count;
     }
 
-    protected Cell DropSand(Cell source)
+    private Cell DropSand(Cell source)
     {
         var sand = source;
         var noFloor = false;

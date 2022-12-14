@@ -21,7 +21,8 @@ public class Part1 : BasePart
         var grid = new Grid(map,width,height);
         Console.WriteLine("Simulating...");
         var count = grid.SimulateSand();
-        Console.WriteLine(grid.ToString(493,0));
+        // Console.WriteLine(grid.ToString(493,0));
+        WriteOutput(14,grid.ToString());
 
         return count;
     }

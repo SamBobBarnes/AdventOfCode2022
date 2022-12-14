@@ -2,21 +2,26 @@
 
 public class BasePart
 {
-    public static void Start(int day, int part)
+    protected static void Start(int day, int part)
     {
         Console.WriteLine($"Day {day.ToString()}, Part {part.ToString()}");
     }
 
-    public static List<string> LoadInput(int day)
+    protected static List<string> LoadInput(int day)
     {
         return System.IO.File.ReadAllText($@"../../../Day{day}/Input.txt")
             .Split("\r\n")
             .ToList();
     }
-    public static List<char> LoadInputChars(int day)
+    protected static List<char> LoadInputChars(int day)
     {
         return System.IO.File.ReadAllText($@"../../../Day{day}/Input.txt")
             .ToCharArray()
             .ToList();
+    }
+
+    protected static void WriteOutput(int day, string output)
+    {
+        System.IO.File.WriteAllText($@"../../../Day{day}/Output.txt",output);
     }
 }
