@@ -17,7 +17,9 @@ public class Part1 : BasePart
             return new Coordinate(int.Parse(coords[0]), int.Parse(coords[1]));
         }).ToList()).ToList();
 
+        Console.WriteLine("Drawing grid...");
         var grid = new Grid(map,width,height);
+        Console.WriteLine("Simulating...");
         var count = grid.SimulateSand();
         Console.WriteLine(grid.ToString(493,0));
 

@@ -41,8 +41,7 @@ class Grid
 
     private Cell GetSandSource()
     {
-        var source = _cells.FirstOrDefault(c => c.PrintContent() == "+")!;
-        return _cells.FirstOrDefault(c => c.Position.X == source.Position.X && c.Position.Y - 1 == source.Position.Y)!;
+        return _cells.FirstOrDefault(c => c.PrintContent() == "+")!;
     }
 
     private void DrawLine(Coordinate a, Coordinate b)
