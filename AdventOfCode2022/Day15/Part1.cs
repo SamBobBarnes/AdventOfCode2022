@@ -10,7 +10,7 @@ public class Part1 : BasePart
         var grid = new Grid(sensors);
         
         //Console.WriteLine(grid.ToString());
-
+        Console.WriteLine(grid.GetImpossibilities(10));
         return grid.GetImpossibilities(2000000);
     }
 }

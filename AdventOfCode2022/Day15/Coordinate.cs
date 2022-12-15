@@ -31,43 +31,15 @@ public class Coordinate : IEquatable<Coordinate>
         return X == x && Y == y;
     }
 
-    public static int ManhattanDistance(Coordinate a, Coordinate b)
+    public int ManhattanDistance(Coordinate b)
     {
-        if (a.Equals(b)) return 0;
-        return Math.Abs(a.X - b.X) + Math.Abs(a.Y - b.Y);
+        if (Equals(b)) return 0;
+        return Math.Abs(X - b.X) + Math.Abs(Y - b.Y);
     }
 
-    public static int ManhattanDistance(Coordinate a, int x, int y)
+    public int ManhattanDistance(int x, int y)
     {
-        if (a.Equals(x,y)) return 0;
-        return Math.Abs(a.X - x) + Math.Abs(a.Y - y);
-    }
-
-    public List<Coordinate> ManhattanRange(Coordinate beacon, int range)
-    {
-        var result = new List<Coordinate>(){this};
-
-        for (int i = 0; i <= range+1; i++) //x
-        {
-            var tempX = X + i;
-            for (int j = Y + range + 1; j >= Y; j--) //y
-            {
-                if (Equals(tempX, j)) continue;
-                if (beacon.Equals(tempX, j)) continue;
-                result.Add(new Coordinate(tempX,j));
-            }
-        }
-        
-        // for (int i = X - range; i <= X + range; i++)
-        // {
-        //     for (int j = Y - range; j <= Y + range; j++)
-        //     {
-        //         if (Equals(i, j)) continue;
-        //         if (beacon.Equals(i, j)) continue;
-        //         if (ManhattanDistance(this,i,j) <= range) result.Add(new(i,j));
-        //     }
-        // }
-        
-        return result;
+        if (Equals(x,y)) return 0;
+        return Math.Abs(X - x) + Math.Abs(Y - y);
     }
 }

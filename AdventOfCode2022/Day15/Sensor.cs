@@ -12,10 +12,22 @@ public class Sensor
 
         Position = new Coordinate(int.Parse(pX), int.Parse(pY));
         Beacon = new Coordinate(int.Parse(bX), int.Parse(bY));
-        MinimumRadius = Coordinate.ManhattanDistance(Position, Beacon);
+        MinimumRadius = Position.ManhattanDistance(Beacon);
     }
 
-    public Coordinate Position;
+    private Coordinate Position;
+    public int X => Position.X;
+    public int Y => Position.Y;
     public Coordinate Beacon;
     public int MinimumRadius;
+
+    public int ManhattanDistance()
+    {
+        return Position.ManhattanDistance(Beacon);
+    }
+
+    public int ManhattanDistance(int x, int y)
+    {
+        return Position.ManhattanDistance(x, y);
+    }
 }
