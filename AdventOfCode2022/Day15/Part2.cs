@@ -1,6 +1,6 @@
 ﻿namespace AdventOfCode2022.Day15;
 
-public class Part1 : BasePart
+public class Part2 : BasePart
 {
     public static int Run()
     {

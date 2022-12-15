@@ -10,24 +10,24 @@ public class Sensor
         var bX = inputArray[8].Substring(0,inputArray[8].Length - 1).Substring(2);
         var bY = inputArray[9].Substring(2);
 
-        Position = new Coordinate(int.Parse(pX), int.Parse(pY));
+        _position = new Coordinate(int.Parse(pX), int.Parse(pY));
         Beacon = new Coordinate(int.Parse(bX), int.Parse(bY));
-        MinimumRadius = Position.ManhattanDistance(Beacon);
+        MinimumRadius = _position.ManhattanDistance(Beacon);
     }
 
-    private Coordinate Position;
-    public int X => Position.X;
-    public int Y => Position.Y;
-    public Coordinate Beacon;
-    public int MinimumRadius;
+    private readonly Coordinate _position;
+    public int X => _position.X;
+    public int Y => _position.Y;
+    public readonly Coordinate Beacon;
+    public readonly int MinimumRadius;
 
     public int ManhattanDistance()
     {
-        return Position.ManhattanDistance(Beacon);
+        return _position.ManhattanDistance(Beacon);
     }
 
     public int ManhattanDistance(int x, int y)
     {
-        return Position.ManhattanDistance(x, y);
+        return _position.ManhattanDistance(x, y);
     }
 }

@@ -4,7 +4,6 @@ public class Grid
 {
     public Grid(IEnumerable<Sensor> sensors)
     {
-        Console.WriteLine("Mapping sensors...");
         _sensors = sensors.ToList();
         var sMinX = _sensors.Min(s => s.X);
         var sMinY = _sensors.Min(s => s.Y);
@@ -19,7 +18,7 @@ public class Grid
         _minY = sMinY < bMinY ? sMinY : bMinY;
         _maxX = sMaxX > bMaxX ? sMaxX : bMaxX;
         _maxY = sMaxY > bMaxY ? sMaxY : bMaxY;
-        Console.WriteLine("Expanding grid...");
+        
         ExpandGrid();
     }
 
@@ -69,23 +68,5 @@ public class Grid
             if (sensor.Y - range < _minY) _minY = sensor.Y - range;
             if (sensor.Y + range < _maxY) _maxY = sensor.Y + range;
         }
-    }
-    
-    public new string ToString()
-    {
-        var result = "";
-        for (int i = _minY; i <= _maxY; i++)
-        {
-            for (int j = _minX; j <= _maxX; j++)
-            {
-                var sensor = _sensors.FirstOrDefault(s => s.X == j && s.Y == i);
-                if (sensor != null) result += "S";
-                else result += ".";
-            }
-
-            result += "\r\n";
-        }
-
-        return result;
     }
 }

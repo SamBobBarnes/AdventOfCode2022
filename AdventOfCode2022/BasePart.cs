@@ -7,12 +7,19 @@ public class BasePart
         Console.WriteLine($"Day {day.ToString()}, Part {part.ToString()}");
     }
 
-    protected static List<string> LoadInput(int day)
+    protected static List<string> LoadInput(int day, bool example = false)
     {
+        if (example)
+        {
+            return System.IO.File.ReadAllText($@"../../../Day{day}/ExampleInput.txt")
+                .Split("\r\n")
+                .ToList();
+        }
         return System.IO.File.ReadAllText($@"../../../Day{day}/Input.txt")
             .Split("\r\n")
             .ToList();
     }
+    
     protected static List<char> LoadInputChars(int day)
     {
         return System.IO.File.ReadAllText($@"../../../Day{day}/Input.txt")
