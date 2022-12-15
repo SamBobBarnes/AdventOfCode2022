@@ -86,4 +86,63 @@ public class CoordinateTests
         actual2.Should().Be(12);
         actual3.Should().Be(12);
     }
+
+    [Fact]
+    public void ManhattanBorder_ShouldReturnCorrectManhattanBorder()
+    {
+        var a = new Coordinate(0, 0);
+        var range = 5;
+
+        var expected = new List<Coordinate>
+        {
+            new(0, 6),
+            new(1,5),
+            new(2,4),
+            new(3,3),
+            new(4,2),
+            new(5,1),
+            new(6, 0),
+            new(5,-1),
+            new(4,-2),
+            new(3,-3),
+            new(2,-4),
+            new(1,-5),
+            new(0, -6),
+            new(-1,-5),
+            new(-2,-4),
+            new(-3,-3),
+            new(-4,-2),
+            new(-5,-1),
+            new(-6, 0),
+            new(-5,1),
+            new(-4,2),
+            new(-3,3),
+            new(-2,4),
+            new(-1,5),
+        };
+        
+        var actual = a.ManhattanBorder(range);
+
+        actual.Should().BeEquivalentTo(expected);
+    }
+
+    [Fact]
+    public void WithinRange_ShouldReturnTrueIfXYIsWithinRange()
+    {
+        var a = new Coordinate(0, 0);
+
+        var actual = a.WithinRange(2, 2, 5);
+
+        actual.Should().BeTrue();
+    }
+    
+    [Fact]
+    public void WithinRange_ShouldReturnFalseIfXYIsNotWithinRange()
+    {
+        var a = new Coordinate(0, 0);
+
+        var actual = a.WithinRange(5, 3, 5);
+
+        actual.Should().BeFalse();
+    }
 }

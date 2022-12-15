@@ -30,4 +30,14 @@ public class Sensor
     {
         return _position.ManhattanDistance(x, y);
     }
+
+    public bool WithinRange(Coordinate b)
+    {
+        return _position.WithinRange(b.X, b.Y, MinimumRadius);
+    }
+
+    public List<Coordinate> ManhattanBorder()
+    {
+        return _position.ManhattanBorder(MinimumRadius);
+    }
 }

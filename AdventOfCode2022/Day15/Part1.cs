@@ -12,8 +12,10 @@ public class Part1 : BasePart
         var exampleGrid = new Grid(exampleSensors);
         var grid = new Grid(sensors);
         
-        //Console.WriteLine(grid.ToString());
-        Console.WriteLine(exampleGrid.GetImpossibilities(10));
-        return grid.GetImpossibilities(2000000);
+        var exampleOutput = exampleGrid.GetImpossibilities(10);
+        Console.WriteLine(exampleOutput);
+        var output = grid.GetImpossibilities(2000000);
+        //Console.WriteLine(output);
+        return output;
     }
 }

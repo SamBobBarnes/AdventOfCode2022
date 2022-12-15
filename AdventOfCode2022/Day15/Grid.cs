@@ -57,6 +57,26 @@ public class Grid
 
         return count;
     }
+    
+    public int GetPossibilities(int y, int max)
+    {
+        var count = 0;
+        for (int i = 0; i <= max; i++)
+        {
+            var impossible = false;
+            foreach (var sensor in _sensors)
+            {
+                if (sensor.ManhattanDistance(i, y) <= sensor.MinimumRadius)
+                {
+                    impossible = true;
+                    break;
+                }
+            }
+            if (impossible) count++;
+        }
+
+        return max+1-count;
+    }
 
     private void ExpandGrid()
     {
@@ -68,5 +88,32 @@ public class Grid
             if (sensor.Y - range < _minY) _minY = sensor.Y - range;
             if (sensor.Y + range < _maxY) _maxY = sensor.Y + range;
         }
+    }
+
+    public UInt64 FindBeacon(int rangeFromZero)
+    {
+        var borders = new List<Coordinate>();
+        foreach (var sensor in _sensors)
+        {
+            borders.AddRange(sensor.ManhattanBorder().Where(c => c.X >= 0 && c.X <= rangeFromZero && c.Y >= 0 && c.Y <= rangeFromZero));
+        }
+
+        var beacons = new List<Coordinate>(); 
+        foreach (var coordinate in borders)
+        {
+            var withinRangeOfAnotherSensor = false;
+            foreach (var sensor in _sensors)
+            {
+                if (sensor.WithinRange(coordinate))
+                {
+                    withinRangeOfAnotherSensor = true;
+                    break;
+                }
+            }
+            if(!withinRangeOfAnotherSensor) beacons.Add(coordinate);
+        }
+
+        var beacon = beacons.First();
+        return Convert.ToUInt64(beacon.X) * Convert.ToUInt64(4000000) + Convert.ToUInt64(beacon.Y);
     }
 }
