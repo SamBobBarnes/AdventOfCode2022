@@ -9,8 +9,8 @@ public class Part1 : BasePart
         var sensors = input.Select(i => new Sensor(i));
         var grid = new Grid(sensors);
         
-        Console.WriteLine(grid.ToString());
+        //Console.WriteLine(grid.ToString());
 
-        return grid.GetImpossibilities(10);
+        return grid.GetImpossibilities(2000000);
     }
 }

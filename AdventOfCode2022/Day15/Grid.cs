@@ -4,6 +4,7 @@ public class Grid
 {
     public Grid(IEnumerable<Sensor> sensors)
     {
+        Console.WriteLine("Mapping sensors...");
         _sensors = sensors.ToList();
         var sMinX = _sensors.Min(s => s.Position.X);
         var sMinY = _sensors.Min(s => s.Position.Y);
@@ -23,6 +24,7 @@ public class Grid
         _xOffset = Math.Abs(_minX);
         _yOffset = Math.Abs(_minY);
 
+        Console.WriteLine("Detecting beacons...");
         _beaconRange = new List<List<bool>>();
         for (int i = _minY; i <= _maxY; i++)
         {
@@ -49,7 +51,7 @@ public class Grid
             var impossibilities = sensor.Position.ManhattanRange(sensor.Beacon,sensor.MinimumRadius);
             foreach (var position in impossibilities)
             {
-                if (position.X + _xOffset < 0 || position.X + _xOffset >= _beaconRange[0].Count()) TripleX();
+                if (position.X + _xOffset < 0 || position.X + _xOffset >= _beaconRange[0].Count()) {TripleX();}
                 if (position.Y + _yOffset < 0 ||  position.Y + _yOffset >= _beaconRange.Count()) TripleY();
                 _beaconRange[position.Y + _yOffset][position.X + _xOffset] = true;
             }
@@ -58,6 +60,7 @@ public class Grid
 
     private void TripleY()
     {
+        Console.WriteLine("Tripling Y...");
         var tempList = new List<List<bool>>();
         for (int i = 0; i < _height; i++)
         {
@@ -74,10 +77,12 @@ public class Grid
         _maxY += _height;
         _yOffset += _height;
         _height *= 3;
+        Console.WriteLine("Back to it...");
     }
 
     private void TripleX()
     {
+        Console.WriteLine("Tripling X...");
         var tempList = new List<List<bool>>();
         for (int i = 0; i < _height; i++)
         {
@@ -92,6 +97,7 @@ public class Grid
         _maxX += _width;
         _xOffset += _width;
         _width *= 3;
+        Console.WriteLine("Back to it...");
     }
 
     public int GetImpossibilities(int row)

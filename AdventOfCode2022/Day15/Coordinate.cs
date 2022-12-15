@@ -47,15 +47,26 @@ public class Coordinate : IEquatable<Coordinate>
     {
         var result = new List<Coordinate>(){this};
 
-        for (int i = X - range; i <= X + range; i++)
+        for (int i = 0; i <= range+1; i++) //x
         {
-            for (int j = Y - range; j <= Y + range; j++)
+            var tempX = X + i;
+            for (int j = Y + range + 1; j >= Y; j--) //y
             {
-                if (Equals(i, j)) continue;
-                if (beacon.Equals(i, j)) continue;
-                if (ManhattanDistance(this,i,j) <= range) result.Add(new(i,j));
+                if (Equals(tempX, j)) continue;
+                if (beacon.Equals(tempX, j)) continue;
+                result.Add(new Coordinate(tempX,j));
             }
         }
+        
+        // for (int i = X - range; i <= X + range; i++)
+        // {
+        //     for (int j = Y - range; j <= Y + range; j++)
+        //     {
+        //         if (Equals(i, j)) continue;
+        //         if (beacon.Equals(i, j)) continue;
+        //         if (ManhattanDistance(this,i,j) <= range) result.Add(new(i,j));
+        //     }
+        // }
         
         return result;
     }
