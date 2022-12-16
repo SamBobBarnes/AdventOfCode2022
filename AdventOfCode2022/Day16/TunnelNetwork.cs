@@ -39,21 +39,24 @@ public class TunnelNetwork
 
     public Valve GetLargestFlowValve()
     {
-        return GetLargestFlowValveRecursive(CurrentPosition, new(){});
+        var valveList = GetLargestFlowValveRecursive(CurrentPosition, new(){},0);
+
+        return valveList.MinBy(v => v.Item2)?.Item1;
     }
 
-    private Valve GetLargestFlowValveRecursive(Valve current, List<Valve> visited)
+    private List<Tuple<Valve,int>> GetLargestFlowValveRecursive(Valve current, List<Valve> visited, int depth)
     {
         visited.Add(current);
-        var valve = current.GetLargestFlow();
+        var valveList = new List<Tuple<Valve, int>>();
+        var valve = current?.GetLargestFlow();
+        if (valve != null) valveList.Add(new Tuple<Valve, int>(valve, depth));
         if (valve == null)
         {
             foreach (var tunnel in current.Tunnels.Where(v => !visited.Contains(v)))
             {
-                valve = GetLargestFlowValveRecursive(tunnel,visited);
-                if (valve != null) break;
+                valveList.AddRange(GetLargestFlowValveRecursive(tunnel, visited, depth + 1));
             }
         } 
-        return valve;
+        return valveList;
     }
 }

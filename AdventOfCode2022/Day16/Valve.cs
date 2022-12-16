@@ -39,7 +39,7 @@ public class Valve
 
     public Valve GetLargestFlow()
     {
-        return _tunnelsTo.Where(v => v.IsOpen == false && v.FlowRate > 0).MaxBy(v => v.FlowRate)!;
+        return _tunnelsTo.Where(v => v.IsOpen == false && v.FlowRate > 0).MaxBy(v => v.FlowRate);
     }
 
     public new string ToString()
