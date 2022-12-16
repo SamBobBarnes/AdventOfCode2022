@@ -1,7 +1,7 @@
 ﻿using AdventOfCode2022.Day15;
 using FluentAssertions;
 
-namespace UnitTests.Day_15;
+namespace UnitTests.Day15;
 
 public class CoordinateTests
 {
