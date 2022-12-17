@@ -29,34 +29,63 @@ public class TunnelNetwork
         }
         
         Valves = valveList;
-        TimeRemaining = 30;
-        CurrentPosition = Valves.First(v => v.Id == "AA");
     }
 
-    public Valve CurrentPosition;
-    public int TimeRemaining;
     public readonly List<Valve> Valves;
 
-    public Valve GetLargestFlowValve()
+    public Valve Valve(string id)
     {
-        var valveList = GetLargestFlowValveRecursive(CurrentPosition, new(){},0);
-
-        return valveList.MinBy(v => v.Item2)?.Item1;
+        return Valves.First(v => v.Id == "AA");
     }
 
-    private List<Tuple<Valve,int>> GetLargestFlowValveRecursive(Valve current, List<Valve> visited, int depth)
+    public List<Valve> UnOpenedValves()
     {
-        visited.Add(current);
-        var valveList = new List<Tuple<Valve, int>>();
-        var valve = current?.GetLargestFlow();
-        if (valve != null) valveList.Add(new Tuple<Valve, int>(valve, depth));
-        if (valve == null)
+        return Valves.Where(v => !v.IsOpen && v.FlowRate > 0).ToList();
+    }
+    
+    public Dictionary<Valve,Dictionary<Valve,int>> ShortestPaths() {
+        var paths = new Dictionary<Valve,Dictionary<Valve,int>>();
+        foreach (var valve in Valves)
         {
-            foreach (var tunnel in current.Tunnels.Where(v => !visited.Contains(v)))
+            paths.Add(valve,new Dictionary<Valve,int>());
+            foreach (var valve2 in Valves)
             {
-                valveList.AddRange(GetLargestFlowValveRecursive(tunnel, visited, depth + 1));
+                if (valve != valve2)
+                {
+                    paths[valve].Add(valve2,ShortestPath(valve,valve2));
+                }
             }
-        } 
-        return valveList;
+        }
+        
+        return paths;
+    }
+
+    public static int ShortestPath(Valve start, Valve end)
+    {
+        var visited = new List<Valve>();
+        var depth = new Dictionary<Valve, int>() { [start] = 0 };
+        var q = new Queue<Valve>();
+        
+        q.Enqueue(start);
+
+        while (q.Any())
+        {
+            var current = q.Dequeue();
+            if (current == end) break;
+            var d = depth[current];
+            visited.Add(current);
+
+            foreach (var tunnel in current.Tunnels)
+            {
+                if (!visited.Contains(tunnel))
+                {
+                    depth[tunnel] = d + 1;
+                    visited.Add(tunnel);
+                    q.Enqueue(tunnel);
+                }
+            }
+        }
+
+        return depth[end];
     }
 }
