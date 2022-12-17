@@ -1,5 +1,4 @@
 ﻿using AdventOfCode2022.Day14;
-using FluentAssertions;
 
 namespace UnitTests.Day14;
 
