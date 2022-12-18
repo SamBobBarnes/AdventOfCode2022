@@ -200,7 +200,7 @@ public class TunnelNetworkTests
     }
 
     [Fact]
-    public void ShouldReturnAllUnOpenedValvesWithValueOfMoreThanZero()
+    public void ShouldReturnAllValvesWithValueOfMoreThanZero()
     {
         var input = new List<string>()
         {
@@ -228,14 +228,12 @@ public class TunnelNetworkTests
         var g = f.Tunnels[1];
         var h = g.Tunnels[1];
         
-        j.OpenValve();
-        
         var expected = new List<Valve>()
         {
-            b, c, d, e, h
+            b, c, d, e, h, j
         };
         
-        var actual = network.UnOpenedValves();
+        var actual = network.UseableValves();
 
         actual.Should().BeEquivalentTo(expected);
     }

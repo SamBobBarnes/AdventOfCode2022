@@ -35,17 +35,4 @@ public class ValveTests
         actual.Tunnels.Should().Contain(b);
         actual.Tunnels.Should().Contain(c);
     }
-
-    [Fact]
-    public void ShouldFindLargestFlowTunnelWithDirectConnection()
-    {
-        var a = new Valve("a", 4);
-        var b = new Valve("b", 5);
-        var c = new Valve("c", 6);
-        a.AddTunnels(new List<Valve>(){b,c});
-
-        var actual = a.GetLargestFlow();
-
-        actual.Should().Be(c);
-    }
 }

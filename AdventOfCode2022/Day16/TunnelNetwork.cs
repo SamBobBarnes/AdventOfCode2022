@@ -38,21 +38,21 @@ public class TunnelNetwork
         return Valves.First(v => v.Id == "AA");
     }
 
-    public List<Valve> UnOpenedValves()
+    public List<string> UseableValves()
     {
-        return Valves.Where(v => !v.IsOpen && v.FlowRate > 0).ToList();
+        return Valves.Where(v => v.FlowRate > 0).Select(v => v.Id).ToList();
     }
     
-    public Dictionary<Valve,Dictionary<Valve,int>> ShortestPaths() {
-        var paths = new Dictionary<Valve,Dictionary<Valve,int>>();
+    public Dictionary<string,Dictionary<string,int>> ShortestPaths() {
+        var paths = new Dictionary<string,Dictionary<string,int>>();
         foreach (var valve in Valves)
         {
-            paths.Add(valve,new Dictionary<Valve,int>());
+            paths.Add(valve.Id,new Dictionary<string,int>());
             foreach (var valve2 in Valves)
             {
                 if (valve != valve2)
                 {
-                    paths[valve].Add(valve2,ShortestPath(valve,valve2));
+                    paths[valve.Id].Add(valve2.Id,ShortestPath(valve,valve2));
                 }
             }
         }
@@ -63,7 +63,7 @@ public class TunnelNetwork
     public static int ShortestPath(Valve start, Valve end)
     {
         var visited = new List<Valve>();
-        var depth = new Dictionary<Valve, int>() { [start] = 0 };
+        var depth = new Dictionary<string, int>() { [start.Id] = 0 };
         var q = new Queue<Valve>();
         
         q.Enqueue(start);
@@ -72,20 +72,20 @@ public class TunnelNetwork
         {
             var current = q.Dequeue();
             if (current == end) break;
-            var d = depth[current];
+            var d = depth[current.Id];
             visited.Add(current);
 
             foreach (var tunnel in current.Tunnels)
             {
                 if (!visited.Contains(tunnel))
                 {
-                    depth[tunnel] = d + 1;
+                    depth[tunnel.Id] = d + 1;
                     visited.Add(tunnel);
                     q.Enqueue(tunnel);
                 }
             }
         }
 
-        return depth[end];
+        return depth[end.Id];
     }
 }
