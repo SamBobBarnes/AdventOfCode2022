@@ -1,12 +1,15 @@
-﻿namespace AdventOfCode2022.Day17;
+﻿using System.Diagnostics;
+
+namespace AdventOfCode2022.Day17;
 
 public class Part2 : BasePart
 {
     public static int Run()
     {
         Start(17,2);
+        var stopwatch = new Stopwatch();
         var rocksToDrop = 2022;
-
+        stopwatch.Start();
         var exampleInput = LoadInputChars(17, true);
         var exampleGrid = new Grid(exampleInput);
         
@@ -14,18 +17,19 @@ public class Part2 : BasePart
         {
             exampleGrid.DropRock();
         }
+        stopwatch.Stop();
+        Console.WriteLine(stopwatch.Elapsed.TotalSeconds + "s");
         Console.WriteLine(exampleGrid.TowerHeight);
         
-        
-        
-        
-        
+        stopwatch.Restart();
         var input = LoadInputChars(17, false);
         var grid = new Grid(input);
         for (int i = 0; i < rocksToDrop; i++)
         {
             grid.DropRock();
         }
+        stopwatch.Stop();
+        Console.WriteLine(stopwatch.Elapsed.TotalSeconds + "s");
 
 
         return grid.TowerHeight;

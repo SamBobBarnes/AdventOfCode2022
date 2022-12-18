@@ -24,6 +24,7 @@ public class Grid
     {
         SpawnRock();
         var falling = true;
+        DropWindThree();
         while (falling)
         {
             WindStep();
@@ -32,50 +33,67 @@ public class Grid
         
     }
 
+    private void DropWindThree()
+    {
+
+        var total = 0;
+        var canA = true;
+        var canB = true;
+        var canC = true;
+        var a = _wind.NextJet() == '<' ? -1 : 1;
+        var b = _wind.NextJet() == '<' ? -1 : 1;
+        var c = _wind.NextJet() == '<' ? -1 : 1;
+
+        foreach (var pebble in fallingRock.Item2)
+        {
+            if (pebble.X + a == _width || pebble.X + a < 0)
+            {
+                canA = false;
+                break;
+            }
+        }
+        if (canA) total += a;
+        foreach (var pebble in fallingRock.Item2)
+        {
+            if (pebble.X + b + total == _width || pebble.X + b + total < 0)
+            {
+                canB = false;
+                break;
+            }
+        }
+        if (canB) total += b;
+        foreach (var pebble in fallingRock.Item2)
+        {
+            if (pebble.X + c + total == _width || pebble.X + c + total < 0)
+            {
+                canC = false;
+                break;
+            }
+        }
+        if (canC) total += c;
+        foreach (var pebble in fallingRock.Item2)
+        {
+            pebble.X = pebble.X + total;
+            pebble.Y = pebble.Y - 3;
+        }
+
+    }
+
     private void WindStep()
     {
-        var wind = _wind.NextJet();
+        var wind = _wind.NextJet() == '<' ? -1 : 1;
 
-        switch (wind)
-        {
-            case '<':
-                MoveLeft();
-                break;
-            case '>':
-                MoveRight();
-                break;
-        }
-    }
-
-    private void MoveRight()
-    {
         foreach (var pebble in fallingRock.Item2)
         {
-            if (pebble.X + 1 == _width ||
-                _rockList.FirstOrDefault(x => x.Item2.Contains(new Coordinate(pebble.X + 1, pebble.Y)) && x.Item1) != null)
+            if (pebble.X + wind == _width || pebble.X + wind < 0 ||
+                _rockList.FirstOrDefault(x => x.Item2.Contains(new Coordinate(pebble.X + wind, pebble.Y)) && x.Item1) != null)
             {
                 return;
             }
         }
         foreach (var pebble in fallingRock.Item2)
         {
-            pebble.X = pebble.X + 1;
-        }
-    }
-
-    private void MoveLeft()
-    {
-        foreach (var pebble in fallingRock.Item2)
-        {
-            if (pebble.X - 1 < 0 ||
-                _rockList.FirstOrDefault(x => x.Item2.Contains(new Coordinate(pebble.X - 1, pebble.Y)) && x.Item1) != null)
-            {
-                return;
-            }
-        }
-        foreach (var pebble in fallingRock.Item2)
-        {
-            pebble.X = pebble.X - 1;
+            pebble.X = pebble.X + wind;
         }
     }
 
