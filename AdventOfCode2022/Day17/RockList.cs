@@ -6,24 +6,24 @@ public class RockList
     {
         new()
         {
-            new(0,0),new(1,0),new(2,0),new(3,0)
+            new(0,0),new(1,0),new(2,0),new(3,0)          // ####
         },
         new()
-        {
-            new(1,0),new(0,1),new(1,1),new(2,1),new(1,2)
-        },
+        {                                                // .#.
+            new(1,0),new(0,1),new(1,1),new(2,1),new(1,2) // ###
+        },                                               // .#.
         new()
-        {
-            new(0,0),new(1,0),new(2,0),new(2,1),new(2,2)
-        },
-        new()
-        {
-            new(0,0),new(0,1),new(0,2),new(0,3)
-        },
-        new()
-        {
-            new(0,0),new(1,0),new(0,1),new(1,1)
-        }
+        {                                                // ..#
+            new(0,0),new(1,0),new(2,0),new(2,1),new(2,2) // ..# 
+        },                                               // ###
+        new()                                            
+        {                                                // #
+            new(0,0),new(0,1),new(0,2),new(0,3)          // #
+        },                                               // #
+        new()                                            // # 
+        {                                                
+            new(0,0),new(1,0),new(0,1),new(1,1)          // ##
+        }                                                // ##
     };
     private int _position = 0;
     private int _maxPostion = 4;
