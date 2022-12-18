@@ -1,4 +1,6 @@
-﻿namespace AdventOfCode2022.Day17;
+﻿using System.Net;
+
+namespace AdventOfCode2022.Day17;
 
 public class RockList
 {
@@ -28,9 +30,20 @@ public class RockList
     private int _position = 0;
     private int _maxPostion = 4;
     
+    private List<Coordinate> GetRock(int index)
+    {
+        var rock = _rockList[index];
+        var newRock = new List<Coordinate>();
+        foreach(var pebble in rock)
+        {
+            newRock.Add(new Coordinate(pebble.X, pebble.Y));
+        }
+        return newRock;
+    }
+
     public List<Coordinate> NextRock()
     {
-        var rock = _rockList[_position];
+        var rock = GetRock(_position);
         if (_position == _maxPostion) _position = 0;
         else _position++;
         return rock;

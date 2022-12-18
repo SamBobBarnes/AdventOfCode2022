@@ -16,6 +16,7 @@ public class Grid
     private int _spawnYOffset = 4;
     private int _spawnXOffset = 2;
     private int _highestObject = -1;
+    public int TowerHeight => _highestObject + 1;
 
     private Tuple<bool, List<Coordinate>> fallingRock => _rockList.Last();
 
@@ -25,6 +26,7 @@ public class Grid
         var falling = true;
         while (falling)
         {
+            WindStep();
             falling = DropStep();
         }
         
@@ -32,7 +34,49 @@ public class Grid
 
     private void WindStep()
     {
-        
+        var wind = _wind.NextJet();
+
+        switch (wind)
+        {
+            case '<':
+                MoveLeft();
+                break;
+            case '>':
+                MoveRight();
+                break;
+        }
+    }
+
+    private void MoveRight()
+    {
+        foreach (var pebble in fallingRock.Item2)
+        {
+            if (pebble.X + 1 == _width ||
+                _rockList.FirstOrDefault(x => x.Item2.Contains(new Coordinate(pebble.X + 1, pebble.Y)) && x.Item1) != null)
+            {
+                return;
+            }
+        }
+        foreach (var pebble in fallingRock.Item2)
+        {
+            pebble.X = pebble.X + 1;
+        }
+    }
+
+    private void MoveLeft()
+    {
+        foreach (var pebble in fallingRock.Item2)
+        {
+            if (pebble.X - 1 < 0 ||
+                _rockList.FirstOrDefault(x => x.Item2.Contains(new Coordinate(pebble.X - 1, pebble.Y)) && x.Item1) != null)
+            {
+                return;
+            }
+        }
+        foreach (var pebble in fallingRock.Item2)
+        {
+            pebble.X = pebble.X - 1;
+        }
     }
 
     private bool DropStep()
@@ -66,7 +110,18 @@ public class Grid
         var landBelow = false;
         foreach(var pebble in fallingRock.Item2)
         {
-            if (_rockList.FirstOrDefault(x => x.Item2.Contains(new Coordinate(pebble.X, pebble.Y - 1)) && x.Item1) != null || pebble.Y == 0) landBelow = true;
+            if (_rockList.FirstOrDefault(x => x.Item2.Contains(new Coordinate(pebble.X, pebble.Y - 1)) && x.Item1) != null || pebble.Y == 0)
+            {
+                landBelow = true;
+                break;
+            }
+        }
+        if (landBelow)
+        {
+            foreach (var pebble in fallingRock.Item2)
+            {
+                if (pebble.Y > _highestObject) _highestObject = pebble.Y;
+            }
         }
 
         return landBelow;
