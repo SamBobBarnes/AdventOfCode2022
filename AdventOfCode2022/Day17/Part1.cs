@@ -8,6 +8,8 @@ public class Part1 : BasePart
         var exampleInput = LoadInputChars(17, true);
         var grid = new Grid(exampleInput);
         grid.DropRock();
+        grid.DropRock();
+        grid.DropRock();
         Console.WriteLine(grid.ToString());
         
         

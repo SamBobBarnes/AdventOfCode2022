@@ -18,10 +18,16 @@ public class Grid
     private int _highestObject = -1;
 
     private Tuple<bool, List<Coordinate>> fallingRock => _rockList.Last();
-    
+
     public void DropRock()
     {
         SpawnRock();
+        var falling = true;
+        while (falling)
+        {
+            falling = DropStep();
+        }
+        
     }
 
     private void WindStep()
@@ -29,9 +35,18 @@ public class Grid
         
     }
 
-    private void DropStep()
+    private bool DropStep()
     {
-        
+        if (RockAtRest())
+        {
+            _rockList[_rockList.Count - 1] = new(true, _rockList[_rockList.Count - 1].Item2);
+            return false;
+        }
+        foreach(var pebble in fallingRock.Item2)
+        {
+            pebble.Y = pebble.Y - 1;
+        }
+        return true;
     }
 
     private void SpawnRock()
@@ -46,9 +61,15 @@ public class Grid
         _rockList.Add(new Tuple<bool, List<Coordinate>>(false,rock));
     }
 
-    private bool RockAtRest(List<Coordinate> rock)
+    private bool RockAtRest()
     {
-        return false;
+        var landBelow = false;
+        foreach(var pebble in fallingRock.Item2)
+        {
+            if (_rockList.FirstOrDefault(x => x.Item2.Contains(new Coordinate(pebble.X, pebble.Y - 1)) && x.Item1) != null || pebble.Y == 0) landBelow = true;
+        }
+
+        return landBelow;
     }
 
     private void ExtendGrid()
@@ -65,7 +86,7 @@ public class Grid
             for (int j = 0; j < _width; j++)
             {
                 if (_rockList.FirstOrDefault(x => x.Item2.Contains(new Coordinate(j, i)) && x.Item1) != null) result += '#';
-                if (_rockList.FirstOrDefault(x => x.Item2.Contains(new Coordinate(j, i)) && !x.Item1) != null) result += '@';
+                else if (_rockList.FirstOrDefault(x => x.Item2.Contains(new Coordinate(j, i)) && !x.Item1) != null) result += '@';
                 else result += '.';
             }
 
