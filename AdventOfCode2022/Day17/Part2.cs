@@ -4,11 +4,11 @@ namespace AdventOfCode2022.Day17;
 
 public class Part2 : BasePart
 {
-    public static int Run()
+    public static ulong Run()
     {
         Start(17,2);
         var stopwatch = new Stopwatch();
-        var rocksToDrop = 2022;
+        var rocksToDrop = 1000000000000;
         stopwatch.Start();
         var exampleInput = LoadInputChars(17, true);
         var exampleGrid = new Grid(exampleInput);

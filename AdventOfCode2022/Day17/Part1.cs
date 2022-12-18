@@ -2,7 +2,7 @@
 
 public class Part1 : BasePart
 {
-    public static int Run()
+    public static ulong Run()
     {
         Start(17,1);
         var rocksToDrop = 2022;

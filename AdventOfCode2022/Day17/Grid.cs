@@ -12,11 +12,11 @@ public class Grid
     private RockList _rocks = new RockList();
     private List<Tuple<bool, List<Coordinate>>> _rockList;
     private int _width = 7;
-    private int _height = 5;
+    private UInt64 _height = 5;
     private int _spawnYOffset = 4;
     private int _spawnXOffset = 2;
-    private int _highestObject = 0;
-    public int TowerHeight => _highestObject;
+    private UInt64 _highestObject = 0;
+    public UInt64 TowerHeight => _highestObject;
 
     private Tuple<bool, List<Coordinate>> fallingRock => _rockList.Last();
 
@@ -31,7 +31,7 @@ public class Grid
             WindStep();
             falling = DropStep();
         }
-        
+
     }
 
     private void DropWindThree()
@@ -97,7 +97,7 @@ public class Grid
         if (four < lowest) lowest = four;
         if (five < lowest) lowest = five;
         if (six < lowest) lowest = six;
-        _rockList.RemoveRange(0, lowest-1);
+        _rockList.RemoveRange(0, lowest - 1);
     }
 
     private void WindStep()
@@ -125,7 +125,7 @@ public class Grid
             _rockList[_rockList.Count - 1] = new(true, _rockList[_rockList.Count - 1].Item2);
             return false;
         }
-        foreach(var pebble in fallingRock.Item2)
+        foreach (var pebble in fallingRock.Item2)
         {
             pebble.Y = pebble.Y - 1;
         }
@@ -134,20 +134,20 @@ public class Grid
 
     private void SpawnRock()
     {
-        if(_highestObject + _spawnYOffset > _height - 1) ExtendGrid();
+        if (_highestObject + Convert.ToUInt64(_spawnYOffset) > _height - 1) ExtendGrid();
         var rock = _rocks.NextRock();
         foreach (var pebble in rock)
         {
             pebble.X = pebble.X + _spawnXOffset;
-            pebble.Y = pebble.Y + _highestObject + _spawnYOffset;
+            pebble.Y = pebble.Y + _highestObject + Convert.ToUInt64(_spawnYOffset);
         }
-        _rockList.Add(new Tuple<bool, List<Coordinate>>(false,rock));
+        _rockList.Add(new Tuple<bool, List<Coordinate>>(false, rock));
     }
 
     private bool RockAtRest()
     {
         var landBelow = false;
-        foreach(var pebble in fallingRock.Item2)
+        foreach (var pebble in fallingRock.Item2)
         {
             if (_rockList.FirstOrDefault(x => x.Item2.Contains(new Coordinate(pebble.X, pebble.Y - 1)) && x.Item1) != null || pebble.Y == 1)
             {
@@ -171,22 +171,22 @@ public class Grid
         _height *= 2;
     }
 
-    public new string ToString()
-    {
-        var result = "";
+    //public new string ToString()
+    //{
+    //    var result = "";
 
-        for (int i = _height - 1; i >= 0; i--)
-        {
-            for (int j = 0; j < _width; j++)
-            {
-                if (_rockList.FirstOrDefault(x => x.Item2.Contains(new Coordinate(j, i)) && x.Item1) != null) result += '#';
-                else if (_rockList.FirstOrDefault(x => x.Item2.Contains(new Coordinate(j, i)) && !x.Item1) != null) result += '@';
-                else result += '.';
-            }
+    //    for (ulong i = _height - 1; i >= 0; i--)
+    //    {
+    //        for (int j = 0; j < _width; j++)
+    //        {
+    //            if (_rockList.FirstOrDefault(x => x.Item2.Contains(new Coordinate(j, i)) && x.Item1) != null) result += '#';
+    //            else if (_rockList.FirstOrDefault(x => x.Item2.Contains(new Coordinate(j, i)) && !x.Item1) != null) result += '@';
+    //            else result += '.';
+    //        }
 
-            result += "\r\n";
-        }
+    //        result += "\r\n";
+    //    }
 
-        return result;
-    }
+    //    return result;
+    //}
 }
