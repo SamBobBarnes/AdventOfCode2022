@@ -22,6 +22,7 @@ public class Grid
 
     public void DropRock()
     {
+        if (_rockList.Count > 50) CombRocks();
         SpawnRock();
         var falling = true;
         DropWindThree();
@@ -35,7 +36,6 @@ public class Grid
 
     private void DropWindThree()
     {
-
         var total = 0;
         var canA = true;
         var canB = true;
@@ -77,6 +77,27 @@ public class Grid
             pebble.Y = pebble.Y - 3;
         }
 
+    }
+
+    private void CombRocks()
+    {
+        var zero = _rockList.FindLastIndex(x => x.Item2.Any(y => y.X == 0));
+        var one = _rockList.FindLastIndex(x => x.Item2.Any(y => y.X == 1));
+        var two = _rockList.FindLastIndex(x => x.Item2.Any(y => y.X == 2));
+        var three = _rockList.FindLastIndex(x => x.Item2.Any(y => y.X == 3));
+        var four = _rockList.FindLastIndex(x => x.Item2.Any(y => y.X == 4));
+        var five = _rockList.FindLastIndex(x => x.Item2.Any(y => y.X == 5));
+        var six = _rockList.FindLastIndex(x => x.Item2.Any(y => y.X == 6));
+
+        var lowest = 51;
+        if (zero < lowest) lowest = zero;
+        if (one < lowest) lowest = one;
+        if (two < lowest) lowest = two;
+        if (three < lowest) lowest = three;
+        if (four < lowest) lowest = four;
+        if (five < lowest) lowest = five;
+        if (six < lowest) lowest = six;
+        _rockList.RemoveRange(0, lowest-1);
     }
 
     private void WindStep()
