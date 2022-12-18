@@ -15,8 +15,8 @@ public class Grid
     private int _height = 5;
     private int _spawnYOffset = 4;
     private int _spawnXOffset = 2;
-    private int _highestObject = -1;
-    public int TowerHeight => _highestObject + 1;
+    private int _highestObject = 0;
+    public int TowerHeight => _highestObject;
 
     private Tuple<bool, List<Coordinate>> fallingRock => _rockList.Last();
 
@@ -110,7 +110,7 @@ public class Grid
         var landBelow = false;
         foreach(var pebble in fallingRock.Item2)
         {
-            if (_rockList.FirstOrDefault(x => x.Item2.Contains(new Coordinate(pebble.X, pebble.Y - 1)) && x.Item1) != null || pebble.Y == 0)
+            if (_rockList.FirstOrDefault(x => x.Item2.Contains(new Coordinate(pebble.X, pebble.Y - 1)) && x.Item1) != null || pebble.Y == 1)
             {
                 landBelow = true;
                 break;

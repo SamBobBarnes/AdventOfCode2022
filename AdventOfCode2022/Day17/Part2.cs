@@ -4,7 +4,7 @@ public class Part2 : BasePart
 {
     public static int Run()
     {
-        Start(17,1);
+        Start(17,2);
         var rocksToDrop = 2022;
 
         var exampleInput = LoadInputChars(17, true);
