@@ -20,8 +20,14 @@ public class BasePart
             .ToList();
     }
     
-    protected static List<char> LoadInputChars(int day)
+    protected static List<char> LoadInputChars(int day, bool example = false)
     {
+        if (example)
+        {
+            return System.IO.File.ReadAllText($@"../../../Day{day}/ExampleInput.txt")
+                .ToCharArray()
+                .ToList();
+        }
         return System.IO.File.ReadAllText($@"../../../Day{day}/Input.txt")
             .ToCharArray()
             .ToList();
