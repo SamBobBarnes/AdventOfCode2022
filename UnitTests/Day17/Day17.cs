@@ -48,4 +48,24 @@ public class Day17
         actualLength.Should().Be(6);
         actualTower.Should().BeEquivalentTo(expected);
     }
+
+    [Fact]
+    public void Grid2_DoubleNeeded_Needed()
+    {
+        var grid = new Grid2(new byte[] { 0x00, 0x00, 0x00, 0x10, 0x00 });
+        
+        var actual = grid.DoubleNeeded();
+
+        actual.Should().Be(true);
+    }
+
+    [Fact]
+    public void Grid2_DoubleNeeded_NotNeeded()
+    {
+        var grid = new Grid2(new byte[] { 0x10, 0x00, 0x00, 0x00, 0x00 });
+        
+        var actual = grid.DoubleNeeded();
+
+        actual.Should().Be(false);
+    }
 }

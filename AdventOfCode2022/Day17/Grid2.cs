@@ -34,6 +34,19 @@ public class Grid2
         _tower = newTower;
     }
 
+    public bool DoubleNeeded()
+    {
+        for (int i = _listLength-1; i > _listLength-5; i--)
+        {
+            if (_tower[i] != 0x00)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public void TrimTower()
     {
         var fullIndex = -1;
