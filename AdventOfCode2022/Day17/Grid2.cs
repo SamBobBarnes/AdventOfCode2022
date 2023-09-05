@@ -4,9 +4,20 @@ public class Grid2
 {
     private int _listLength;
     private byte[] _tower;
-    private byte _fullRow = 0x7f;
-    
-    private static byte[] _reverse = new byte[]
+    private const byte FullRow = 0x7f;
+    private int _currentRock = 0;
+
+    private List<byte[]> _rocks = new ()
+    {
+        new []{ (byte)0b00011110 },
+        new []{ (byte)0b00001000, (byte)0b00011100, (byte)0b00001000 },
+        new []{ (byte)0b00011100, (byte)0b00000100, (byte)0b00000100 },
+        new []{ (byte)0b00010000, (byte)0b00010000, (byte)0b00010000, (byte)0b00010000 },
+        new []{ (byte)0b00011000, (byte)0b00011000 }
+        
+    };
+
+    private readonly byte[] _reverse = new byte[]
     {
         0x00,0x40,0x20,0x60,0x10,0x50,0x30,0x70,
         0x08,0x48,0x28,0x68,0x18,0x58,0x38,0x78,
@@ -25,6 +36,16 @@ public class Grid2
         0x07,0x47,0x27,0x67,0x17,0x57,0x37,0x77,
         0x0f,0x4f,0x2f,0x6f,0x1f,0x5f,0x3f,0x7f
     };
+
+    public byte[] GetRock()
+    {
+        var rock = _rocks[_currentRock];
+        
+        if(_currentRock == 4) _currentRock = 0;
+        else _currentRock++;
+
+        return rock;
+    }
     
     
     public Grid2()
@@ -73,7 +94,7 @@ public class Grid2
         var fullIndex = -1;
         for (int i = 0; i < _tower.Length; i++)
         {
-            if (_tower[i] == _fullRow)
+            if (_tower[i] == FullRow)
             {
                 fullIndex = i;
                 break;
