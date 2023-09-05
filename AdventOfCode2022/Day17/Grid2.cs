@@ -37,6 +37,12 @@ public class Grid2
         0x0f,0x4f,0x2f,0x6f,0x1f,0x5f,0x3f,0x7f
     };
 
+    public char ReverseDirection(char direction)
+    {
+        if(direction == '>') return '<';
+        return '>';
+    }
+
     public byte[] GetRock()
     {
         var rock = _rocks[_currentRock];
@@ -115,6 +121,7 @@ public class Grid2
 
     public bool CheckForCollision(byte[] rock, int rockIndex)
     {
+        if(rockIndex < 0) return true;
         for(int i = 0; i < rock.Length; i++)
         {
             if ((rock[i] & _tower[rockIndex + i]) != 0x00)
@@ -204,5 +211,13 @@ public class Grid2
         }
 
         return rock;
+    }
+    
+    public void WriteToTower(byte[] rock, int rockIndex)
+    {
+        for (int i = 0; i < rock.Length; i++)
+        {
+            _tower[rockIndex + i] |= rock[i];
+        }
     }
 }

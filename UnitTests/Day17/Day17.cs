@@ -115,6 +115,21 @@ public class Day17
     }
 
     [Fact]
+    public void Grid2_CheckForCollision_CollideWithGround()
+    {
+        var rock = new byte[]
+        {
+            0x10,0x10,0x10,0x10
+        };
+
+        var grid = new Grid2();
+        
+        var actual = grid.CheckForCollision(rock, -1);
+        
+        actual.Should().Be(true);
+    }
+
+    [Fact]
     public void Grid2_CheckForCollision_Collision_MidRock()
     {
         var rock = new byte[]
@@ -326,5 +341,31 @@ public class Day17
 
         actual.Should().BeEquivalentTo(expected);
     }
+    #endregion
+    
+    #region WriteToTower
+
+    [Fact]
+    public void Grid2_WriteToTower()
+    {
+        var rock = new byte[]
+        {
+            0x10, 0x38, 0x10
+        };
+        
+        var expected = new byte[]
+        {
+            0x00,0x10,0x38,0x10,0x00,0x00,0x00,0x00,0x00,0x00
+        };
+
+        var grid = new Grid2();
+        
+        grid.WriteToTower(rock, 1);
+        
+        var actual = grid.Tower;
+        
+        actual.Should().BeEquivalentTo(expected);
+    }
+    
     #endregion
 }

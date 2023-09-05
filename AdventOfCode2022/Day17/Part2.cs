@@ -12,18 +12,48 @@ public class Part2 : BasePart
         var length = input.Count;
         var inputIndex = 0;
         var towerTop = -1;
-        var rockIndex = 3; //bottom of rock
         var rocksDropped = 0;
         var grid = new Grid2();
         
-        while(rocksDropped <= rocksToDrop)
+        while(rocksDropped < rocksToDrop)
         {
+            if(grid.DoubleNeeded()) grid.DoubleTower();
+            var rockIndex = towerTop + 4;
             var rock = grid.GetRock();
-            grid.ShiftThree(rock, new[] { input[inputIndex], input[inputIndex + 1], input[inputIndex + 2] });
+            var one = inputIndex %= length;
+            var two = inputIndex %= length;
+            var three = inputIndex %= length;
+            grid.ShiftThree(rock, new[] { input[one], input[two], input[three] });
             inputIndex += 3;
+            if (inputIndex >= input.Count) inputIndex %= input.Count;
+            rockIndex -= 3;
+            var collided = false;
+            while (!collided)
+            {
+                rock = grid.ShiftRock(rock, input[inputIndex]);
+                
+                
+                if(grid.CheckForCollision(rock, rockIndex))
+                {
+                    rock = grid.ShiftRock(rock, grid.ReverseDirection(input[inputIndex]));
+                }
+                
+                rockIndex--;
+                collided = grid.CheckForCollision(rock, rockIndex);
+                
+                if (collided)
+                {
+                    grid.WriteToTower(rock,rockIndex + 1);
+                    towerTop = Math.Max(towerTop, rockIndex + rock.Length - 1);
+                }
+                
+                inputIndex++;
+                if (inputIndex >= length) inputIndex %= length;
+            }
+            rocksDropped++;
         }
 
 
-        return 0;
+        return towerTop + 1;
     }
 }
