@@ -183,16 +183,16 @@ public class Grid2
         switch (direction)
         {
             case '>':
-                for (int i = 0; i < rock.Length; i++)
+                if (rock.Any(t => (t & 0x01) == 0x01))
                 {
-                    if ((rock[i] & 0x01) == 0x01) return rock;
+                    return rock;
                 }
                 
                 return Shift(rock, '>');
             case '<':
-                for (int i = 0; i < rock.Length; i++)
+                if (rock.Any(t => (t & 0x40) == 0x40))
                 {
-                    if ((rock[i] & 0x40) == 0x40) return rock;
+                    return rock;
                 }
                 
                 return Shift(rock, '<');

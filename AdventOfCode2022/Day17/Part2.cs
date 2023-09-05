@@ -5,8 +5,8 @@ public class Part2 : BasePart
     public static int Run()
     {
         Start(17,2);
-        var rocksToDrop = 1000000000000;
-        //var rocksToDrop = 2022;
+        // var rocksToDrop = 1000000000000;
+        var rocksToDrop = 2022;
         
         var input = LoadInputChars(17, true).ToArray();
         var inputIndex = 0;

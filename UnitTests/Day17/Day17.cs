@@ -18,7 +18,7 @@ public class Day17
     public void Grid2_TrimTower_NeedsTrim()
     {
         var expected = new byte[]{0x0e, 0x05};
-        var grid = new Grid2(new byte[5]{0x10, 0x02,0x7f, 0x0e, 0x05});
+        var grid = new Grid2(new byte[]{0x10, 0x02,0x7f, 0x0e, 0x05});
         
         grid.TrimTower();
 
@@ -33,7 +33,7 @@ public class Day17
     public void Grid2_TrimTower_TrimNotNeeded()
     {
         var expected = new byte[] {0x05, 0x02,0x08, 0x40, 0x30};
-        var grid = new Grid2(new byte[5]{0x05, 0x02,0x08, 0x40, 0x30});
+        var grid = new Grid2(new byte[]{0x05, 0x02,0x08, 0x40, 0x30});
         
         grid.TrimTower();
 
@@ -249,7 +249,7 @@ public class Day17
         };
 
         var grid = new Grid2();
-        var actual = grid.ShiftThree(rock, new char[] {'<','<','<'});
+        var actual = grid.ShiftThree(rock, new [] {'<','<','<'});
 
         actual.Should().BeEquivalentTo(expected);
     }
@@ -268,7 +268,7 @@ public class Day17
         };
 
         var grid = new Grid2();
-        var actual = grid.ShiftThree(rock, new char[] {'<','<','<'});
+        var actual = grid.ShiftThree(rock, new [] {'<','<','<'});
 
         actual.Should().BeEquivalentTo(expected);
     }
@@ -287,7 +287,7 @@ public class Day17
         };
 
         var grid = new Grid2();
-        var actual = grid.ShiftThree(rock, new char[] {'>','>','>'});
+        var actual = grid.ShiftThree(rock, new [] {'>','>','>'});
 
         actual.Should().BeEquivalentTo(expected);
     }
@@ -306,7 +306,7 @@ public class Day17
         };
 
         var grid = new Grid2();
-        var actual = grid.ShiftThree(rock, new char[] {'>','>','>'});
+        var actual = grid.ShiftThree(rock, new [] {'>','>','>'});
 
         actual.Should().BeEquivalentTo(expected);
     }
@@ -325,7 +325,7 @@ public class Day17
         };
 
         var grid = new Grid2();
-        var actual = grid.ShiftThree(rock, new char[] {'>','>','<'});
+        var actual = grid.ShiftThree(rock, new [] {'>','>','<'});
 
         actual.Should().BeEquivalentTo(expected);
     }
@@ -344,7 +344,7 @@ public class Day17
         };
 
         var grid = new Grid2();
-        var actual = grid.ShiftThree(rock, new char[] {'<','<','>'});
+        var actual = grid.ShiftThree(rock, new [] {'<','<','>'});
 
         actual.Should().BeEquivalentTo(expected);
     }
@@ -363,7 +363,7 @@ public class Day17
         };
 
         var grid = new Grid2();
-        var actual = grid.ShiftThree(rock, new char[] {'>','>','<'});
+        var actual = grid.ShiftThree(rock, new [] {'>','>','<'});
 
         actual.Should().BeEquivalentTo(expected);
     }
@@ -382,7 +382,7 @@ public class Day17
         };
 
         var grid = new Grid2();
-        var actual = grid.ShiftThree(rock, new char[] {'<','<','>'});
+        var actual = grid.ShiftThree(rock, new [] {'<','<','>'});
 
         actual.Should().BeEquivalentTo(expected);
     }
@@ -424,7 +424,7 @@ public class Day17
             0x08,0x1c,0x0f,0x79,0x01,0x00,0x00,0x00,0x00,0x00
         };
         
-        var input = new char[] {'<','>','>','>','<','<','<','<','<','<'};
+        var input = new [] {'<','>','>','>','<','<','<','<','<','<'};
         
         
         var grid = new Grid2(new byte[]{0x08,0x1c,0x08,0x78,0x00,0x00,0x00,0x00,0x00,0x00}, 2);
@@ -464,15 +464,14 @@ public class Day17
             0b_0000_0000,
         };
         
-        var input = new char[] {'>','>','>','<','<','>','<','>','>','<','<','<','>','>','<','>','>','>','<','<','<','>','>','>','<','<','<','>','<','<','<','>','>','<','>','>','<','<','>','>'};
+        var input = new [] {'>','>','>','<','<','>','<','>','>','<','<','<','>','>','<','>','>','>','<','<','<','>','>','>','<','<','<','>','<','<','<','>','>','<','>','>','<','<','>','>'};
         var index = 0;
         var towerTop = -1;
         var grid = new Grid2();
-        int[] array;
         
         for (int i = 0; i < 8; i++)
         {
-            array = grid.DropRock(input, index, towerTop);
+            var array = grid.DropRock(input, index, towerTop);
             index = array[0];
             towerTop = array[1];
         }
@@ -480,14 +479,6 @@ public class Day17
         Log(grid.ToString());
         grid.Tower.Should().BeEquivalentTo(expected);
     }
-    
-    // 0010000 0000000 6
-    // 0010000 0010000 5
-    // 1110000 0010000 4
-    // 0010000 1111000 3
-    // 0111000 0011100 2
-    // 0010000 0001000 1
-    // 0011110 0011110 0
     
     #endregion
     
