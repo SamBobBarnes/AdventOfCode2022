@@ -6,9 +6,11 @@ public class Part2 : BasePart
     {
         Start(17,2);
         // var rocksToDrop = 1000000000000;
-        var rocksToDrop = 2022;
+        // var rocksToDrop = 2022;
+        var rocksToDrop = 100000;
         
-        var input = LoadInputChars(17, true).ToArray();
+        
+        var input = LoadInputChars(17, false).ToArray();
         var inputIndex = 0;
         var towerTop = -1;
         var rocksDropped = 0;
@@ -22,6 +24,8 @@ public class Part2 : BasePart
             rocksDropped++;
         }
 
+        var output = grid.ToStringReverse();
+        WriteOutput(17, output);
 
         return towerTop + 1;
     }

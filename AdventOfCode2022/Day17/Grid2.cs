@@ -278,4 +278,17 @@ public class Grid2
 
         return tower.Replace("0", ".").Replace("1", "#");
     }
+
+    public string ToStringReverse()
+    {
+        var tower = "";
+        for (int i = 0; i < _tower.Length ; i++)
+        {
+            tower += Convert.ToString(_tower[i], 2).PadLeft(7, '0') + "\n";
+        }
+
+        return tower.Replace("0", ".").Replace("1", "#");
+    }
+    
+    
 }
