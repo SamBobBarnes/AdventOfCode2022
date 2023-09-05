@@ -60,10 +60,11 @@ public class Grid2
         _tower = new byte[_listLength];
     }
 
-    public Grid2(byte[] array)
+    public Grid2(byte[] array, int currentRock = 0)
     {
         _tower = array;
         _listLength = array.Length;
+        _currentRock = currentRock;
     }
 
     public int TowerLength { get => _tower.Length; }
@@ -219,5 +220,45 @@ public class Grid2
         {
             _tower[rockIndex + i] |= rock[i];
         }
+    }
+
+    public int[] DropRock(char[] input, int inputIndex, int towerTop)
+    {
+        var length = input.Length;
+        if(DoubleNeeded()) DoubleTower();
+        var rockIndex = towerTop + 4;
+        var rock = GetRock();
+        var one = inputIndex;
+        var two = inputIndex+1;
+        var three = inputIndex+2;
+        ShiftThree(rock, new[] { input[one % length], input[two % length], input[three % length] });
+        inputIndex += 3;
+        if (inputIndex >= length) inputIndex %= length;
+        rockIndex -= 3;
+        var collided = false;
+        while (!collided)
+        {
+            rock = ShiftRock(rock, input[inputIndex]);
+                
+                
+            if(CheckForCollision(rock, rockIndex))
+            {
+                rock = ShiftRock(rock, ReverseDirection(input[inputIndex]));
+            }
+                
+            rockIndex--;
+            collided = CheckForCollision(rock, rockIndex);
+                
+            if (collided)
+            {
+                WriteToTower(rock,rockIndex + 1);
+                towerTop = Math.Max(towerTop, rockIndex + rock.Length);
+            }
+                
+            inputIndex++;
+            if (inputIndex >= length) inputIndex %= length;
+        }
+        
+        return new [] {inputIndex, towerTop};
     }
 }

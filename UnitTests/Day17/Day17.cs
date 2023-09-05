@@ -368,4 +368,64 @@ public class Day17
     }
     
     #endregion
+    
+    #region DropRock
+
+    [Fact]
+    public void Grid2_DropRock()
+    {
+        var expected = new byte[]
+        {
+            0x08,0x1c,0x0f,0x79,0x01,0x00,0x00,0x00,0x00,0x00
+        };
+        
+        var input = new char[] {'<','>','>','>','<','<','<','<','<','<'};
+        
+        
+        var grid = new Grid2(new byte[]{0x08,0x1c,0x08,0x78,0x00,0x00,0x00,0x00,0x00,0x00}, 2);
+        
+        var actualIndex = grid.DropRock(input, 0, 3);
+
+        grid.Tower.Should().BeEquivalentTo(expected);
+        actualIndex[0].Should().Be(6);
+        actualIndex[1].Should().Be(4);
+        
+    }
+
+    [Fact]
+    public void Grid2_DropRock_UsingExample()
+    {
+        var expected = new byte[]
+        {
+            0x1e,0x08,0x1c,0x78,0x10,0x10,0x00,0x00,0x00,0x00
+        };
+        
+        var input = new char[] {'>','>','>','<','<','>','<','>','>','<','<','<','>','>','<','>','>','>','<','<','<','>','>','>','<','<','<','>','<','<','<','>','>','<','>','>','<','<','>','>'};
+        var index = 0;
+        var towerTop = -1;
+        var grid = new Grid2();
+
+        var array = grid.DropRock(input, index, towerTop);
+        index = array[0];
+        towerTop = array[1];
+        array = grid.DropRock(input, index, towerTop);
+        index = array[0];
+        towerTop = array[1];
+        array = grid.DropRock(input, index, towerTop);
+        index = array[0];
+        towerTop = array[1];
+        
+        grid.Tower.Should().BeEquivalentTo(expected);
+        towerTop.Should().Be(5);
+    }
+    
+    // 0010000 0000000 6
+    // 0010000 0010000 5
+    // 1110000 0010000 4
+    // 0010000 1111000 3
+    // 0111000 0011100 2
+    // 0010000 0001000 1
+    // 0011110 0011110 0
+    
+    #endregion
 }
