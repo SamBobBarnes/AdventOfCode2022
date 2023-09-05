@@ -1,9 +1,16 @@
 using AdventOfCode2022.Day17;
+using Xunit.Abstractions;
 
 namespace UnitTests.Day17;
 
 public class Day17
 {
+    private readonly ITestOutputHelper _output;
+    public Day17(ITestOutputHelper outputHelper)
+    {
+        _output = outputHelper;
+    }
+    
     
     #region TrimTower
     
@@ -309,7 +316,7 @@ public class Day17
     {
         var expected = new byte[]
         {
-            0x02,0x07,0x02
+            0x04,0x0e,0x04
         };
         
         var rock = new byte[]
@@ -333,7 +340,45 @@ public class Day17
         
         var expected = new byte[]
         {
-            0x08,0x1c,0x08
+            0x04,0x0e,0x04
+        };
+
+        var grid = new Grid2();
+        var actual = grid.ShiftThree(rock, new char[] {'<','<','>'});
+
+        actual.Should().BeEquivalentTo(expected);
+    }
+
+    [Fact]
+    public void Grid2_ShiftThree_TwoRightIntoWall()
+    {
+        var rock = new byte[]
+        {
+            0x04,0x0e,0x04
+        };
+        
+        var expected = new byte[]
+        {
+            0x04,0x0e,0x04
+        };
+
+        var grid = new Grid2();
+        var actual = grid.ShiftThree(rock, new char[] {'>','>','<'});
+
+        actual.Should().BeEquivalentTo(expected);
+    }
+
+    [Fact]
+    public void Grid2_ShiftThree_TwoLeftIntoWall()
+    {
+        var rock = new byte[]
+        {
+            0x10,0x38,0x10
+        };
+        
+        var expected = new byte[]
+        {
+            0x10,0x38,0x10
         };
 
         var grid = new Grid2();
@@ -397,26 +442,43 @@ public class Day17
     {
         var expected = new byte[]
         {
-            0x1e,0x08,0x1c,0x78,0x10,0x10,0x00,0x00,0x00,0x00
+            0b_0001_1110,
+            0b_0000_1000,
+            0b_0001_1100,
+            0b_0111_1100,
+            0b_0001_0100,
+            0b_0001_0100,
+            0b_0000_0100,
+            0b_0000_0110,
+            0b_0000_0110,
+            0b_0011_1100,
+            0b_0001_0000,
+            0b_0011_1000,
+            0b_0001_1110,
+            0b_0000_0010,
+            0b_0000_0010,
+            0b_0000_0000,
+            0b_0000_0000,
+            0b_0000_0000,
+            0b_0000_0000,
+            0b_0000_0000,
         };
         
         var input = new char[] {'>','>','>','<','<','>','<','>','>','<','<','<','>','>','<','>','>','>','<','<','<','>','>','>','<','<','<','>','<','<','<','>','>','<','>','>','<','<','>','>'};
         var index = 0;
         var towerTop = -1;
         var grid = new Grid2();
-
-        var array = grid.DropRock(input, index, towerTop);
-        index = array[0];
-        towerTop = array[1];
-        array = grid.DropRock(input, index, towerTop);
-        index = array[0];
-        towerTop = array[1];
-        array = grid.DropRock(input, index, towerTop);
-        index = array[0];
-        towerTop = array[1];
+        int[] array;
         
+        for (int i = 0; i < 8; i++)
+        {
+            array = grid.DropRock(input, index, towerTop);
+            index = array[0];
+            towerTop = array[1];
+        }
+        
+        Log(grid.ToString());
         grid.Tower.Should().BeEquivalentTo(expected);
-        towerTop.Should().Be(5);
     }
     
     // 0010000 0000000 6
@@ -428,4 +490,9 @@ public class Day17
     // 0011110 0011110 0
     
     #endregion
+    
+    private void Log(string actual)
+    {
+        _output.WriteLine(actual);
+    }
 }

@@ -7,7 +7,7 @@ public class Grid2
     private const byte FullRow = 0x7f;
     private int _currentRock = 0;
 
-    private List<byte[]> _rocks = new ()
+    private readonly List<byte[]> _rocks = new ()
     {
         new []{ (byte)0b00011110 },
         new []{ (byte)0b00001000, (byte)0b00011100, (byte)0b00001000 },
@@ -45,7 +45,7 @@ public class Grid2
 
     public byte[] GetRock()
     {
-        var rock = _rocks[_currentRock];
+        var rock = new List<byte>(_rocks[_currentRock]).ToArray();
         
         if(_currentRock == 4) _currentRock = 0;
         else _currentRock++;
@@ -136,39 +136,45 @@ public class Grid2
 
     public byte[] ShiftThree(byte[] rock, char[] directions)
     {
-        var left = directions.Count(x => x == '<');
-        var right = directions.Count(x => x == '>');
-        var dominantDirection = right > left ? '>' : '<';
-        var amount = right > left ? right : left;
+        // var left = directions.Count(x => x == '<');
+        // var right = directions.Count(x => x == '>');
+        // var dominantDirection = right > left ? '>' : '<';
+        // var amount = right > left ? right-left : left-right;
+        //
+        // var shiftThree = amount >= 3;
+        // var shiftTwo = amount >= 2;
+        // var shiftOne = true;
+        //
+        // if (dominantDirection == '>')
+        // {
+        //     
+        //     for (int i = 0; i < rock.Length; i++)
+        //     {
+        //         if (shiftThree && (rock[i] % 8) != 0) shiftThree = false;
+        //         if (shiftTwo && (rock[i] % 4) != 0) shiftTwo = false;
+        //         if (shiftOne && (rock[i] % 2) != 0) shiftOne = false;
+        //     }
+        // } 
+        // else if (dominantDirection == '<')
+        // {
+        //     for (int i = 0; i < rock.Length; i++)
+        //     {
+        //         var reverse = _reverse[rock[i]];
+        //         if (shiftThree && (reverse % 8) != 0) shiftThree = false;
+        //         if (shiftTwo && (reverse % 4) != 0) shiftTwo = false;
+        //         if (shiftOne && (reverse % 2) != 0) shiftOne = false;
+        //     }
+        // }
+        //
+        // if (shiftThree) return Shift(rock,dominantDirection,3);
+        // if (shiftTwo) return Shift(rock,dominantDirection,2);
+        // if (shiftOne) return Shift(rock,dominantDirection,1);
 
-        var shiftThree = amount >= 3;
-        var shiftTwo = amount >= 2;
-        var shiftOne = true;
-        
-        if (dominantDirection == '>')
+        foreach (var direction in directions)
         {
-            
-            for (int i = 0; i < rock.Length; i++)
-            {
-                if (shiftThree && (rock[i] % 8) != 0) shiftThree = false;
-                if (shiftTwo && (rock[i] % 4) != 0) shiftTwo = false;
-                if (shiftOne && (rock[i] % 2) != 0) shiftOne = false;
-            }
-        } 
-        else if (dominantDirection == '<')
-        {
-            for (int i = 0; i < rock.Length; i++)
-            {
-                var reverse = _reverse[rock[i]];
-                if (shiftThree && (reverse % 8) != 0) shiftThree = false;
-                if (shiftTwo && (reverse % 4) != 0) shiftTwo = false;
-                if (shiftOne && (reverse % 2) != 0) shiftOne = false;
-            }
+            rock = ShiftRock(rock, direction);
         }
         
-        if (shiftThree) return Shift(rock,dominantDirection,3);
-        if (shiftTwo) return Shift(rock,dominantDirection,2);
-        if (shiftOne) return Shift(rock,dominantDirection,1);
         return rock;
     }
 
@@ -260,5 +266,16 @@ public class Grid2
         }
         
         return new [] {inputIndex, towerTop};
+    }
+
+    public override string ToString()
+    {
+        var tower = "";
+        for (int i = _tower.Length-1; i >=0 ; i--)
+        {
+            tower += Convert.ToString(_tower[i], 2).PadLeft(7, '0') + "\n";
+        }
+
+        return tower.Replace("0", ".").Replace("1", "#");
     }
 }
