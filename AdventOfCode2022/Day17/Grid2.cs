@@ -70,4 +70,17 @@ public class Grid2
             _tower = newTower;
         }
     }
+
+    public bool CheckForCollision(byte[] rock, int rockIndex)
+    {
+        for(int i = 0; i < rock.Length; i++)
+        {
+            if ((rock[i] & _tower[rockIndex + i]) != 0x00)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }
