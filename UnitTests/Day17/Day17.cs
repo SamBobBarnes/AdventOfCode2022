@@ -113,4 +113,80 @@ public class Day17
         
         actual.Should().Be(true);
     }
+
+    [Fact]
+    public void Grid2_ShiftRock_ShiftRight()
+    {
+        var rock = new byte[]
+        {
+            0x10, 0x38, 0x10
+        };
+
+        var expected = new byte[]
+        {
+            0x08,0x1c,0x08
+        };
+
+        var grid = new Grid2();
+        var actual = grid.ShiftRock(rock, '>');
+
+        actual.Should().BeEquivalentTo(expected);
+    }
+
+    [Fact]
+    public void Grid2_ShiftRock_ShiftLeft()
+    {
+        var rock = new byte[]
+        {
+            0x10, 0x38, 0x10
+        };
+
+        var expected = new byte[]
+        {
+            0x20,0x70,0x20
+        };
+
+        var grid = new Grid2();
+        var actual = grid.ShiftRock(rock, '<');
+
+        actual.Should().BeEquivalentTo(expected);
+    }
+
+    [Fact]
+    public void Grid2_ShiftRock_ShiftRight_Blocked()
+    {
+        var rock = new byte[]
+        {
+            0x02,0x07,0x02
+        };
+        
+        var expected = new byte[]
+        {
+            0x02,0x07,0x02
+        };
+
+        var grid = new Grid2();
+        var actual = grid.ShiftRock(rock, '>');
+
+        actual.Should().BeEquivalentTo(expected);
+    }
+
+    [Fact]
+    public void Grid2_ShiftRock_ShiftLeft_Blocked()
+    {
+        var rock = new byte[]
+        {
+            0x20,0x70,0x20
+        };
+        
+        var expected = new byte[]
+        {
+            0x20,0x70,0x20
+        };
+
+        var grid = new Grid2();
+        var actual = grid.ShiftRock(rock, '<');
+
+        actual.Should().BeEquivalentTo(expected);
+    }
 }

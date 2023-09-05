@@ -86,6 +86,33 @@ public class Grid2
 
     public byte[] ShiftRock(byte[] rock, char direction)
     {
+        switch (direction)
+        {
+            case '>':
+                for (int i = 0; i < rock.Length; i++)
+                {
+                    if ((byte)(rock[i] & 0x01) == 0x01) return rock;
+                }
+                
+                for (int i = 0; i < rock.Length; i++)
+                {
+                    rock[i] = unchecked((byte)(rock[i] >> 1));
+                }
+                break;
+            case '<':
+                for (int i = 0; i < rock.Length; i++)
+                {
+                    if ((rock[i] & 0x40) == 0x40) return rock;
+                }
+                
+                for (int i = 0; i < rock.Length; i++)
+                {
+                    rock[i] = unchecked((byte)(rock[i] << 1));
+                }
+                break;
+        }
         
+
+        return rock;
     }
 }
