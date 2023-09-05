@@ -5,7 +5,7 @@ public class Part2 : BasePart
     public static int Run()
     {
         Start(2,2);
-        var input = System.IO.File.ReadAllText(@"C:\Users\sb17057\Repos\AdventOfCode\2022\AdventOfCode2022\AdventOfCode2022\Day2\Input.txt").Split("\r\n").ToList();
+        var input = LoadInput(2);
 
         var score = 0;
         input.ForEach(round =>

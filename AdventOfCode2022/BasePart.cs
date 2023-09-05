@@ -2,6 +2,8 @@
 
 public class BasePart
 {
+    private static readonly string _path = "../../../../AdventOfCode2022";
+    
     protected static void Start(int day, int part)
     {
         Console.WriteLine($"Day {day.ToString()}, Part {part.ToString()}");
@@ -11,12 +13,12 @@ public class BasePart
     {
         if (example)
         {
-            return System.IO.File.ReadAllText($@"../../../../AdventOfCode2022/Day{day}/ExampleInput.txt")
+            return System.IO.File.ReadAllText($"{_path}/Day{day}/ExampleInput.txt")
                 .Replace("\r","")
                 .Split("\n")
                 .ToList();
         }
-        return System.IO.File.ReadAllText($@"../../../../AdventOfCode2022/Day{day}/Input.txt")
+        return System.IO.File.ReadAllText($"{_path}/Day{day}/Input.txt")
             .Replace("\r","")
             .Split("\n")
             .ToList();
@@ -26,17 +28,17 @@ public class BasePart
     {
         if (example)
         {
-            return System.IO.File.ReadAllText($@"../../../Day{day}/ExampleInput.txt")
+            return System.IO.File.ReadAllText($"{_path}/Day{day}/ExampleInput.txt")
                 .ToCharArray()
                 .ToList();
         }
-        return System.IO.File.ReadAllText($@"../../../Day{day}/Input.txt")
+        return System.IO.File.ReadAllText($"{_path}/Day{day}/Input.txt")
             .ToCharArray()
             .ToList();
     }
 
     public static void WriteOutput(int day, string output)
     {
-        System.IO.File.WriteAllText($@"../../../Day{day}/Output.txt",output);
+        System.IO.File.WriteAllText($"{_path}/Day{day}/Output.txt",output);
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace AdventOfCode2022.Day10;
 
-class Part2 : BasePart
+public class Part2 : BasePart
 {
 	public static string Run()
 	{
