@@ -83,4 +83,9 @@ public class Grid2
 
         return false;
     }
+
+    public byte[] ShiftRock(byte[] rock, char direction)
+    {
+        
+    }
 }
