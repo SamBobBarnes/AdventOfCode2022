@@ -4,6 +4,9 @@ namespace UnitTests.Day17;
 
 public class Day17
 {
+    
+    #region TrimTower
+    
     [Fact]
     public void Grid2_TrimTower_NeedsTrim()
     {
@@ -33,6 +36,10 @@ public class Day17
         actualLength.Should().Be(5);
         actualTower.Should().BeEquivalentTo(expected);
     }
+    
+    #endregion
+    
+    #region DoubleTower
 
     [Fact]
     public void Grid2_DoubleTower()
@@ -48,6 +55,10 @@ public class Day17
         actualLength.Should().Be(6);
         actualTower.Should().BeEquivalentTo(expected);
     }
+    
+    #endregion
+    
+    #region DoubleNeeded
 
     [Fact]
     public void Grid2_DoubleNeeded_Needed()
@@ -68,6 +79,10 @@ public class Day17
 
         actual.Should().Be(false);
     }
+    
+    #endregion
+    
+    #region CheckForCollision
 
     [Fact]
     public void Grid2_CheckForCollision_NoCollision()
@@ -113,6 +128,10 @@ public class Day17
         
         actual.Should().Be(true);
     }
+    
+    #endregion
+    
+    #region ShiftRock
 
     [Fact]
     public void Grid2_ShiftRock_ShiftRight()
@@ -189,4 +208,123 @@ public class Day17
 
         actual.Should().BeEquivalentTo(expected);
     }
+
+    #endregion
+    
+    #region ShiftThree
+    
+    [Fact]
+    public void Grid2_ShiftThree_AllLeft()
+    {
+        var rock = new byte[]
+        {
+            0x02,0x07,0x02
+        };
+        
+        var expected = new byte[]
+        {
+            0x10,0x38,0x10
+        };
+
+        var grid = new Grid2();
+        var actual = grid.ShiftThree(rock, new char[] {'<','<','<'});
+
+        actual.Should().BeEquivalentTo(expected);
+    }
+
+    [Fact]
+    public void Grid2_ShiftThree_AllLeftIntoWall()
+    {
+        var rock = new byte[]
+        {
+            0x10,0x38,0x10
+        };
+        
+        var expected = new byte[]
+        {
+            0x20,0x70,0x20
+        };
+
+        var grid = new Grid2();
+        var actual = grid.ShiftThree(rock, new char[] {'<','<','<'});
+
+        actual.Should().BeEquivalentTo(expected);
+    }
+
+    [Fact]
+    public void Grid2_ShiftThree_AllRight()
+    {
+        var expected = new byte[]
+        {
+            0x02,0x07,0x02
+        };
+        
+        var rock = new byte[]
+        {
+            0x10,0x38,0x10
+        };
+
+        var grid = new Grid2();
+        var actual = grid.ShiftThree(rock, new char[] {'>','>','>'});
+
+        actual.Should().BeEquivalentTo(expected);
+    }
+
+    [Fact]
+    public void Grid2_ShiftThree_AllRightIntoWall()
+    {
+        var expected = new byte[]
+        {
+            0x02,0x07,0x02
+        };
+        
+        var rock = new byte[]
+        {
+            0x08,0x1c,0x08
+        };
+
+        var grid = new Grid2();
+        var actual = grid.ShiftThree(rock, new char[] {'>','>','>'});
+
+        actual.Should().BeEquivalentTo(expected);
+    }
+
+    [Fact]
+    public void Grid2_ShiftThree_TwoRight()
+    {
+        var expected = new byte[]
+        {
+            0x02,0x07,0x02
+        };
+        
+        var rock = new byte[]
+        {
+            0x08,0x1c,0x08
+        };
+
+        var grid = new Grid2();
+        var actual = grid.ShiftThree(rock, new char[] {'>','>','<'});
+
+        actual.Should().BeEquivalentTo(expected);
+    }
+
+    [Fact]
+    public void Grid2_ShiftThree_TwoLeft()
+    {
+        var rock = new byte[]
+        {
+            0x02,0x07,0x02
+        };
+        
+        var expected = new byte[]
+        {
+            0x08,0x1c,0x08
+        };
+
+        var grid = new Grid2();
+        var actual = grid.ShiftThree(rock, new char[] {'<','<','>'});
+
+        actual.Should().BeEquivalentTo(expected);
+    }
+    #endregion
 }
