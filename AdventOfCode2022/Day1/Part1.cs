@@ -7,9 +7,8 @@ public class Part1 : BasePart
     public static int Run()
     {
         Start(1,1);
-        
-        string text = System.IO.File.ReadAllText(@"C:\Users\sb17057\Repos\AdventOfCode\2022\AdventOfCode2022\AdventOfCode2022\Day1\Input.txt");
-        var textArray = text.Split("\r\n").ToList();
+
+        List<string> textArray = LoadInput(1);
         var index = 0;
         var elves = new List<int>(){0};
         

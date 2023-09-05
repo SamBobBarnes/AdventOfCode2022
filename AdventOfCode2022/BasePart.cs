@@ -11,12 +11,14 @@ public class BasePart
     {
         if (example)
         {
-            return System.IO.File.ReadAllText($@"../../../Day{day}/ExampleInput.txt")
-                .Split("\r\n")
+            return System.IO.File.ReadAllText($@"../../../../AdventOfCode2022/Day{day}/ExampleInput.txt")
+                .Replace("\r","")
+                .Split("\n")
                 .ToList();
         }
-        return System.IO.File.ReadAllText($@"../../../Day{day}/Input.txt")
-            .Split("\r\n")
+        return System.IO.File.ReadAllText($@"../../../../AdventOfCode2022/Day{day}/Input.txt")
+            .Replace("\r","")
+            .Split("\n")
             .ToList();
     }
     
