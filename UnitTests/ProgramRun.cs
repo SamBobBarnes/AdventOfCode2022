@@ -194,16 +194,27 @@ public class ProgramRun
     [Fact]
     public void Day17Part1()
     {
+        var watch = System.Diagnostics.Stopwatch.StartNew();
         Log(AdventOfCode2022.Day17.Part1.Run());
+        watch.Stop();
+        Log($"{(double)watch.ElapsedMilliseconds/1000} sec");
     }
     
     [Fact]
     public void Day17Part2()
     {
+        var watch = System.Diagnostics.Stopwatch.StartNew();
         Log(AdventOfCode2022.Day17.Part2.Run());
+        watch.Stop();
+        Log($"{(double)watch.ElapsedMilliseconds/1000} sec");
     }
 
     private void Log(int actual)
+    {
+        _output.WriteLine(actual.ToString());
+    }
+
+    private void Log(long actual)
     {
         _output.WriteLine(actual.ToString());
     }

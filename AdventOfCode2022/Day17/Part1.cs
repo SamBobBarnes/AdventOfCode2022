@@ -16,10 +16,6 @@ public class Part1 : BasePart
         }
         Console.WriteLine(exampleGrid.TowerHeight);
         
-        
-        
-        
-        
         var input = LoadInputChars(17, false);
         var grid = new Grid(input);
         for (int i = 0; i < rocksToDrop; i++)
