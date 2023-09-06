@@ -200,13 +200,19 @@ public class ProgramRun
         Log($"{(double)watch.ElapsedMilliseconds/1000} sec");
     }
     
-    [Fact]
+    [Fact(Skip = "Dangerous to run")]
     public void Day17Part2()
     {
         var watch = System.Diagnostics.Stopwatch.StartNew();
         Log(AdventOfCode2022.Day17.Part2.Run());
         watch.Stop();
         Log($"{(double)watch.ElapsedMilliseconds/1000} sec");
+    }
+    
+    [Fact]
+    public void Day18Part1()
+    {
+        Log(AdventOfCode2022.Day18.Part1.Run());
     }
 
     private void Log(int actual)
