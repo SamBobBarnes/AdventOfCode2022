@@ -13,7 +13,23 @@ public class CoordinateList
         }
     }
 
-    public int FindIndexFromZero(int index)
+    public void MultiplyAll(int multiplier)
+    {
+        foreach (var coordinate in Coordinates)
+        {
+            coordinate.Value *= multiplier;
+        }
+    }
+
+    public void UnVisitAll()
+    {
+        foreach (var coordinate in Coordinates)
+        {
+            coordinate.IsVisited = false;
+        }
+    }
+
+    public long FindIndexFromZero(int index)
     {
         var zero = Coordinates.FindIndex(c => c.Value == 0);
         var length = Coordinates.Count;
@@ -39,15 +55,22 @@ public class CoordinateList
         var newIndex = index + direction;
         while(newIndex < 0)
         {
-            newIndex = Coordinates.Count + newIndex;
+            if (Math.Abs(newIndex) > Coordinates.Count)
+            {
+                newIndex %= Coordinates.Count;
+            }
+            else
+            {
+                newIndex = Coordinates.Count + newIndex;
+            }
         }
         while(newIndex >= Coordinates.Count)
         {
-            newIndex = newIndex - Coordinates.Count;
+            newIndex %= Coordinates.Count;
         }
 
         coord.IsVisited = true;
-        Coordinates.Insert(newIndex, coord);
+        Coordinates.Insert((int)newIndex, coord);
     }
 
     public override string ToString()
@@ -63,7 +86,7 @@ public class CoordinateList
 
 public class Coordinate
 {
-    public int Value { get; set; }
+    public Int64 Value { get; set; }
     public bool IsVisited { get; set; }
     public int ExecutionOrder { get; set; }
     
