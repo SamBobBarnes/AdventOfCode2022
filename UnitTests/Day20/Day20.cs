@@ -1,4 +1,6 @@
-﻿namespace UnitTests.Day20;
+﻿using AdventOfCode2022.Day20;
+
+namespace UnitTests.Day20;
 
 public class Day20
 {
@@ -23,39 +25,101 @@ public class Day20
             new(334, 3),
             new(56, 4)
         };
-        expected[0].Right = expected[1];
-        expected[0].Left = expected[4];
-        expected[1].Right = expected[2];
-        expected[1].Left = expected[0];
-        expected[2].Right = expected[3];
-        expected[2].Left = expected[1];
-        expected[3].Right = expected[4];
-        expected[3].Left = expected[2];
-        expected[4].Right = expected[0];
-        expected[4].Left = expected[3];
         
         var coordinateList = new CoordinateList(new List<string> {"55", "232", "366", "334", "56"});
+
+        coordinateList.Coordinates.Should().BeEquivalentTo(expected);
+    }
+
+    [Fact]
+    public void CoordinateList_Mix_MoveWithinList()
+    {
+        var coordinateList = new CoordinateList(new List<string> {"3", "-1", "3", "8", "-12"});
         
-        coordinateList.Coordinates[0].Left.Value.Should().Be(56);
-        coordinateList.Coordinates[0].Right.Value.Should().Be(232);
-        coordinateList.Coordinates[1].Left.Value.Should().Be(55);
-        coordinateList.Coordinates[1].Right.Value.Should().Be(366);
-        coordinateList.Coordinates[2].Left.Value.Should().Be(232);
-        coordinateList.Coordinates[2].Right.Value.Should().Be(334);
-        coordinateList.Coordinates[3].Left.Value.Should().Be(366);
-        coordinateList.Coordinates[3].Right.Value.Should().Be(56);
-        coordinateList.Coordinates[4].Left.Value.Should().Be(334);
-        coordinateList.Coordinates[4].Right.Value.Should().Be(55);
-        coordinateList.Coordinates[0].ExecutionOrder.Should().Be(0);
-        coordinateList.Coordinates[1].ExecutionOrder.Should().Be(1);
-        coordinateList.Coordinates[2].ExecutionOrder.Should().Be(2);
-        coordinateList.Coordinates[3].ExecutionOrder.Should().Be(3);
-        coordinateList.Coordinates[4].ExecutionOrder.Should().Be(4);
-        coordinateList.Coordinates[0].Value.Should().Be(55);
-        coordinateList.Coordinates[1].Value.Should().Be(232);
-        coordinateList.Coordinates[2].Value.Should().Be(366);
-        coordinateList.Coordinates[3].Value.Should().Be(334);
-        coordinateList.Coordinates[4].Value.Should().Be(56);
+        coordinateList.Mix(0);
         
+        coordinateList.Coordinates[0].Value.Should().Be(-1);
+        coordinateList.Coordinates[1].Value.Should().Be(3);
+        coordinateList.Coordinates[2].Value.Should().Be(8);
+        coordinateList.Coordinates[3].Value.Should().Be(3);
+        coordinateList.Coordinates[4].Value.Should().Be(-12);
+        coordinateList.Coordinates[3].IsVisited.Should().BeTrue();
+    }
+
+    [Fact]
+    public void CoordinateList_Mix_MoveBackwardsWithinList()
+    {
+        var coordinateList = new CoordinateList(new List<string> {"3", "-1", "3", "8", "-12"});
+        
+        coordinateList.Mix(1);
+        
+        coordinateList.Coordinates[0].Value.Should().Be(-1);
+        coordinateList.Coordinates[1].Value.Should().Be(3);
+        coordinateList.Coordinates[2].Value.Should().Be(3);
+        coordinateList.Coordinates[3].Value.Should().Be(8);
+        coordinateList.Coordinates[4].Value.Should().Be(-12);
+        coordinateList.Coordinates[0].IsVisited.Should().BeTrue();
+    }
+
+    [Fact]
+    public void CoordinateList_Mix_MoveAroundList()
+    {
+        var coordinateList = new CoordinateList(new List<string> {"4", "-1", "3", "8", "-12"});
+        
+        coordinateList.Mix(2);
+        
+        coordinateList.Coordinates[0].Value.Should().Be(4);
+        coordinateList.Coordinates[1].Value.Should().Be(3);
+        coordinateList.Coordinates[2].Value.Should().Be(-1);
+        coordinateList.Coordinates[3].Value.Should().Be(8);
+        coordinateList.Coordinates[4].Value.Should().Be(-12);
+        coordinateList.Coordinates[1].IsVisited.Should().BeTrue();
+    }
+
+    [Fact]
+    public void CoordinateList_Mix_MoveBackwardsAroundList()
+    {
+        var coordinateList = new CoordinateList(new List<string> {"4", "-1", "3", "8", "-6"});
+        
+        coordinateList.Mix(4);
+        
+        coordinateList.Coordinates[0].Value.Should().Be(4);
+        coordinateList.Coordinates[1].Value.Should().Be(-1);
+        coordinateList.Coordinates[2].Value.Should().Be(-6);
+        coordinateList.Coordinates[3].Value.Should().Be(3);
+        coordinateList.Coordinates[4].Value.Should().Be(8);
+        coordinateList.Coordinates[2].IsVisited.Should().BeTrue();
+    }
+
+    [Fact]
+    public void CoordinateList_MixAll_Example()
+    {
+        var input = new List<string> {"1", "2", "-3", "3", "-2", "0", "4"};
+        
+        var coordinateList = new CoordinateList(input);
+        
+        coordinateList.MixAll();
+
+        coordinateList.Coordinates[0].Value.Should().Be(-2);
+        coordinateList.Coordinates[1].Value.Should().Be(1);
+        coordinateList.Coordinates[2].Value.Should().Be(2);
+        coordinateList.Coordinates[3].Value.Should().Be(-3);
+        coordinateList.Coordinates[4].Value.Should().Be(4);
+        coordinateList.Coordinates[5].Value.Should().Be(0);
+        coordinateList.Coordinates[6].Value.Should().Be(3);
+    }
+
+    [Fact]
+    public void CoordinateList_FindIndexFromZero()
+    {
+        var input = new List<string> {"1", "2", "-3", "3", "-2", "0", "4"};
+        
+        var coordinateList = new CoordinateList(input);
+        
+        coordinateList.MixAll();
+        
+        coordinateList.FindIndexFromZero(1000).Should().Be(4);
+        coordinateList.FindIndexFromZero(2000).Should().Be(-3);
+        coordinateList.FindIndexFromZero(3000).Should().Be(2);
     }
 }
