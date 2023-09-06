@@ -32,4 +32,5 @@
 // Console.WriteLine(AdventOfCode2022.Day16.Part2.Run());
 //Console.WriteLine(AdventOfCode2022.Day17.Part1.Run());
 //Console.WriteLine(AdventOfCode2022.Day17.Part2.Run());
+// Console.WriteLine(AdventOfCode2022.Day18.Part2.Run());
 Console.WriteLine("Run Trials through tests.");

@@ -214,6 +214,12 @@ public class ProgramRun
     {
         Log(AdventOfCode2022.Day18.Part1.Run());
     }
+    
+    [Fact(Skip = "Doesnt want to run as a test for some reason")]
+    public void Day18Part2()
+    {
+        Log(AdventOfCode2022.Day18.Part2.Run());
+    }
 
     private void Log(int actual)
     {

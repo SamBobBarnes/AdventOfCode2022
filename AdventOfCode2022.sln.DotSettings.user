@@ -7,5 +7,6 @@
     &lt;TestId&gt;xUnit::14A98B28-DA67-4814-8091-48C4703D593B::net6.0::UnitTests.Day18.Day18.Map_Create_Cubes&lt;/TestId&gt;
     &lt;TestId&gt;xUnit::14A98B28-DA67-4814-8091-48C4703D593B::net6.0::UnitTests.Day18.Day18.Map_Create_Grid&lt;/TestId&gt;
     &lt;TestId&gt;xUnit::14A98B28-DA67-4814-8091-48C4703D593B::net6.0::UnitTests.Day18.Day18.GetOpenSides_AllOpen&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::14A98B28-DA67-4814-8091-48C4703D593B::net6.0::UnitTests.Day18.Day18&lt;/TestId&gt;
   &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>
