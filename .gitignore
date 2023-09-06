@@ -8,3 +8,5 @@ riderModule.iml
 .DS_Store
 
 .idea/
+
+*.DotSettings.user
