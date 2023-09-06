@@ -2,19 +2,19 @@
 
 namespace UnitTests.Day21;
 
-public class Day21
+public class Tribe2Tests
 {
     #region Monkey
     
     [Fact]
     public void Monkey_Create_WithValue()
     {
-        var expected = new Monkey
+        var expected = new Monkey2
         {
             Value = 1
         };
         
-        var actual = new Monkey(1);
+        var actual = new Monkey2(1);
         
         actual.Should().BeEquivalentTo(expected);
     }
@@ -22,7 +22,7 @@ public class Day21
     [Theory, CombinatorialData]
     public void Monkey_Create_WithOperation([CombinatorialValues('+','-','*','/')]char operation)
     {
-        var expected = new Monkey
+        var expected = new Monkey2
         {
             Operand1 = "1",
             Operand2 = "2",
@@ -35,7 +35,7 @@ public class Day21
             }
         };
         
-        var actual = new Monkey("1","2",operation);
+        var actual = new Monkey2("1","2",operation);
         
         actual.Should().BeEquivalentTo(expected);
     }
@@ -43,7 +43,7 @@ public class Day21
     [Fact]
     public void Monkey_GetValue_ReturnsValueOfValueMonkey()
     {
-        var actual = new Monkey(1,"Monkey1");
+        var actual = new Monkey2(1,"Monkey1");
 
         actual.GetValue().Should().Be(1);
     }
@@ -51,9 +51,9 @@ public class Day21
     [Theory, CombinatorialData]
     public void Monkey_GetValue_ReturnsValueOfOperationMonkey([CombinatorialValues('+','-','*','/')]char operation)
     {
-        var operand = new Monkey(3,"Monkey1");
+        var operand = new Monkey2(3,"Monkey1");
         
-        var actual = new Monkey("Monkey1","Monkey1",operation,"Monkey2");
+        var actual = new Monkey2("Monkey1","Monkey1",operation,"Monkey2");
 
         actual.OperandMonkey1 = operand;
         actual.OperandMonkey2 = operand;
@@ -82,7 +82,7 @@ public class Day21
     [Fact]
     public void Tribe_Create()
     {
-        var monkey1 = new Monkey
+        var monkey1 = new Monkey2
         {
             Name = "monkey1",
             Type = 0,
@@ -92,7 +92,7 @@ public class Day21
             OperandMonkey2 = null,
             Operand2 = ""
         };
-        var monkey2 = new Monkey
+        var monkey2 = new Monkey2
         {
             Name = "monkey2",
             Type = 0,
@@ -102,7 +102,7 @@ public class Day21
             OperandMonkey2 = null,
             Operand2 = ""
         };
-        var monkey3 = new Monkey
+        var monkey3 = new Monkey2
         {
             Name = "root",
             Type = 1,
@@ -113,7 +113,7 @@ public class Day21
             Operand2 = "monkey2"
         };
         
-        var expected = new List<Monkey>
+        var expected = new List<Monkey2>
         {
             monkey1,
             monkey2,
@@ -127,7 +127,7 @@ public class Day21
             "root: monkey1 + monkey2"
         };
         
-        var actual = new Tribe(input);
+        var actual = new Tribe2(input);
         
         actual.Monkeys.Should().BeEquivalentTo(expected);
         actual.Root.Should().BeEquivalentTo(monkey3);

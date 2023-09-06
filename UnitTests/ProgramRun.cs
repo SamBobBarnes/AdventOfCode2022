@@ -239,11 +239,11 @@ public class ProgramRun
         Log(AdventOfCode2022.Day21.Part1.Run());
     }
     
-    // [Fact]
-    // public void Day21Part2()
-    // {
-    //     Log(AdventOfCode2022.Day21.Part2.Run());
-    // }
+    [Fact]
+    public void Day21Part2()
+    {
+        Log(AdventOfCode2022.Day21.Part2.Run());
+    }
 
     private void Log(int actual)
     {
