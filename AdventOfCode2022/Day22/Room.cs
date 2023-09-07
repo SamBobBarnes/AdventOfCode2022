@@ -65,13 +65,13 @@ public class Room
                             Grid[x, y] = Tiles.Wall;
                             break;
                         case ' ':
-                            Grid[x, y] = Tiles.Wall;
+                            Grid[x, y] = Tiles.Rebound;
                             break;
                     }
                 }
                 catch
                 {
-                    Grid[x, y] = Tiles.Wall;
+                    Grid[x, y] = Tiles.Rebound;
                 }
                 
             }
@@ -89,8 +89,9 @@ public enum Direction
 
 public enum Tiles
 {
-    Wall = 0,
-    Floor = 1,
-    Character = 2,
-    Trail = 3
+    Wall,
+    Floor,
+    Character,
+    Trail,
+    Rebound
 }

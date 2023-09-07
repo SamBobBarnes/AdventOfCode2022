@@ -44,22 +44,22 @@ public class RoomTests
 
         var expectedMap = new Tiles[,]
         {
-            {Tiles.Wall,Tiles.Wall,Tiles.Wall,Tiles.Wall,Tiles.Floor,Tiles.Floor,Tiles.Floor,Tiles.Floor,Tiles.Wall,Tiles.Wall,Tiles.Wall,Tiles.Wall},
-            {Tiles.Wall,Tiles.Wall,Tiles.Wall,Tiles.Wall,Tiles.Floor,Tiles.Floor,Tiles.Floor,Tiles.Floor,Tiles.Wall,Tiles.Wall,Tiles.Wall,Tiles.Wall},
-            {Tiles.Wall,Tiles.Wall,Tiles.Wall,Tiles.Wall,Tiles.Floor,Tiles.Floor,Tiles.Wall,Tiles.Floor,Tiles.Wall,Tiles.Wall,Tiles.Wall,Tiles.Wall},
-            {Tiles.Wall,Tiles.Wall,Tiles.Wall,Tiles.Wall,Tiles.Wall,Tiles.Floor,Tiles.Floor,Tiles.Floor,Tiles.Wall,Tiles.Wall,Tiles.Wall,Tiles.Wall},
-            {Tiles.Wall,Tiles.Wall,Tiles.Wall,Tiles.Wall,Tiles.Floor,Tiles.Floor,Tiles.Floor,Tiles.Floor,Tiles.Wall,Tiles.Wall,Tiles.Wall,Tiles.Wall},
-            {Tiles.Wall,Tiles.Wall,Tiles.Wall,Tiles.Wall,Tiles.Floor,Tiles.Floor,Tiles.Floor,Tiles.Floor,Tiles.Wall,Tiles.Wall,Tiles.Wall,Tiles.Wall},
-            {Tiles.Wall,Tiles.Wall,Tiles.Wall,Tiles.Wall,Tiles.Floor,Tiles.Floor,Tiles.Floor,Tiles.Floor,Tiles.Wall,Tiles.Wall,Tiles.Wall,Tiles.Wall},
-            {Tiles.Wall,Tiles.Wall,Tiles.Wall,Tiles.Wall,Tiles.Floor,Tiles.Floor,Tiles.Wall,Tiles.Floor,Tiles.Wall,Tiles.Wall,Tiles.Wall,Tiles.Wall},
+            {Tiles.Rebound,Tiles.Rebound,Tiles.Rebound,Tiles.Rebound,Tiles.Floor,Tiles.Floor,Tiles.Floor,Tiles.Floor,Tiles.Rebound,Tiles.Rebound,Tiles.Rebound,Tiles.Rebound},
+            {Tiles.Rebound,Tiles.Rebound,Tiles.Rebound,Tiles.Rebound,Tiles.Floor,Tiles.Floor,Tiles.Floor,Tiles.Floor,Tiles.Rebound,Tiles.Rebound,Tiles.Rebound,Tiles.Rebound},
+            {Tiles.Rebound,Tiles.Rebound,Tiles.Rebound,Tiles.Rebound,Tiles.Floor,Tiles.Floor,Tiles.Wall,Tiles.Floor,Tiles.Rebound,Tiles.Rebound,Tiles.Rebound,Tiles.Rebound},
+            {Tiles.Rebound,Tiles.Rebound,Tiles.Rebound,Tiles.Rebound,Tiles.Wall,Tiles.Floor,Tiles.Floor,Tiles.Floor,Tiles.Rebound,Tiles.Rebound,Tiles.Rebound,Tiles.Rebound},
+            {Tiles.Rebound,Tiles.Rebound,Tiles.Rebound,Tiles.Rebound,Tiles.Floor,Tiles.Floor,Tiles.Floor,Tiles.Floor,Tiles.Rebound,Tiles.Rebound,Tiles.Rebound,Tiles.Rebound},
+            {Tiles.Rebound,Tiles.Rebound,Tiles.Rebound,Tiles.Rebound,Tiles.Floor,Tiles.Floor,Tiles.Floor,Tiles.Floor,Tiles.Rebound,Tiles.Rebound,Tiles.Rebound,Tiles.Rebound},
+            {Tiles.Rebound,Tiles.Rebound,Tiles.Rebound,Tiles.Rebound,Tiles.Floor,Tiles.Floor,Tiles.Floor,Tiles.Floor,Tiles.Rebound,Tiles.Rebound,Tiles.Rebound,Tiles.Rebound},
+            {Tiles.Rebound,Tiles.Rebound,Tiles.Rebound,Tiles.Rebound,Tiles.Floor,Tiles.Floor,Tiles.Wall,Tiles.Floor,Tiles.Rebound,Tiles.Rebound,Tiles.Rebound,Tiles.Rebound},
             {Tiles.Floor,Tiles.Floor,Tiles.Wall,Tiles.Floor,Tiles.Floor,Tiles.Wall,Tiles.Floor,Tiles.Floor,Tiles.Floor,Tiles.Floor,Tiles.Floor,Tiles.Floor},
             {Tiles.Floor,Tiles.Wall,Tiles.Floor,Tiles.Floor,Tiles.Floor,Tiles.Floor,Tiles.Floor,Tiles.Floor,Tiles.Floor,Tiles.Floor,Tiles.Wall,Tiles.Floor},
             {Tiles.Floor,Tiles.Floor,Tiles.Floor,Tiles.Floor,Tiles.Floor,Tiles.Floor,Tiles.Floor,Tiles.Wall,Tiles.Floor,Tiles.Floor,Tiles.Floor,Tiles.Floor},
             {Tiles.Wall,Tiles.Floor,Tiles.Floor,Tiles.Floor,Tiles.Wall,Tiles.Floor,Tiles.Floor,Tiles.Floor,Tiles.Wall,Tiles.Floor,Tiles.Floor,Tiles.Floor},
-            {Tiles.Wall,Tiles.Wall,Tiles.Wall,Tiles.Wall,Tiles.Wall,Tiles.Wall,Tiles.Wall,Tiles.Wall,Tiles.Floor,Tiles.Floor,Tiles.Floor,Tiles.Floor},
-            {Tiles.Wall,Tiles.Wall,Tiles.Wall,Tiles.Wall,Tiles.Wall,Tiles.Wall,Tiles.Wall,Tiles.Wall,Tiles.Floor,Tiles.Wall,Tiles.Floor,Tiles.Floor},
-            {Tiles.Wall,Tiles.Wall,Tiles.Wall,Tiles.Wall,Tiles.Wall,Tiles.Wall,Tiles.Wall,Tiles.Wall,Tiles.Floor,Tiles.Floor,Tiles.Floor,Tiles.Wall},
-            {Tiles.Wall,Tiles.Wall,Tiles.Wall,Tiles.Wall,Tiles.Wall,Tiles.Wall,Tiles.Wall,Tiles.Wall,Tiles.Floor,Tiles.Floor,Tiles.Floor,Tiles.Floor},
+            {Tiles.Rebound,Tiles.Rebound,Tiles.Rebound,Tiles.Rebound,Tiles.Rebound,Tiles.Rebound,Tiles.Rebound,Tiles.Rebound,Tiles.Floor,Tiles.Floor,Tiles.Floor,Tiles.Floor},
+            {Tiles.Rebound,Tiles.Rebound,Tiles.Rebound,Tiles.Rebound,Tiles.Rebound,Tiles.Rebound,Tiles.Rebound,Tiles.Rebound,Tiles.Floor,Tiles.Wall,Tiles.Floor,Tiles.Floor},
+            {Tiles.Rebound,Tiles.Rebound,Tiles.Rebound,Tiles.Rebound,Tiles.Rebound,Tiles.Rebound,Tiles.Rebound,Tiles.Rebound,Tiles.Floor,Tiles.Floor,Tiles.Floor,Tiles.Wall},
+            {Tiles.Rebound,Tiles.Rebound,Tiles.Rebound,Tiles.Rebound,Tiles.Rebound,Tiles.Rebound,Tiles.Rebound,Tiles.Rebound,Tiles.Floor,Tiles.Floor,Tiles.Floor,Tiles.Floor},
         };
         
         var actual = new Room(input);
