@@ -244,6 +244,18 @@ public class ProgramRun
     {
         Log(AdventOfCode2022.Day21.Part2.Run());
     }
+    
+    [Fact]
+    public void Day22Part1()
+    {
+        Log(AdventOfCode2022.Day22.Part1.Run());
+    }
+    
+    [Fact]
+    public void Day22Part2()
+    {
+        Log(AdventOfCode2022.Day22.Part2.Run());
+    }
 
     private void Log(int actual)
     {
