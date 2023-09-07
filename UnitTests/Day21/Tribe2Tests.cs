@@ -20,7 +20,7 @@ public class Tribe2Tests
     }
     
     [Theory, CombinatorialData]
-    public void Monkey_Create_WithOperation([CombinatorialValues('+','-','*','/')]char operation)
+    public void Monkey_Create_WithOperation([CombinatorialValues('+','-','*','/','=')]char operation)
     {
         var expected = new Monkey2
         {
@@ -31,6 +31,7 @@ public class Tribe2Tests
                 '-' => 2,
                 '*' => 3,
                 '/' => 4,
+                '=' => 5,
                 _ => 0
             }
         };
@@ -75,6 +76,30 @@ public class Tribe2Tests
         }
     }
     
+    [Fact]
+    public void Monkey_GetEquality_ReturnsExpectedValueOfMonkey1()
+    {
+        var monkey1 = new Monkey2(null,"Monkey1");
+        var monkey2 = new Monkey2(2,"Monkey2");
+        var monkey3 = new Monkey2("monkey1","monkey2",'+',"monkey3"){OperandMonkey1 = monkey1, OperandMonkey2 = monkey2};
+        
+        var actual = monkey3.GetExpected(8);
+        
+        actual.Should().Be(6);
+    }
+    
+    [Fact]
+    public void Monkey_GetEquality_ReturnsExpectedValueOfMonkey2()
+    {
+        var monkey1 = new Monkey2(5,"Monkey1");
+        var monkey2 = new Monkey2(null,"Monkey2");
+        var monkey3 = new Monkey2("monkey1","monkey2",'+',"monkey3"){OperandMonkey1 = monkey1, OperandMonkey2 = monkey2};
+        
+        var actual = monkey3.GetExpected(8);
+        
+        actual.Should().Be(3);
+    }
+    
     #endregion
     
     #region Tribe
@@ -94,9 +119,9 @@ public class Tribe2Tests
         };
         var monkey2 = new Monkey2
         {
-            Name = "monkey2",
+            Name = "humn",
             Type = 0,
-            Value = 7,
+            Value = null,
             Operand1 = "",
             OperandMonkey1 = null,
             OperandMonkey2 = null,
@@ -105,12 +130,12 @@ public class Tribe2Tests
         var monkey3 = new Monkey2
         {
             Name = "root",
-            Type = 1,
-            Value = 0,
+            Type = 5,
+            Value = null,
             Operand1 = "monkey1",
             OperandMonkey1 = monkey1,
             OperandMonkey2 = monkey2,
-            Operand2 = "monkey2"
+            Operand2 = "humn"
         };
         
         var expected = new List<Monkey2>
@@ -123,8 +148,8 @@ public class Tribe2Tests
         var input = new List<string>
         {
             "monkey1: 5",
-            "monkey2: 7",
-            "root: monkey1 + monkey2"
+            "humn: 7",
+            "root: monkey1 + humn"
         };
         
         var actual = new Tribe2(input);

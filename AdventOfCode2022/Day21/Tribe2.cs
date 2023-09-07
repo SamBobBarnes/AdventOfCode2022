@@ -14,13 +14,20 @@ public class Tribe2
             {
                 Monkeys.Add(new Monkey2(monkeyArray[1],monkeyArray[3],'=',name));
             }
-            if (monkeyArray.Length > 2)
+            else if (monkeyArray.Length > 2)
             {
                 Monkeys.Add(new Monkey2(monkeyArray[1],monkeyArray[3],monkeyArray[2][0],name));
             }
             else
             {
-                Monkeys.Add(new Monkey2(Int64.Parse(monkeyArray[1]),name));
+                if (name == "humn")
+                {
+                    Monkeys.Add(new Monkey2( null,name));
+                }
+                else
+                {
+                    Monkeys.Add(new Monkey2(Int64.Parse(monkeyArray[1]),name));
+                }
             }
         }
         
@@ -44,14 +51,27 @@ public class Monkey2
 {
     public string Name = "";
     public int Type = 0;
-    public Int64 Value = 0;
+    public Int64? Value;
     public string Operand1 = "";
     public Monkey2? OperandMonkey1 { get; set; }
     public Monkey2? OperandMonkey2 { get; set; }
     public string Operand2 = "";
 
-    public Int64 GetValue()
+    public Int64? GetValue()
     {
+        if (Type == 0)
+        {
+            return Value;
+        }
+        
+        var monkey1 = OperandMonkey1!.GetValue();
+        var monkey2 = OperandMonkey2!.GetValue();
+        
+        if(monkey1 == null || monkey2 == null)
+        {
+            return null;
+        }
+        
         switch (Type)
         {
             case 1:
@@ -62,16 +82,72 @@ public class Monkey2
                 return OperandMonkey1!.GetValue() * OperandMonkey2!.GetValue();
             case 4:
                 return OperandMonkey1!.GetValue() / OperandMonkey2!.GetValue();
-            case 5:
-                return OperandMonkey1!.GetValue() == OperandMonkey2!.GetValue();
             default:
                 return Value;
         }
     }
 
+    public long GetExpected(long expected)
+    {
+        if (Type == 0)
+        {
+            return expected;
+        }
+        
+        var monkey1 = OperandMonkey1!.GetValue();
+        var monkey2 = OperandMonkey2!.GetValue();
+        var needed = (long)0;
+        switch (Type)
+        {
+            case 1:
+                needed = expected - (monkey1 ?? monkey2!.Value);
+                break;
+            case 2:
+                if (monkey1 == null)
+                {
+                    needed = expected + monkey2!.Value;
+                }
+                else
+                {
+                    needed = -(expected - monkey1.Value);
+                }
+                break;
+            case 3:
+                needed = expected / (monkey1 ?? monkey2!.Value);
+                break;
+            case 4:
+                if (monkey1 == null)
+                {
+                    needed = expected * monkey2!.Value;
+                }
+                else
+                {
+                    needed = monkey1.Value / expected;
+                }
+                break;
+        }
+        
+        if (monkey1 == null)
+        {
+            return OperandMonkey1.GetExpected(needed);
+        }
+        return OperandMonkey2.GetExpected(needed);
+    }
+
+    public string GetRootValue()
+    {
+        
+        var monkey1 = OperandMonkey1!.GetValue();
+        var monkey2 = OperandMonkey2!.GetValue();
+        
+        
+
+        return $"{monkey1} {monkey2}";
+    }
+
     public Monkey2(){}
     
-    public Monkey2(Int64 value, string name = "")
+    public Monkey2(Int64? value, string name = "")
     {
         Name = name;
         Value = value;
@@ -88,6 +164,7 @@ public class Monkey2
             '-' => 2,
             '*' => 3,
             '/' => 4,
+            '=' => 5,
             _ => 0
         };
     }

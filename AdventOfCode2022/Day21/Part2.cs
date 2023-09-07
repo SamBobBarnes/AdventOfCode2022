@@ -2,13 +2,13 @@
 
 public class Part2 : BasePart
 {
-    public static Int64 Run()
+    public static string Run()
     {
         var input = LoadInput(21, true);
 
         var tribe = new Tribe2(input);
         var root = tribe.Root;
 
-        return root.GetValue();
+        return root.GetRootValue();
     }
 }
