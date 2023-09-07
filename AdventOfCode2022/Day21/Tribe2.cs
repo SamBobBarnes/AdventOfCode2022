@@ -140,9 +140,18 @@ public class Monkey2
         var monkey1 = OperandMonkey1!.GetValue();
         var monkey2 = OperandMonkey2!.GetValue();
         
+        var result = (long)0; 
         
-
-        return $"{monkey1} {monkey2}";
+        if (monkey1 == null)
+        {
+            result = OperandMonkey1.GetExpected(monkey2!.Value);
+        }
+        else
+        {
+            result = OperandMonkey2.GetExpected(monkey1.Value);
+        }
+        
+        return $"{monkey1}{monkey2} : {result}";
     }
 
     public Monkey2(){}

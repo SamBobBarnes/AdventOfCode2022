@@ -76,28 +76,74 @@ public class Tribe2Tests
         }
     }
     
-    [Fact]
-    public void Monkey_GetEquality_ReturnsExpectedValueOfMonkey1()
+    [Theory, CombinatorialData]
+    public void Monkey_GetEquality_ReturnsExpectedValueMonkey1([CombinatorialValues('+','-','*','/')]char operation)
     {
         var monkey1 = new Monkey2(null,"Monkey1");
         var monkey2 = new Monkey2(2,"Monkey2");
-        var monkey3 = new Monkey2("monkey1","monkey2",'+',"monkey3"){OperandMonkey1 = monkey1, OperandMonkey2 = monkey2};
+        var monkey3 = new Monkey2("monkey1","monkey2",operation,"monkey3"){OperandMonkey1 = monkey1, OperandMonkey2 = monkey2};
         
-        var actual = monkey3.GetExpected(8);
-        
-        actual.Should().Be(6);
+        var actual = monkey3.GetExpected(10);
+
+        switch (operation)
+        {
+            case '+':
+                actual.Should().Be(8);
+                break;
+            case '-':
+                actual.Should().Be(12);
+                break;
+            case '*':
+                actual.Should().Be(5);
+                break;
+            case '/':
+                actual.Should().Be(20);
+                break;
+        }
     }
     
-    [Fact]
-    public void Monkey_GetEquality_ReturnsExpectedValueOfMonkey2()
+    [Theory, CombinatorialData]
+    public void Monkey_GetEquality_ReturnsExpectedValueMonkey2([CombinatorialValues('+','-','*','/')]char operation)
     {
-        var monkey1 = new Monkey2(5,"Monkey1");
+        var monkey1 = new Monkey2(10,"Monkey1");
         var monkey2 = new Monkey2(null,"Monkey2");
-        var monkey3 = new Monkey2("monkey1","monkey2",'+',"monkey3"){OperandMonkey1 = monkey1, OperandMonkey2 = monkey2};
+        var monkey3 = new Monkey2("monkey1","monkey2",operation,"monkey3"){OperandMonkey1 = monkey1, OperandMonkey2 = monkey2};
         
-        var actual = monkey3.GetExpected(8);
+        var actual = monkey3.GetExpected(5);
+
+        switch (operation)
+        {
+            case '+':
+                actual.Should().Be(-5);
+                break;
+            case '-':
+                actual.Should().Be(5);
+                break;
+            case '*':
+                actual.Should().Be(0);
+                break;
+            case '/':
+                actual.Should().Be(2);
+                break;
+        }
+    }
+
+    [Fact]
+    public void Monkey_GetEquality_ReturnsTwoLevelsDeep()
+    {
+        var monkey1 = new Monkey2(10,"Monkey1");
+        var monkey2 = new Monkey2(null,"Monkey2");
+        var monkey3 = new Monkey2("monkey1","monkey2",'*',"monkey3"){OperandMonkey1 = monkey1, OperandMonkey2 = monkey2};
         
-        actual.Should().Be(3);
+        var monkey4 = new Monkey2(5,"Monkey4");
+        var monkey5 = new Monkey2(2,"Monkey5");
+        var monkey6 = new Monkey2("monkey4","monkey5",'-',"monkey6"){OperandMonkey1 = monkey4, OperandMonkey2 = monkey5};
+        
+        var monkey7 = new Monkey2("monkey3","monkey6",'*',"monkey7"){OperandMonkey1 = monkey3, OperandMonkey2 = monkey6};
+        
+        var actual = monkey7.GetExpected(60);
+
+        actual.Should().Be(2);
     }
     
     #endregion
