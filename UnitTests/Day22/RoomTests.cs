@@ -397,7 +397,7 @@ public class RoomTests
         };
         var rd = new List<string>
         {
-            " .     ",
+            ".      ",
             " ......",
             " ......",
             " ......",
