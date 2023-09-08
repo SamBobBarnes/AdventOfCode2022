@@ -99,4 +99,232 @@ public class RoomTests
         actual.Position.Should().BeEquivalentTo(new Point(8, 0));
         actual.Facing.Should().Be(Direction.Right);
     }
+
+    #region MoveCharacter
+
+    #region WithoutObstruction
+
+    [Fact]
+    public void Room_MoveCharacter_WithoutObstruction_Right()
+    {
+        var input = new List<string>
+        {
+            ".............",
+            "", 
+            "10R1"
+        };
+        
+        var actual = new Room(input);
+        actual.MoveCharacter();
+        actual.Position.Should().BeEquivalentTo(new Point(10, 0));
+    }
+
+    [Fact]
+    public void Room_MoveCharacter_WithoutObstruction_Left()
+    {
+        var input = new List<string>
+        {
+            ".............",
+            "", 
+            "10R1"
+        };
+        
+        var actual = new Room(input);
+        actual.Position = new Point(12, 0);
+        actual.Facing = Direction.Left;
+        actual.MoveCharacter();
+        actual.Position.Should().BeEquivalentTo(new Point(2, 0));
+    }
+
+    [Fact]
+    public void Room_MoveCharacter_WithoutObstruction_Down()
+    {
+        var input = new List<string>
+        {
+            ".............",
+            ".............",
+            ".............",
+            ".............",
+            ".............",
+            "", 
+            "3R1"
+        };
+        
+        var actual = new Room(input);
+        actual.Facing = Direction.Down;
+        actual.MoveCharacter();
+        actual.Position.Should().BeEquivalentTo(new Point(0, 3));
+    }
+
+    [Fact]
+    public void Room_MoveCharacter_WithoutObstruction_Up()
+    {
+        var input = new List<string>
+        {
+            ".............",
+            ".............",
+            ".............",
+            ".............",
+            ".............",
+            "", 
+            "3R1"
+        };
+        
+        var actual = new Room(input);
+        actual.Position = new Point(0, 4);
+        actual.Facing = Direction.Up;
+        actual.MoveCharacter();
+        actual.Position.Should().BeEquivalentTo(new Point(0, 1));
+    }
+
+    #endregion
+    
+    #region WithObstruction
+
+    [Fact]
+    public void Room_MoveCharacter_WithObstruction()
+    {
+        var input = new List<string>
+        {
+            "........#....",
+            "", 
+            "10R"
+        };
+        
+        var actual = new Room(input);
+        actual.MoveCharacter();
+        actual.Position.Should().BeEquivalentTo(new Point(7, 0));
+    }
+    
+    #endregion
+
+    #region Rebound
+    
+    [Fact]
+    public void Room_MoveCharacter_TeleportWithoutReboundFloor_Right()
+    {
+        var input = new List<string>
+        {
+            ".......",
+            "", 
+            "10R1"
+        };
+        
+        var actual = new Room(input);
+        actual.MoveCharacter();
+        actual.Position.Should().BeEquivalentTo(new Point(3, 0));
+    }
+    
+    [Fact]
+    public void Room_MoveCharacter_TeleportWithoutReboundFloor_Left()
+    {
+        var input = new List<string>
+        {
+            ".......",
+            "", 
+            "10R1"
+        };
+        
+        var actual = new Room(input);
+        actual.Facing = Direction.Left;
+        actual.Position = new Point(4, 0);
+        actual.MoveCharacter();
+        actual.Position.Should().BeEquivalentTo(new Point(1, 0));
+    }
+    
+    [Fact]
+    public void Room_MoveCharacter_TeleportWithoutReboundFloor_Down()
+    {
+        var input = new List<string>
+        {
+            ".",
+            ".",
+            ".",
+            ".",
+            ".",
+            ".",
+            ".",
+            ".",
+            "", 
+            "10R1"
+        };
+        
+        var actual = new Room(input);
+        actual.Facing = Direction.Down;
+        actual.MoveCharacter();
+        actual.Position.Should().BeEquivalentTo(new Point(0, 2));
+    }
+    
+    [Fact]
+    public void Room_MoveCharacter_TeleportWithoutReboundFloor_Up()
+    {
+        var input = new List<string>
+        {
+            ".",
+            ".",
+            ".",
+            ".",
+            ".",
+            ".",
+            ".",
+            ".",
+            "", 
+            "10R1"
+        };
+        
+        var actual = new Room(input);
+        actual.Facing = Direction.Up;
+        actual.Position = new Point(0, 3);
+        actual.MoveCharacter();
+        actual.Position.Should().BeEquivalentTo(new Point(0, 1));
+    }
+
+    [Fact]
+    public void Room_MoveCharacter_TeleportWithReboundFloorAtEnd()
+    {
+        var input = new List<string>
+        {
+            "....... ",
+            "", 
+            "10R1"
+        };
+        
+        var actual = new Room(input);
+        actual.MoveCharacter();
+        actual.Position.Should().BeEquivalentTo(new Point(3, 0));
+    }
+
+    [Fact]
+    public void Room_MoveCharacter_TeleportWithReboundFloorAtBeginning()
+    {
+        var input = new List<string>
+        {
+            " .......",
+            "", 
+            "10R1"
+        };
+        
+        var actual = new Room(input);
+        actual.MoveCharacter();
+        actual.Position.Should().BeEquivalentTo(new Point(4, 0));
+    }
+
+    [Fact]
+    public void Room_MoveCharacter_TeleportWithReboundFloorAtEnds()
+    {
+        var input = new List<string>
+        {
+            " ....... ",
+            "", 
+            "10R1"
+        };
+        
+        var actual = new Room(input);
+        actual.MoveCharacter();
+        actual.Position.Should().BeEquivalentTo(new Point(4, 0));
+    }
+    
+    #endregion
+    
+    #endregion
 }

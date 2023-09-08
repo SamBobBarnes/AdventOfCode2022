@@ -9,6 +9,8 @@ public class Room
     public Tiles[,] Grid { get; set; }
     public int[] Steps { get; set; }
     public char[] Rotations { get; set; }
+    public int StepIndex { get; set; }
+    public int RotationIndex { get; set; }
 
     public Room(List<string> input)
     {
@@ -17,6 +19,29 @@ public class Room
         InitializeDirections(input[^1]);
         InitializeMap(input.GetRange(0, input.Count - 2));
         InitializeCharacter();
+    }
+
+    public void MoveCharacter()
+    {
+        switch (Facing)
+        {
+            case Direction.Right:
+                Position = new Point(Position.X + Steps[StepIndex], Position.Y);
+                if (Position.X >= Grid.GetLength(0)) Position = new Point(Position.X % Grid.GetLength(0), Position.Y);
+                break;
+            case Direction.Down:
+                Position = new Point(Position.X, Position.Y + Steps[StepIndex]);
+                if (Position.Y >= Grid.GetLength(1)) Position = new Point(Position.X, Position.Y % Grid.GetLength(1));
+                break;
+            case Direction.Left:
+                Position = new Point(Position.X - Steps[StepIndex], Position.Y);
+                if (Position.X < 0) Position = new Point(Grid.GetLength(0) + Position.X % Grid.GetLength(0), Position.Y);
+                break;
+            case Direction.Up:
+                Position = new Point(Position.X, Position.Y - Steps[StepIndex]);
+                if (Position.Y < 0) Position = new Point(Position.X,Grid.GetLength(1) + Position.Y % Grid.GetLength(1));
+                break;
+        }
     }
 
     private void InitializeCharacter()
