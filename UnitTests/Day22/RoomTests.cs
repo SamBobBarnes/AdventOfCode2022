@@ -5,6 +5,8 @@ namespace UnitTests.Day22;
 
 public class RoomTests
 {
+    #region Initialize
+    
     [Fact]
     public void Room_InitializeDirections()
     {
@@ -99,47 +101,24 @@ public class RoomTests
         actual.Position.Should().BeEquivalentTo(new Point(8, 0));
         actual.Facing.Should().Be(Direction.Right);
     }
+    
+    #endregion
 
     #region MoveCharacter
 
     #region WithoutObstruction
 
-    [Fact]
-    public void Room_MoveCharacter_WithoutObstruction_Right()
+    [Theory, CombinatorialData]
+    public void Room_MoveCharacter_WithoutObstruction([CombinatorialValues(Direction.Right,Direction.Left,Direction.Down,Direction.Up)] Direction direction)
     {
-        var input = new List<string>
+        var across = new List<string>
         {
             ".............",
             "", 
             "10R1"
         };
         
-        var actual = new Room(input);
-        actual.MoveCharacter();
-        actual.Position.Should().BeEquivalentTo(new Point(10, 0));
-    }
-
-    [Fact]
-    public void Room_MoveCharacter_WithoutObstruction_Left()
-    {
-        var input = new List<string>
-        {
-            ".............",
-            "", 
-            "10R1"
-        };
-        
-        var actual = new Room(input);
-        actual.Position = new Point(12, 0);
-        actual.Facing = Direction.Left;
-        actual.MoveCharacter();
-        actual.Position.Should().BeEquivalentTo(new Point(2, 0));
-    }
-
-    [Fact]
-    public void Room_MoveCharacter_WithoutObstruction_Down()
-    {
-        var input = new List<string>
+        var down = new List<string>
         {
             ".............",
             ".............",
@@ -150,178 +129,377 @@ public class RoomTests
             "3R1"
         };
         
-        var actual = new Room(input);
-        actual.Facing = Direction.Down;
-        actual.MoveCharacter();
-        actual.Position.Should().BeEquivalentTo(new Point(0, 3));
-    }
-
-    [Fact]
-    public void Room_MoveCharacter_WithoutObstruction_Up()
-    {
-        var input = new List<string>
-        {
-            ".............",
-            ".............",
-            ".............",
-            ".............",
-            ".............",
-            "", 
-            "3R1"
-        };
+        var input = new List<string>();
         
-        var actual = new Room(input);
-        actual.Position = new Point(0, 4);
-        actual.Facing = Direction.Up;
+        switch (direction)
+        {
+            case Direction.Right:
+                input.AddRange(across);
+                break;
+            case Direction.Left:
+                input.AddRange(across);
+                break;
+            case Direction.Down:
+                input.AddRange(down);
+                break;
+            case Direction.Up:
+                input.AddRange(down);
+                break;
+        }
+        
+        var actual = new Room(input)
+        {
+            Facing = direction
+        };
+
+        switch (direction)
+        {
+            case Direction.Left:
+                actual.Position = new Point(12, 0);
+                break;
+            case Direction.Up:
+                actual.Position = new Point(0, 4);
+                break;
+        }
+        
         actual.MoveCharacter();
-        actual.Position.Should().BeEquivalentTo(new Point(0, 1));
+
+        Point expected = new Point();
+        
+        switch (direction)
+        {
+            case Direction.Right:
+                expected = new Point(10, 0);
+                break;
+            case Direction.Left:
+                expected = new Point(2, 0);
+                break;
+            case Direction.Down:
+                expected = new Point(0, 3);
+                break;
+            case Direction.Up:
+                expected = new Point(0, 1);
+                break;
+        }
+        
+        actual.Position.Should().BeEquivalentTo(expected);
     }
 
     #endregion
     
     #region WithObstruction
 
-    [Fact]
-    public void Room_MoveCharacter_WithObstruction()
+    [Theory, CombinatorialData]
+    public void Room_MoveCharacter_WithObstruction([CombinatorialValues(Direction.Right,Direction.Down,Direction.Left,Direction.Up)]Direction direction)
     {
         var input = new List<string>
         {
-            "........#....",
+            ".........",
+            ".........",
+            ".........",
+            ".........",
+            "....#....",
+            ".........",
+            ".........",
+            ".........",
+            ".........",
             "", 
-            "10R"
+            "10R1"
         };
         
-        var actual = new Room(input);
+        var actual = new Room(input)
+        {
+            Facing = direction
+        };
+        
+        switch (direction)
+        {
+            case Direction.Right:
+                actual.Position = new Point(0,4);
+                break;
+            case Direction.Down:
+                actual.Position = new Point(4, 0);
+                break;
+            case Direction.Left:
+                actual.Position = new Point(8, 4);
+                break;
+            case Direction.Up:
+                actual.Position = new Point(4, 8);
+                break;
+        }
+        
         actual.MoveCharacter();
-        actual.Position.Should().BeEquivalentTo(new Point(7, 0));
+        
+        var expected = new Point();
+        
+        switch (direction)
+        {
+            case Direction.Right:
+                expected = new Point(3, 4);
+                break;
+            case Direction.Left:
+                expected = new Point(5, 4);
+                break;
+            case Direction.Down:
+                expected = new Point(4, 3);
+                break;
+            case Direction.Up:
+                expected = new Point(4, 5);
+                break;
+        }
+        
+        actual.Position.Should().BeEquivalentTo(expected);
     }
     
     #endregion
 
     #region Rebound
     
-    [Fact]
-    public void Room_MoveCharacter_TeleportWithoutReboundFloor_Right()
+    [Theory, CombinatorialData]
+    public void Room_MoveCharacter_TeleportWithoutReboundFloor([CombinatorialValues(Direction.Right, Direction.Left, Direction.Up, Direction.Down)] Direction direction)
     {
         var input = new List<string>
         {
             ".......",
-            "", 
-            "10R1"
-        };
-        
-        var actual = new Room(input);
-        actual.MoveCharacter();
-        actual.Position.Should().BeEquivalentTo(new Point(3, 0));
-    }
-    
-    [Fact]
-    public void Room_MoveCharacter_TeleportWithoutReboundFloor_Left()
-    {
-        var input = new List<string>
-        {
             ".......",
-            "", 
+            ".......",
+            ".......",
+            ".......",
+            ".......",
+            ".......",
+            ".......",
+            "",
             "10R1"
         };
         
-        var actual = new Room(input);
-        actual.Facing = Direction.Left;
-        actual.Position = new Point(4, 0);
-        actual.MoveCharacter();
-        actual.Position.Should().BeEquivalentTo(new Point(1, 0));
-    }
-    
-    [Fact]
-    public void Room_MoveCharacter_TeleportWithoutReboundFloor_Down()
-    {
-        var input = new List<string>
+        var actual = new Room(input)
         {
-            ".",
-            ".",
-            ".",
-            ".",
-            ".",
-            ".",
-            ".",
-            ".",
-            "", 
-            "10R1"
+            Facing = direction
         };
         
-        var actual = new Room(input);
-        actual.Facing = Direction.Down;
-        actual.MoveCharacter();
-        actual.Position.Should().BeEquivalentTo(new Point(0, 2));
-    }
-    
-    [Fact]
-    public void Room_MoveCharacter_TeleportWithoutReboundFloor_Up()
-    {
-        var input = new List<string>
+        Point expected = new Point();
+
+        switch (direction)
         {
-            ".",
-            ".",
-            ".",
-            ".",
-            ".",
-            ".",
-            ".",
-            ".",
-            "", 
-            "10R1"
-        };
+            case Direction.Right:
+                expected = new Point(3, 0);
+                break;
+            case Direction.Left:
+                actual.Position = new Point(4, 0);
+                expected = new Point(1, 0);
+                break;
+            case Direction.Down:
+                expected = new Point(0, 2);
+                break;
+            case Direction.Up:
+                actual.Position = new Point(0, 3);
+                expected = new Point(0, 1);
+                break;
+        }
         
-        var actual = new Room(input);
-        actual.Facing = Direction.Up;
-        actual.Position = new Point(0, 3);
         actual.MoveCharacter();
-        actual.Position.Should().BeEquivalentTo(new Point(0, 1));
+        
+        actual.Position.Should().BeEquivalentTo(expected);
     }
 
-    [Fact]
-    public void Room_MoveCharacter_TeleportWithReboundFloorAtEnd()
+    [Theory, CombinatorialData]
+    public void Room_MoveCharacter_TeleportWithReboundFloorAtEnd([CombinatorialValues(Direction.Right, Direction.Left, Direction.Up, Direction.Down)] Direction direction)
     {
-        var input = new List<string>
+        var input = new List<string>();
+        
+        var rd = new List<string>
         {
-            "....... ",
-            "", 
+            "...... ",
+            "...... ",
+            "...... ",
+            "...... ",
+            "...... ",
+            "...... ",
+            "       ",
+            "",
             "10R1"
         };
+        var lu = new List<string>
+        {
+            " .     ",
+            " ......",
+            " ......",
+            " ......",
+            " ......",
+            " ......",
+            " ......",
+            "",
+            "10R1"
+        };
+
+        switch (direction)
+        {
+            case Direction.Right:
+                input = rd;
+                break;
+            case Direction.Left:
+                input = lu;
+                break;
+            case Direction.Down:
+                input = rd;
+                break;
+            case Direction.Up:
+                input = lu;
+                break;
+        }
         
-        var actual = new Room(input);
+        var actual = new Room(input)
+        {
+            Facing = direction
+        };
+        
+        Point expected = new Point();
+
+        switch (direction)
+        {
+            case Direction.Right:
+                expected = new Point(4, 0);
+                break;
+            case Direction.Left:
+                actual.Position = new Point(6, 6);
+                expected = new Point(2, 6);
+                break;
+            case Direction.Down:
+                expected = new Point(0, 4);
+                break;
+            case Direction.Up:
+                actual.Position = new Point(6, 6);
+                expected = new Point(6, 2);
+                break;
+        }
+        
         actual.MoveCharacter();
-        actual.Position.Should().BeEquivalentTo(new Point(3, 0));
+        
+        actual.Position.Should().BeEquivalentTo(expected);
     }
 
-    [Fact]
-    public void Room_MoveCharacter_TeleportWithReboundFloorAtBeginning()
+    [Theory, CombinatorialData]
+    public void Room_MoveCharacter_TeleportWithReboundFloorAtBeginning([CombinatorialValues(Direction.Right, Direction.Left, Direction.Up, Direction.Down)] Direction direction)
     {
-        var input = new List<string>
+        var input = new List<string>();
+        
+        var lu = new List<string>
         {
-            " .......",
-            "", 
+            "...... ",
+            "...... ",
+            "...... ",
+            "...... ",
+            "...... ",
+            "...... ",
+            "       ",
+            "",
             "10R1"
         };
+        var rd = new List<string>
+        {
+            " .     ",
+            " ......",
+            " ......",
+            " ......",
+            " ......",
+            " ......",
+            " ......",
+            "",
+            "10R1"
+        };
+
+        switch (direction)
+        {
+            case Direction.Right:
+                input = rd;
+                break;
+            case Direction.Left:
+                input = lu;
+                break;
+            case Direction.Down:
+                input = rd;
+                break;
+            case Direction.Up:
+                input = lu;
+                break;
+        }
         
-        var actual = new Room(input);
+        var actual = new Room(input)
+        {
+            Facing = direction
+        };
+        
+        Point expected = new Point();
+
+        switch (direction)
+        {
+            case Direction.Right:
+                actual.Position = new Point(1, 1);
+                expected = new Point(5, 1);
+                break;
+            case Direction.Left:
+                actual.Position = new Point(5, 5);
+                expected = new Point(1, 5);
+                break;
+            case Direction.Down:
+                actual.Position = new Point(1, 1);
+                expected = new Point(1, 5);
+                break;
+            case Direction.Up:
+                actual.Position = new Point(5, 5);
+                expected = new Point(5, 1);
+                break;
+        }
+        
         actual.MoveCharacter();
-        actual.Position.Should().BeEquivalentTo(new Point(4, 0));
+        
+        actual.Position.Should().BeEquivalentTo(expected);
     }
 
-    [Fact]
-    public void Room_MoveCharacter_TeleportWithReboundFloorAtEnds()
+    [Theory, CombinatorialData]
+    public void Room_MoveCharacter_TeleportWithReboundFloorAtEnds([CombinatorialValues(Direction.Right, Direction.Left, Direction.Up, Direction.Down)] Direction direction)
     {
         var input = new List<string>
         {
-            " ....... ",
-            "", 
-            "10R1"
+            "      .",
+            " ..... ",
+            " ..... ",
+            " ..... ",
+            " ..... ",
+            " ..... ",
+            "       ",
+            "",
+            "4R1"
         };
         
-        var actual = new Room(input);
+        var actual = new Room(input)
+        {
+            Facing = direction
+        };
+        
+        actual.Position = new Point(3, 3);
+        
+        Point expected = new Point();
+
+        switch (direction)
+        {
+            case Direction.Right:
+                expected = new Point(2, 3);
+                break;
+            case Direction.Left:
+                expected = new Point(4, 3);
+                break;
+            case Direction.Down:
+                expected = new Point(3, 2);
+                break;
+            case Direction.Up:
+                expected = new Point(3, 4);
+                break;
+        }
+        
         actual.MoveCharacter();
-        actual.Position.Should().BeEquivalentTo(new Point(4, 0));
+        
+        actual.Position.Should().BeEquivalentTo(expected);
     }
     
     #endregion
