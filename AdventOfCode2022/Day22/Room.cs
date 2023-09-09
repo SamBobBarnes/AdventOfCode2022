@@ -36,13 +36,60 @@ public class Room
                 if (Position.Y >= Grid.GetLength(1)) Position = new Point(Position.X, Position.Y % Grid.GetLength(1));
                 break;
             case Direction.Left:
-                Position = new Point(Position.X - Steps[StepIndex], Position.Y);
+                Position = new Point(Position.X - spacesToMove, Position.Y);
                 if (Position.X < 0) Position = new Point(Grid.GetLength(0) + Position.X % Grid.GetLength(0), Position.Y);
                 break;
             case Direction.Up:
-                Position = new Point(Position.X, Position.Y - Steps[StepIndex]);
+                Position = new Point(Position.X, Position.Y - spacesToMove);
                 if (Position.Y < 0) Position = new Point(Position.X,Grid.GetLength(1) + Position.Y % Grid.GetLength(1));
                 break;
+        }
+    }
+    
+    public bool Rotate()
+    {
+        if (RotationIndex >= Rotations.Length) return false;
+        
+        Facing = NextRotation(Rotations[RotationIndex]);
+        RotationIndex++;
+        
+        return true;
+    }
+
+    private Direction NextRotation(char direction)
+    {
+        switch (direction)
+        {
+            case 'L':
+                switch (Facing)
+                {
+                    case Direction.Right:
+                        return Direction.Up;
+                    case Direction.Down:
+                        return Direction.Right;
+                    case Direction.Left:
+                        return Direction.Down;
+                    case Direction.Up:
+                        return Direction.Left;
+                    default:
+                        return Facing;
+                }
+            case 'R':
+                switch (Facing)
+                {
+                    case Direction.Right:
+                        return Direction.Down;
+                    case Direction.Down:
+                        return Direction.Left;
+                    case Direction.Left:
+                        return Direction.Up;
+                    case Direction.Up:
+                        return Direction.Right;
+                    default:
+                        return Facing;
+                }
+            default:
+                return Facing;
         }
     }
 
@@ -121,7 +168,9 @@ public class Room
         
                 return spacesToMove;
             case Direction.Left:
-                for (var i = 0; i < Grid.GetLength(0); i++)
+                
+                var positionX = rowX - Position.X - 1;
+                for (var i = Grid.GetLength(0) - 1; i >= 0; i--)
                 {
                     if(Grid[i, Position.Y] == Tiles.Floor)
                         floor.Add(Grid[i, Position.Y]);
@@ -132,28 +181,59 @@ public class Room
                 }
         
                 if (floor.Count == rowX) return spacesToMove;
-                if(Position.X + spacesToMove >= rowX && floor.Count + rebound == rowX) return spacesToMove + rebound;
+                if(positionX + spacesToMove >= rowX && floor.Count + rebound == rowX) return spacesToMove + rebound;
         
-                if (spacesToMove + Position.X < rowX)
+                if (spacesToMove + positionX < rowX)
                 {
-                    foreach (var wall in walls.Where(wall => wall > Position.X && wall <= Position.X + spacesToMove))
+                    foreach (var wall in walls.Where(wall => wall > positionX && wall <= positionX + spacesToMove))
                     {
-                        spacesToMove = wall - Position.X;
+                        spacesToMove = wall - positionX;
                         break;
                     }
                 }
                 else
                 {
-                    foreach (var wall in walls.Where(wall => wall > Position.X && wall <= rowX || wall <= (Position.X + spacesToMove) % rowX))
+                    foreach (var wall in walls.Where(wall => wall > positionX && wall <= rowX || wall <= (positionX + spacesToMove) % rowX))
                     {
-                        spacesToMove = wall - Position.X - 1;
+                        spacesToMove = wall - positionX - 1;
                         break;
                     }
                 }
         
                 return spacesToMove;
             case Direction.Up:
-                
+                var PositionY = rowY - Position.Y - 1;
+                for (var i = Grid.GetLength(1) - 1; i >= 0; i--)
+                {
+                    if(Grid[Position.X, i] == Tiles.Floor)
+                        floor.Add(Grid[Position.X, i]);
+                    if (Grid[Position.X, i] == Tiles.Rebound)
+                        rebound++;
+                    if(Grid[Position.X, i] == Tiles.Wall)
+                        walls.Add(i);
+                }
+        
+                if (floor.Count == rowY) return spacesToMove;
+                if(PositionY + spacesToMove >= rowY && floor.Count + rebound == rowY) return spacesToMove + rebound;
+        
+                if (spacesToMove + PositionY < rowY)
+                {
+                    foreach (var wall in walls.Where(wall => wall > PositionY && wall <= PositionY + spacesToMove))
+                    {
+                        spacesToMove = wall - PositionY;
+                        break;
+                    }
+                }
+                else
+                {
+                    foreach (var wall in walls.Where(wall => wall > PositionY && wall <= rowY || wall <= (PositionY + spacesToMove) % rowY))
+                    {
+                        spacesToMove = wall - PositionY - 1;
+                        break;
+                    }
+                }
+        
+                return spacesToMove;
             default: 
                 return spacesToMove;
         }

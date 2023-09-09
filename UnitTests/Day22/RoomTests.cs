@@ -505,4 +505,15 @@ public class RoomTests
     #endregion
     
     #endregion
+
+    [Fact]
+    public void Rotate_CanRotate()
+    {
+        var input = new List<string>
+        {
+            ".........",
+            "", 
+            "10R1"
+        };
+    }
 }
