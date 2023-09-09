@@ -506,6 +506,8 @@ public class RoomTests
     
     #endregion
 
+    #region Rotation
+    
     [Fact]
     public void Rotate_CanRotate()
     {
@@ -515,5 +517,91 @@ public class RoomTests
             "", 
             "10R1"
         };
+
+        var room = new Room(input);
+
+        var actual = room.Rotate();
+        
+        actual.Should().BeTrue();
     }
+
+    [Fact]
+    public void Rotate_CantRotate()
+    {
+        var input = new List<string>
+        {
+            ".........",
+            "", 
+            "10R1"
+        };
+
+        var room = new Room(input);
+
+        room.Rotate();
+        var actual = room.Rotate();
+        
+        actual.Should().BeFalse();
+    }
+
+    [Theory, CombinatorialData]
+    public void Rotate_RotatesTheCorrectDirection_Right(
+        [CombinatorialValues(Direction.Right, Direction.Down, Direction.Left, Direction.Left)] Direction direction)
+    {
+        var input = new List<string>
+        {
+            ".........",
+            "", 
+            "10R1"
+        };
+
+        var room = new Room(input)
+        {
+            Facing = direction
+        };
+
+        room.Rotate();
+        
+        var expected = direction switch
+        {
+            Direction.Right => Direction.Down,
+            Direction.Down => Direction.Left,
+            Direction.Left => Direction.Up,
+            Direction.Up => Direction.Right,
+            _ => throw new ArgumentOutOfRangeException(nameof(direction), direction, null)
+        };
+        
+        room.Facing.Should().Be(expected);
+    }
+
+    [Theory, CombinatorialData]
+    public void Rotate_RotatesTheCorrectDirection_Left(
+        [CombinatorialValues(Direction.Right, Direction.Down, Direction.Left, Direction.Left)] Direction direction)
+    {
+        var input = new List<string>
+        {
+            ".........",
+            "", 
+            "10L1"
+        };
+
+        var room = new Room(input)
+        {
+            Facing = direction
+        };
+
+        room.Rotate();
+        
+        var expected = direction switch
+        {
+            Direction.Right => Direction.Up,
+            Direction.Down => Direction.Right,
+            Direction.Left => Direction.Down,
+            Direction.Up => Direction.Left,
+            _ => throw new ArgumentOutOfRangeException(nameof(direction), direction, null)
+        };
+        
+        room.Facing.Should().Be(expected);
+    }
+    
+    #endregion
 }
