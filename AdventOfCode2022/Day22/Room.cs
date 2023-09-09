@@ -30,18 +30,22 @@ public class Room
             case Direction.Right:
                 Position = new Point(Position.X + spacesToMove, Position.Y);
                 if (Position.X >= Grid.GetLength(0)) Position = new Point(Position.X % Grid.GetLength(0), Position.Y);
+                if (Position.X < 0) Position = new Point(Grid.GetLength(0) + Position.X % Grid.GetLength(0), Position.Y);
                 break;
             case Direction.Down:
                 Position = new Point(Position.X, Position.Y + spacesToMove);
                 if (Position.Y >= Grid.GetLength(1)) Position = new Point(Position.X, Position.Y % Grid.GetLength(1));
+                if (Position.Y < 0) Position = new Point(Position.X,Grid.GetLength(1) + Position.Y % Grid.GetLength(1));
                 break;
             case Direction.Left:
                 Position = new Point(Position.X - spacesToMove, Position.Y);
                 if (Position.X < 0) Position = new Point(Grid.GetLength(0) + Position.X % Grid.GetLength(0), Position.Y);
+                if (Position.X >= Grid.GetLength(0)) Position = new Point(Position.X % Grid.GetLength(0), Position.Y);
                 break;
             case Direction.Up:
                 Position = new Point(Position.X, Position.Y - spacesToMove);
                 if (Position.Y < 0) Position = new Point(Position.X,Grid.GetLength(1) + Position.Y % Grid.GetLength(1));
+                if (Position.Y >= Grid.GetLength(1)) Position = new Point(Position.X, Position.Y % Grid.GetLength(1));
                 break;
         }
     }
@@ -98,8 +102,8 @@ public class Room
         var floor = new List<Tiles>();
         var walls = new List<int>();
         var rebound = 0;
-        var rowX = Grid.GetLength(1);
-        var rowY = Grid.GetLength(0);
+        var rowX = Grid.GetLength(0);
+        var rowY = Grid.GetLength(1);
         
         switch (Facing)
         {

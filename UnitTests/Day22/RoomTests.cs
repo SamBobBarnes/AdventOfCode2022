@@ -503,6 +503,62 @@ public class RoomTests
     }
     
     #endregion
+
+    [Theory, CombinatorialData]
+    public void MoveCharacter_ReboundIntoWall([CombinatorialValues(Direction.Right,Direction.Down,Direction.Left,Direction.Up)]Direction direction)
+    {
+        var input = new List<string>
+        {
+            "#....",
+            ".....",
+            "....#",
+            "", 
+            "10R1"
+        };
+    
+        var actual = new Room(input)
+        {
+            Facing = direction
+        };
+    
+        switch (direction)
+        {
+            case Direction.Right:
+                actual.Position = new Point(1,0);
+                break;
+            case Direction.Down:
+                actual.Position = new Point(0, 1);
+                break;
+            case Direction.Left:
+                actual.Position = new Point(3, 2);
+                break;
+            case Direction.Up:
+                actual.Position = new Point(4, 1);
+                break;
+        }
+    
+        actual.MoveCharacter();
+    
+        var expected = new Point();
+    
+        switch (direction)
+        {
+            case Direction.Right:
+                expected = new Point(4, 0);
+                break;
+            case Direction.Down:
+                expected = new Point(0, 2);
+                break;
+            case Direction.Left:
+                expected = new Point(0, 2);
+                break;
+            case Direction.Up:
+                expected = new Point(4, 0);
+                break;
+        }
+    
+        actual.Position.Should().BeEquivalentTo(expected);
+    }
     
     #endregion
 
