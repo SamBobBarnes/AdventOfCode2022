@@ -172,8 +172,8 @@ public class Room
         
                 return spacesToMove;
             case Direction.Left:
-                
                 var positionX = rowX - Position.X - 1;
+                var reverseIndexX = 0;
                 for (var i = Grid.GetLength(0) - 1; i >= 0; i--)
                 {
                     if(Grid[i, Position.Y] == Tiles.Floor)
@@ -181,7 +181,8 @@ public class Room
                     if (Grid[i, Position.Y] == Tiles.Rebound)
                         rebound++;
                     if(Grid[i, Position.Y] == Tiles.Wall)
-                        walls.Add(i);
+                        walls.Add(reverseIndexX);
+                    reverseIndexX++;
                 }
         
                 if (floor.Count == rowX) return spacesToMove;
@@ -191,7 +192,7 @@ public class Room
                 {
                     foreach (var wall in walls.Where(wall => wall > positionX && wall <= positionX + spacesToMove))
                     {
-                        spacesToMove = wall - positionX;
+                        spacesToMove = wall - positionX - 1;
                         break;
                     }
                 }
@@ -206,7 +207,8 @@ public class Room
         
                 return spacesToMove;
             case Direction.Up:
-                var PositionY = rowY - Position.Y - 1;
+                var positionY = rowY - Position.Y - 1;
+                var reverseIndexY = 0;
                 for (var i = Grid.GetLength(1) - 1; i >= 0; i--)
                 {
                     if(Grid[Position.X, i] == Tiles.Floor)
@@ -214,25 +216,26 @@ public class Room
                     if (Grid[Position.X, i] == Tiles.Rebound)
                         rebound++;
                     if(Grid[Position.X, i] == Tiles.Wall)
-                        walls.Add(i);
+                        walls.Add(reverseIndexY);
+                    reverseIndexY++;
                 }
         
                 if (floor.Count == rowY) return spacesToMove;
-                if(PositionY + spacesToMove >= rowY && floor.Count + rebound == rowY) return spacesToMove + rebound;
+                if(positionY + spacesToMove >= rowY && floor.Count + rebound == rowY) return spacesToMove + rebound;
         
-                if (spacesToMove + PositionY < rowY)
+                if (spacesToMove + positionY < rowY)
                 {
-                    foreach (var wall in walls.Where(wall => wall > PositionY && wall <= PositionY + spacesToMove))
+                    foreach (var wall in walls.Where(wall => wall > positionY && wall <= positionY + spacesToMove))
                     {
-                        spacesToMove = wall - PositionY;
+                        spacesToMove = wall - positionY;
                         break;
                     }
                 }
                 else
                 {
-                    foreach (var wall in walls.Where(wall => wall > PositionY && wall <= rowY || wall <= (PositionY + spacesToMove) % rowY))
+                    foreach (var wall in walls.Where(wall => wall > positionY && wall <= rowY || wall <= (positionY + spacesToMove) % rowY))
                     {
-                        spacesToMove = wall - PositionY - 1;
+                        spacesToMove = wall - positionY - 1;
                         break;
                     }
                 }

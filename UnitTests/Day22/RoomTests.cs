@@ -560,6 +560,65 @@ public class RoomTests
         actual.Position.Should().BeEquivalentTo(expected);
     }
     
+    [Theory, CombinatorialData]
+    public void MoveCharacter_RunIntoRandomWall([CombinatorialValues(Direction.Right,Direction.Down,Direction.Left,Direction.Up)]Direction direction)
+    {
+        var input = new List<string>
+        {
+            "............",
+            "....#.......",
+            "............",
+            "............",
+            ".......#....",
+            "............",
+            "", 
+            "10R1"
+        };
+    
+        var actual = new Room(input)
+        {
+            Facing = direction
+        };
+    
+        switch (direction)
+        {
+            case Direction.Right:
+                actual.Position = new Point(3,4);
+                break;
+            case Direction.Down:
+                actual.Position = new Point(7, 2);
+                break;
+            case Direction.Left:
+                actual.Position = new Point(10, 1);
+                break;
+            case Direction.Up:
+                actual.Position = new Point(4, 5);
+                break;
+        }
+    
+        actual.MoveCharacter();
+    
+        var expected = new Point();
+    
+        switch (direction)
+        {
+            case Direction.Right:
+                expected = new Point(6, 4);
+                break;
+            case Direction.Down:
+                expected = new Point(7, 3);
+                break;
+            case Direction.Left:
+                expected = new Point(5, 1);
+                break;
+            case Direction.Up:
+                expected = new Point(4, 2);
+                break;
+        }
+    
+        actual.Position.Should().BeEquivalentTo(expected);
+    }
+    
     #endregion
 
     #region Rotation
