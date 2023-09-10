@@ -6,6 +6,18 @@ public class Part1: BasePart
     {
         var input = LoadInput(22, true);
         
+        var room = new Room(input);
+        
+        var keepMoving = true;
+        
+        while (keepMoving)
+        {
+            room.MoveCharacter();
+            keepMoving = room.Rotate();
+        }
+        
+        room.MoveCharacter();
+        
         return 0;
     }
 }

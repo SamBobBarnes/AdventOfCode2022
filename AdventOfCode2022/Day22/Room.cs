@@ -21,6 +21,37 @@ public class Room
         InitializeCharacter();
     }
 
+    public override string ToString()
+    {
+        var map = "";
+        for(int y = 0; y < Grid.GetLength(1); y++)
+        {
+            for (int x = 0; x < Grid.GetLength(0); x++)
+            {
+                if (Position.X == x && Position.Y == y)
+                {
+                    map += "X";
+                    continue;
+                }
+                switch (Grid[x, y])
+                {
+                    case Tiles.Floor:
+                        map += ".";
+                        break;
+                    case Tiles.Wall:
+                        map += "#";
+                        break;
+                    case Tiles.Rebound:
+                        map += " ";
+                        break;
+                }
+            }
+            map += "\n";
+        }
+
+        return map;
+    }
+
     public void MoveCharacter()
     {
         var spacesToMove = GetSpacesAhead(Steps[StepIndex]);
@@ -48,6 +79,7 @@ public class Room
                 if (Position.Y >= Grid.GetLength(1)) Position = new Point(Position.X, Position.Y % Grid.GetLength(1));
                 break;
         }
+        StepIndex++;
     }
     
     public bool Rotate()
