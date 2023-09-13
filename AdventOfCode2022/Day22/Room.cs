@@ -151,7 +151,6 @@ public class Room
                 }
         
                 if (floor.Count == rowX) return spacesToMove;
-                if(Position.X + spacesToMove >= rowX && floor.Count + rebound == rowX) return spacesToMove + rebound;
         
                 if (spacesToMove + Position.X < rowX)
                 {
@@ -170,7 +169,7 @@ public class Room
                     }
                 }
         
-                return spacesToMove;
+                return spacesToMove + rebound;
             case Direction.Down:
                 for (var i = 0; i < Grid.GetLength(1); i++)
                 {
@@ -183,7 +182,6 @@ public class Room
                 }
         
                 if (floor.Count == rowY) return spacesToMove;
-                if(Position.Y + spacesToMove >= rowY && floor.Count + rebound == rowY) return spacesToMove + rebound;
         
                 if (spacesToMove + Position.Y < rowY)
                 {
@@ -202,7 +200,7 @@ public class Room
                     }
                 }
         
-                return spacesToMove;
+                return spacesToMove + rebound;
             case Direction.Left:
                 var positionX = rowX - Position.X - 1;
                 var reverseIndexX = 0;
@@ -218,7 +216,6 @@ public class Room
                 }
         
                 if (floor.Count == rowX) return spacesToMove;
-                if(positionX + spacesToMove >= rowX && floor.Count + rebound == rowX) return spacesToMove + rebound;
         
                 if (spacesToMove + positionX < rowX)
                 {
@@ -237,7 +234,7 @@ public class Room
                     }
                 }
         
-                return spacesToMove;
+                return spacesToMove + rebound;
             case Direction.Up:
                 var positionY = rowY - Position.Y - 1;
                 var reverseIndexY = 0;
@@ -253,7 +250,6 @@ public class Room
                 }
         
                 if (floor.Count == rowY) return spacesToMove;
-                if(positionY + spacesToMove >= rowY && floor.Count + rebound == rowY) return spacesToMove + rebound;
         
                 if (spacesToMove + positionY < rowY)
                 {
@@ -272,7 +268,7 @@ public class Room
                     }
                 }
         
-                return spacesToMove;
+                return spacesToMove + rebound;
             default: 
                 return spacesToMove;
         }

@@ -618,6 +618,80 @@ public class RoomTests
     
         actual.Position.Should().BeEquivalentTo(expected);
     }
+
+    [Theory,CombinatorialData]
+    public void MoveCharacter_LargerRebound([CombinatorialValues(Direction.Right,Direction.Down,Direction.Left,Direction.Up)]Direction direction)
+    {
+        var input = new List<string>
+        {
+            "..........  ",
+            "  ............",
+            "............",
+            "............",
+            "........... ",
+            "........... ",
+            "", 
+            "7R1"
+        };
+
+        if (direction == Direction.Down || direction == Direction.Up)
+        {
+            input = new List<string>
+            {
+                "..........  ",
+                "  ............",
+                "............",
+                "............",
+                "........... ",
+                "........... ",
+                "", 
+                "4R1"
+            };
+        }
+    
+        var actual = new Room(input)
+        {
+            Facing = direction
+        };
+    
+        switch (direction)
+        {
+            case Direction.Right:
+                actual.Position = new Point(4,0);
+                break;
+            case Direction.Down:
+                actual.Position = new Point(11, 1);
+                break;
+            case Direction.Left:
+                actual.Position = new Point(5, 1);
+                break;
+            case Direction.Up:
+                actual.Position = new Point(11, 3);
+                break;
+        }
+    
+        actual.MoveCharacter();
+    
+        var expected = new Point();
+    
+        switch (direction)
+        {
+            case Direction.Right:
+                expected = new Point(1, 0);
+                break;
+            case Direction.Down:
+                expected = new Point(11, 2);
+                break;
+            case Direction.Left:
+                expected = new Point(10, 1);
+                break;
+            case Direction.Up:
+                expected = new Point(11, 2);
+                break;
+        }
+    
+        actual.Position.Should().BeEquivalentTo(expected);
+    }
     
     #endregion
 
